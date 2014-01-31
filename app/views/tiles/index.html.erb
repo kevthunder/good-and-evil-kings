@@ -1,0 +1,10 @@
+<h1>Listing tiles</h1>
+
+<div class="worldView">
+    <% @tiles.each do |tile| %>
+      <%= debug tile %>
+    <% end %>
+</div>
+<br>
+
+<%= link_to "New Tile", new_tile_path %>

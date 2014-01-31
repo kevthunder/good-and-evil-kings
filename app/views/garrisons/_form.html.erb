@@ -1,0 +1,33 @@
+<%= form_for(@garrison) do |f| %>
+  <% if @garrison.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@garrison.errors.count, "error") %> prohibited this garrison from being saved:</h2>
+
+      <ul>
+      <% @garrison.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :qte %><br>
+    <%= f.number_field :qte %>
+  </div>
+  <div class="field">
+    <%= f.label :kingdom_id %><br>
+    <%= f.text_field :kingdom_id %>
+  </div>
+  <div class="field">
+    <%= f.label :soldier_type_id %><br>
+    <%= f.text_field :soldier_type_id %>
+  </div>
+  <div class="field">
+    <%= f.label :garrisonable_id %><br>
+    <%= f.text_field :garrisonable_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

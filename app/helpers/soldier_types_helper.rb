@@ -1,0 +1,2 @@
+module SoldierTypesHelper
+end

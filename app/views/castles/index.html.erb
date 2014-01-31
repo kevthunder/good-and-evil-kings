@@ -1,0 +1,29 @@
+<h1>Listing castles</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Kingdom</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @castles.each do |castle| %>
+      <tr>
+        <td><%= castle.name %></td>
+        <td><%= castle.kingdom %></td>
+        <td><%= link_to 'Show', castle %></td>
+        <td><%= link_to 'Edit', edit_castle_path(castle) %></td>
+        <td><%= link_to 'Destroy', castle, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Castle', new_castle_path %>

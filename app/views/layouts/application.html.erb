@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>GoodAndEvilKings</title>
+  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<p class="notice"><%= notice %></p>
+<p class="alert"><%= alert %></p>
+
+<%= yield %>
+
+<nav>
+	<ul>
+		<li><%= link_to "Castles", castles_path %></li>
+		<li><%= link_to "Garrisons", garrisons_path %></li>
+		<li><%= link_to "Kingdoms", kingdoms_path %></li>
+		<li><%= link_to "Movements", movements_path %></li>
+		<li><%= link_to "Movement types", movement_types_path %></li>
+		<li><%= link_to "Ressources", ressources_path %></li>
+		<li><%= link_to "Soldier types", soldier_types_path %></li>
+		<li><%= link_to "Stocks", stocks_path %></li>
+		<li><%= link_to "Tiles", tiles_path %></li>
+	</ul>
+</nav>
+
+</body>
+</html>

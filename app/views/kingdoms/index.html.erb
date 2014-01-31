@@ -1,0 +1,31 @@
+<h1>Listing kingdoms</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>User</th>
+      <th>Karma</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @kingdoms.each do |kingdom| %>
+      <tr>
+        <td><%= kingdom.name %></td>
+        <td><%= kingdom.user %></td>
+        <td><%= kingdom.karma %></td>
+        <td><%= link_to 'Show', kingdom %></td>
+        <td><%= link_to 'Edit', edit_kingdom_path(kingdom) %></td>
+        <td><%= link_to 'Destroy', kingdom, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Kingdom', new_kingdom_path %>

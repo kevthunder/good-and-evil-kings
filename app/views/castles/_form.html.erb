@@ -1,0 +1,40 @@
+<%= form_for(@castle) do |f| %>
+  <% if @castle.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@castle.errors.count, "error") %> prohibited this castle from being saved:</h2>
+
+      <ul>
+      <% @castle.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      <% @castle.tile.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :kingdom_id %><br>
+    <%= f.text_field :kingdom_id %>
+  </div>
+  
+  <%= f.fields_for f.object.tile do |f_tile| %>
+	  <div class="field">
+		<%= f_tile.label :x %><br>
+		<%= f_tile.number_field  :x %>
+	  </div>
+	  <div class="field">
+		<%= f_tile.label :y %><br>
+		<%= f_tile.number_field :y %>
+	  </div>
+  <% end %>
+  
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

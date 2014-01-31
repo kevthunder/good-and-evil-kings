@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Start time:</strong>
+  <%= @movement.start_time %>
+</p>
+
+<p>
+  <strong>Start tile:</strong>
+  <%= @movement.start_tile %>
+</p>
+
+<p>
+  <strong>End tile:</strong>
+  <%= @movement.end_tile %>
+</p>
+
+<%= link_to 'Edit', edit_movement_path(@movement) %> |
+<%= link_to 'Back', movements_path %>

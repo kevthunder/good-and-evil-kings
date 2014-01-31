@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  qte: 1
+  ressource_id: 
+  stockable_id: 
+  stockable_type: Stockable
+
+two:
+  qte: 1
+  ressource_id: 
+  stockable_id: 
+  stockable_type: Stockable

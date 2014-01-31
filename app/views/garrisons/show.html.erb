@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Qte:</strong>
+  <%= @garrison.qte %>
+</p>
+
+<p>
+  <strong>Kingdom:</strong>
+  <%= @garrison.kingdom %>
+</p>
+
+<p>
+  <strong>Soldier type:</strong>
+  <%= @garrison.soldier_type %>
+</p>
+
+<p>
+  <strong>Garrisonable:</strong>
+  <%= @garrison.garrisonable %>
+</p>
+
+<%= link_to 'Edit', edit_garrison_path(@garrison) %> |
+<%= link_to 'Back', garrisons_path %>

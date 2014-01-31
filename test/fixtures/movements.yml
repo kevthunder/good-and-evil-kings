@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  start_time: 2014-01-27 19:53:44
+  start_tile_id: 
+  end_tile_id: 
+
+two:
+  start_time: 2014-01-27 19:53:44
+  start_tile_id: 
+  end_tile_id: 

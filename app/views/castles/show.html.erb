@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @castle.name %>
+</p>
+
+<p>
+  <strong>Kingdom:</strong>
+  <%= @castle.kingdom %>
+</p>
+
+<%= link_to 'Edit', edit_castle_path(@castle) %> |
+<%= link_to 'Back', castles_path %>

@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  qte: 1
+  kingdom_id: 
+  soldier_type_id: 
+  garrisonable_id: 
+  garrisonable_type: Garrisonable
+
+two:
+  qte: 1
+  kingdom_id: 
+  soldier_type_id: 
+  garrisonable_id: 
+  garrisonable_type: Garrisonable

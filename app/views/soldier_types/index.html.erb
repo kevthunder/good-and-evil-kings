@@ -1,0 +1,27 @@
+<h1>Listing soldier_types</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @soldier_types.each do |soldier_type| %>
+      <tr>
+        <td><%= soldier_type.name %></td>
+        <td><%= link_to 'Show', soldier_type %></td>
+        <td><%= link_to 'Edit', edit_soldier_type_path(soldier_type) %></td>
+        <td><%= link_to 'Destroy', soldier_type, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Soldier type', new_soldier_type_path %>
