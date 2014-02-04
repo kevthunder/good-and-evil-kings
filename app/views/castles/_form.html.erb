@@ -20,7 +20,7 @@
   </div>
   <div class="field">
     <%= f.label :kingdom_id %><br>
-    <%= f.text_field :kingdom_id %>
+	<%= f.collection_select(:kingdom_id, Kingdom.all, :id, :name) %>
   </div>
   
   <%= f.fields_for f.object.tile do |f_tile| %>
