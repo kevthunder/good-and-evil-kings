@@ -1,8 +1,11 @@
 <h1>Listing tiles</h1>
 
 <div class="worldView">
-    <% @tiles.each do |tile| %>
-      <%= debug tile %>
+      <%= debug @tiles %>
+      <%= debug @tiles.class %>
+    <% @tiles.each do |section, tiles| %>
+		
+		<%= render 'section', :tiles => tiles %>
     <% end %>
 </div>
 <br>

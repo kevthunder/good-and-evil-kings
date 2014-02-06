@@ -1,10 +1,12 @@
+
+
 class TilesController < ApplicationController
   before_action :set_tile, only: [:show, :edit, :update, :destroy]
 	
   # GET /tiles
   # GET /tiles.json
   def index
-    @tiles = Tile.all
+    @tiles = Tile.all.group_by { |tile| Point.new(tile.x/100+1, tile.y/100+1) }
   end
   
   # GET /castles

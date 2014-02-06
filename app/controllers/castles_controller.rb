@@ -43,7 +43,7 @@ class CastlesController < ApplicationController
   # PATCH/PUT /castles/1.json
   def update
     respond_to do |format|
-      if @castle.update(castle_params)
+      if @castle.update(castle_params) && @castle.tile.update(tile_params)
         format.html { redirect_to @castle, notice: 'Castle was successfully updated.' }
         format.json { head :no_content }
       else
