@@ -6,7 +6,7 @@ class TilesController < ApplicationController
   # GET /tiles
   # GET /tiles.json
   def index
-    @tiles = Tile.all.group_by { |tile| Point.new(tile.x/100+1, tile.y/100+1) }
+    @tiles = Tile.all.group_by { |tile| Point.new(tile.x/100, tile.y/100) }
   end
   
   # GET /castles

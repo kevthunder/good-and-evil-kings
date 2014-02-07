@@ -1,5 +1,5 @@
-
-		<% tiles.each do |tile| %>
-		  <%= debug tile %>
-		  <%= debug tile.class %>
-		<% end %>
+<div class="tileSection">
+	<% tiles.each do |tile| %>
+		<%= render tile.tiled, :pos => Point.new(tile.x - section.x*100,tile.y - section.y*100) %>
+	<% end %>
+</div>

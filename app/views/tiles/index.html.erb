@@ -4,9 +4,12 @@
       <%= debug @tiles %>
       <%= debug @tiles.class %>
     <% @tiles.each do |section, tiles| %>
-		
-		<%= render 'section', :tiles => tiles %>
+		<%= render 'section', :section => section, :tiles => tiles %>
     <% end %>
+</div>
+
+<div id="viewport" style="width:400px;height:400px;Background:red">
+	<div id="wall"></div>
 </div>
 <br>
 
