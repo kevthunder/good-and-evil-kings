@@ -3,7 +3,19 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .tileSection{
-	position:relative;
+	position: absolute;
 	width:100px;
 	height:100px;
+	background-color:rgba(255,0,0,0.3);
+}
+.worldView{
+	width:800px;
+	height:500px;
+	background:#eeeeee;
+	margin:auto;
+	overflow:hidden;
+	.content{
+		position: relative;
+	}
+	
 }

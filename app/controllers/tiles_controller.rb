@@ -7,6 +7,7 @@ class TilesController < ApplicationController
   # GET /tiles.json
   def index
     @tiles = Tile.all.group_by { |tile| Point.new(tile.x/100, tile.y/100) }
+	render :layout => !request.xhr?
   end
   
   # GET /castles

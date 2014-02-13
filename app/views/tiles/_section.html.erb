@@ -1,4 +1,4 @@
-<div class="tileSection">
+<div class="tileSection" col="<%= section.x %>" row="<%= section.y %>">
 	<% tiles.each do |tile| %>
 		<%= render tile.tiled, :pos => Point.new(tile.x - section.x*100,tile.y - section.y*100) %>
 	<% end %>

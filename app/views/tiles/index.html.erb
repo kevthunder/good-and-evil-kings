@@ -1,14 +1,13 @@
 <h1>Listing tiles</h1>
 
 <div class="worldView">
-    <% @tiles.each do |section, tiles| %>
-		<%= render 'section', :section => section, :tiles => tiles %>
-    <% end %>
+	<div class="content">
+		<% @tiles.each do |section, tiles| %>
+			<%= render 'section', :section => section, :tiles => tiles %>
+		<% end %>
+	</div>
 </div>
 
-<div id="viewport" style="width:400px;height:400px;Background:red;margin-left:300px">
-	<div id="wall"></div>
-</div>
 <br>
 
 <%= link_to "New Tile", new_tile_path %>
