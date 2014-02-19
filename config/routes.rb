@@ -31,6 +31,7 @@ GoodAndEvilKings::Application.routes.draw do
   #   resources :products
   
   get 'tiles/list' => 'tiles#list'
+  post 'tiles/partial' => 'tiles#partial'
   resources :tiles
   resources :castles
 

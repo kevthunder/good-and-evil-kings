@@ -2,12 +2,52 @@
 
 class TilesController < ApplicationController
   before_action :set_tile, only: [:show, :edit, :update, :destroy]
-	
+  before_action :detect_ajax
+  layout :products_layout
+  
   # GET /tiles
   # GET /tiles.json
   def index
     @tiles = Tile.all.group_by { |tile| Point.new(tile.x/100, tile.y/100) }
-	render :layout => !request.xhr?
+    (-3..9).each do |x|
+      (-3..9).each do |y|
+         pt = Point.new(x, y)
+         unless @tiles.has_key?(pt)
+            @tiles[pt] = {}
+         end
+      end
+    end
+    p @tiles
+  end
+  
+  def partial
+    sections = params.permit(:sections)[:sections]
+      .split(',')
+      .map{ |pair|
+         split = pair.split(';')
+         {:x => split[0],:y => split[1]}
+       }
+    unless sections.length > 0 
+      render :status => :bad_request, :text => "No tile section selected"
+    end
+    cond = "";
+    replace = {}
+    i = 0
+    sections.each do |section|
+      if cond.length > 0
+         cond += " OR "
+      end
+      cond += "(x >= :x#{i}*100 AND x < :x#{i}*100+100 AND y >= :y#{i}*100 AND y < :y#{i}*100+100)"
+      replace[:"x#{i}"] = section[:x].to_i
+      replace[:"y#{i}"] = section[:y].to_i
+      i += 1
+    end
+    
+    @tiles = Tile.where(cond,replace).group_by { |tile| Point.new(tile.x/100, tile.y/100) }
+    
+    unless @ajax
+      render "index"
+    end
   end
   
   # GET /castles
@@ -72,6 +112,13 @@ class TilesController < ApplicationController
   end
 
   private
+    def detect_ajax
+      @ajax = request.xhr? || request.GET.has_key?(:ajax)
+    end
+    def products_layout
+      @ajax ? "ajax" : "application"
+    end
+    
     # Use callbacks to share common setup or constraints between actions.
     def set_tile
       @tile = Tile.find(params[:id])

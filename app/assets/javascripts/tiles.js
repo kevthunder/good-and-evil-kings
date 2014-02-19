@@ -4,7 +4,7 @@
 //= require jquery.infinitedrag
 
 (function( $ ) {
-	$(function(){
+	$(document).on('ready page:load', function(){
 		window.infinitedrag = $.infinitedrag(".worldView .content", {}, {
 			class_name: "tileSection",
 			width: 100,
@@ -14,14 +14,22 @@
 			start_row: 0,
 			margin: 200,
 			on_aggregate: function(data){
-				var coords = [];
-				$.each(data,function($key,$val){
-					coords.push($val.x+';'+$val.y);
-				})
-				coords = coords.join();
-				console.log(coords);
+            var infinitedrag = this;
+            console.log($.infinitedrag.serializeTiles(data));
+				$.ajax({
+               url: ROOT_PATH+"tiles/partial",
+               type: "POST",
+               data: { sections : $.infinitedrag.serializeTiles(data) },
+            }).done(function( res ) {
+               $(res).filter('.tileSection').each(function(){
+                  var $tile = infinitedrag.get_tile($(this).attr('col'),$(this).attr('row'));
+                  console.log($tile);
+                  $tile.html($(this).html());
+               });
+               console.log(res);
+            });
 			},
 			aggregate_time: 500
 		});
-	})
+	});
 })( jQuery );
