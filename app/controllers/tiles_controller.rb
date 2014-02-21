@@ -17,29 +17,27 @@ class TilesController < ApplicationController
          end
       end
     end
-    p @tiles
   end
   
   def partial
-    sections = params.permit(:sections)[:sections]
-      .split(',')
-      .map{ |pair|
-         split = pair.split(';')
-         {:x => split[0],:y => split[1]}
-       }
+    sections = Point.unserialize(params.permit(:sections)[:sections])
     unless sections.length > 0 
       render :status => :bad_request, :text => "No tile section selected"
     end
+    bounds = Zone.tilesToBounds(sections,100);
+    
     cond = "";
     replace = {}
     i = 0
-    sections.each do |section|
+    bounds.each do |bound|
       if cond.length > 0
          cond += " OR "
       end
-      cond += "(x >= :x#{i}*100 AND x < :x#{i}*100+100 AND y >= :y#{i}*100 AND y < :y#{i}*100+100)"
-      replace[:"x#{i}"] = section[:x].to_i
-      replace[:"y#{i}"] = section[:y].to_i
+      cond += "(x >= :x#{i} AND x < :x#{i}b AND y >= :y#{i} AND y < :y#{i}b)"
+      replace[:"x#{i}"] = bound.x1
+      replace[:"y#{i}"] = bound.y1
+      replace[:"x#{i}b"] = bound.x2
+      replace[:"y#{i}b"] = bound.y2
       i += 1
     end
     
