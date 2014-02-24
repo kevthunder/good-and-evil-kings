@@ -15,4 +15,22 @@
 			font-weight:bold;
 		}
 	}
+  &:hover {
+    z-index:100;
+    .actions{
+      display:block;
+    }
+  }
+  .actions{
+    display:none;
+    list-style:none;
+    margin:0px;
+    padding:0px;
+    background-color:#cccccc;
+    li{
+      margin:0px;
+      padding:0px;
+      list-style:none;
+    }
+  }
 }

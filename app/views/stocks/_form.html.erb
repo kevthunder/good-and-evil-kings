@@ -17,7 +17,7 @@
   </div>
   <div class="field">
     <%= f.label :ressource_id %><br>
-    <%= f.text_field :ressource_id %>
+    <%= f.collection_select(:ressource_id, Ressource.all, :id, :name) %>
   </div>
   <div class="field">
     <%= f.label :stockable_id %><br>
