@@ -8,9 +8,11 @@ class TilesController < ApplicationController
   # GET /tiles
   # GET /tiles.json
   def index
-    @tiles = Tile.all.group_by { |tile| Point.new(tile.x/100, tile.y/100) }
-    (-3..9).each do |x|
-      (-3..9).each do |y|
+    @sectionSize = 100
+    @startZone = Zone.new(-300,-300,1000,1000);
+    @tiles = Tile.preload(:tiled).inBounds(@startZone).group_by { |tile| Point.new(tile.x/@sectionSize, tile.y/@sectionSize) }
+    (@startZone.x1/@sectionSize..(@startZone.x2-1)/@sectionSize).each do |x|
+      (@startZone.y1/@sectionSize..(@startZone.y2-1)/@sectionSize).each do |y|
          pt = Point.new(x, y)
          unless @tiles.has_key?(pt)
             @tiles[pt] = {}
@@ -20,28 +22,14 @@ class TilesController < ApplicationController
   end
   
   def partial
+    @sectionSize = 100
     sections = Point.unserialize(params.permit(:sections)[:sections])
     unless sections.length > 0 
       render :status => :bad_request, :text => "No tile section selected"
     end
-    bounds = Zone.tilesToBounds(sections,100);
+    bounds = Zone.tilesToBounds(sections,@sectionSize);
     
-    cond = "";
-    replace = {}
-    i = 0
-    bounds.each do |bound|
-      if cond.length > 0
-         cond += " OR "
-      end
-      cond += "(x >= :x#{i} AND x < :x#{i}b AND y >= :y#{i} AND y < :y#{i}b)"
-      replace[:"x#{i}"] = bound.x1
-      replace[:"y#{i}"] = bound.y1
-      replace[:"x#{i}b"] = bound.x2
-      replace[:"y#{i}b"] = bound.y2
-      i += 1
-    end
-    
-    @tiles = Tile.where(cond,replace).group_by { |tile| Point.new(tile.x/100, tile.y/100) }
+    @tiles = Tile.preload(:tiled).inBounds(bounds).group_by { |tile| Point.new(tile.x/@sectionSize, tile.y/@sectionSize) }
     
     unless @ajax
       render "index"
