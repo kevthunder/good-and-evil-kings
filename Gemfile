@@ -47,3 +47,4 @@ end
 
 gem 'devise'
 gem 'jquery-ui-rails'
+gem 'nested_form'

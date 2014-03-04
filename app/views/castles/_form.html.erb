@@ -1,13 +1,10 @@
-<%= form_for(@castle) do |f| %>
+<%= nested_form_for @castle do |f| %>
   <% if @castle.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@castle.errors.count, "error") %> prohibited this castle from being saved:</h2>
 
       <ul>
       <% @castle.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      <% @castle.tile.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
       <% end %>
       </ul>
@@ -23,7 +20,7 @@
     <%= f.collection_select(:kingdom_id, Kingdom.all, :id, :name) %>
   </div>
   
-  <%= f.fields_for f.object.tile do |f_tile| %>
+  <%= f.fields_for :tile, (@castle.tile ? nil : Tile.new) do |f_tile| %>
 	  <div class="field">
 		<%= f_tile.label :x %><br>
 		<%= f_tile.number_field  :x %>
@@ -33,6 +30,21 @@
 		<%= f_tile.number_field :y %>
 	  </div>
   <% end %>
+  
+  
+    <%= f.fields_for :stocks do |stock_form| %>
+      <div class="field">
+        <%= stock_form.label :qte %><br>
+        <%= stock_form.number_field :qte %>
+      </div>
+      <div class="field">
+        <%= stock_form.label :ressource_id %><br>
+        <%= stock_form.collection_select(:ressource_id, Ressource.all, :id, :name) %>
+      </div>
+      <%= stock_form.link_to_remove "Remove this stock" %>
+    <% end %>
+    <p><%= f.link_to_add "Add a stock", :stocks %></p>
+
   
   <div class="actions">
     <%= f.submit %>

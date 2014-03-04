@@ -8,7 +8,7 @@
 	</div>
 </div>
 
-<%= form_tag("/tiles/partial?ajax=1", method: "post") do %>
+<%= form_tag(tiles_partial_path+"?ajax=1", method: "post") do %>
   <%= text_field_tag(:sections) %>
   <%= submit_tag("Submit") %>
 <% end %>

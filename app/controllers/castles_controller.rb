@@ -15,7 +15,6 @@ class CastlesController < ApplicationController
   # GET /castles/new
   def new
     @castle = Castle.new
-	@castle.tile = Tile.new
   end
 
   # GET /castles/1/edit
@@ -26,7 +25,6 @@ class CastlesController < ApplicationController
   # POST /castles.json
   def create
     @castle = Castle.new(castle_params)
-	@castle.tile = Tile.new(tile_params)
 
     respond_to do |format|
       if @castle.save
@@ -43,7 +41,7 @@ class CastlesController < ApplicationController
   # PATCH/PUT /castles/1.json
   def update
     respond_to do |format|
-      if @castle.update(castle_params) && @castle.tile.update(tile_params)
+      if @castle.update(castle_params)
         format.html { redirect_to @castle, notice: 'Castle was successfully updated.' }
         format.json { head :no_content }
       else
@@ -71,12 +69,8 @@ class CastlesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def castle_params
-      params.require(:castle).permit(:name, :kingdom_id)
+      params.require(:castle).permit(:name, :kingdom_id, stocks_attributes: [:qte, :ressource_id, :id, :_destroy], tile_attributes: [:x, :y, :id, :_destroy])
     end
 	
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def tile_params
-      params.require(:castle).require(:tile).permit(:x, :y)
-    end
 	
 end
