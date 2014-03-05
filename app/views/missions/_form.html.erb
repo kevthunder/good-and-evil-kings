@@ -1,0 +1,29 @@
+<%= form_for(@mission) do |f| %>
+  <% if @mission.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@mission.errors.count, "error") %> prohibited this mission from being saved:</h2>
+
+      <ul>
+      <% @mission.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :kingdom_id %><br>
+    <%= f.collection_select(:kingdom_id, Kingdom.all, :id, :name) %>
+  </div>
+  <div class="field">
+    <%= f.label :mission_type_id %><br>
+    <%= f.collection_select(:mission_type_id, MissionType.all, :id, :name) %>
+  </div>
+  <div class="field">
+    <%= f.label :mission_status_id %><br>
+    <%= f.collection_select(:mission_status_id, MissionStatus.all, :id, :name) %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

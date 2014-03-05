@@ -3,7 +3,7 @@ class Tile < ActiveRecord::Base
 	validates :y, presence: true
 	belongs_to :tiled, polymorphic: true
   
-  def self.inBounds(bounds) 
+  scope :inBounds, ->(bounds) {
     unless bounds.respond_to?('each')
       bounds = [bounds];
     end
@@ -24,5 +24,5 @@ class Tile < ActiveRecord::Base
     end
     
     Tile.where(cond,replace)
-  end
+  }
 end

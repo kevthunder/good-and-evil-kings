@@ -1,0 +1,2 @@
+module MissionStatusesHelper
+end

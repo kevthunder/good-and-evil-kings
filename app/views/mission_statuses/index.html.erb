@@ -1,0 +1,27 @@
+<h1>Listing mission_statuses</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @mission_statuses.each do |mission_status| %>
+      <tr>
+        <td><%= mission_status.name %></td>
+        <td><%= link_to 'Show', mission_status %></td>
+        <td><%= link_to 'Edit', edit_mission_status_path(mission_status) %></td>
+        <td><%= link_to 'Destroy', mission_status, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Mission status', new_mission_status_path %>

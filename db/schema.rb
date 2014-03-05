@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140128005344) do
+ActiveRecord::Schema.define(version: 20140305013936) do
 
   create_table "actions", force: true do |t|
     t.datetime "time"
@@ -56,11 +56,29 @@ ActiveRecord::Schema.define(version: 20140128005344) do
 
   add_index "kingdoms", ["user_id"], name: "index_kingdoms_on_user_id"
 
-  create_table "movement_types", force: true do |t|
+  create_table "mission_statuses", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "mission_types", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "missions", force: true do |t|
+    t.integer  "mission_type_id"
+    t.integer  "mission_status_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "kingdom_id"
+  end
+
+  add_index "missions", ["kingdom_id"], name: "index_missions_on_kingdom_id"
+  add_index "missions", ["mission_status_id"], name: "index_missions_on_mission_status_id"
+  add_index "missions", ["mission_type_id"], name: "index_missions_on_mission_type_id"
 
   create_table "movements", force: true do |t|
     t.datetime "start_time"
@@ -68,9 +86,11 @@ ActiveRecord::Schema.define(version: 20140128005344) do
     t.integer  "end_tile_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "mission_id"
   end
 
   add_index "movements", ["end_tile_id"], name: "index_movements_on_end_tile_id"
+  add_index "movements", ["mission_id"], name: "index_movements_on_mission_id"
   add_index "movements", ["start_tile_id"], name: "index_movements_on_start_tile_id"
 
   create_table "ressources", force: true do |t|

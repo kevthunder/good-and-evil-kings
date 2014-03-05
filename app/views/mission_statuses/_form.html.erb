@@ -1,10 +1,10 @@
-<%= form_for(@movement_type) do |f| %>
-  <% if @movement_type.errors.any? %>
+<%= form_for(@mission_status) do |f| %>
+  <% if @mission_status.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@movement_type.errors.count, "error") %> prohibited this movement_type from being saved:</h2>
+      <h2><%= pluralize(@mission_status.errors.count, "error") %> prohibited this mission_status from being saved:</h2>
 
       <ul>
-      <% @movement_type.errors.full_messages.each do |msg| %>
+      <% @mission_status.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
       <% end %>
       </ul>

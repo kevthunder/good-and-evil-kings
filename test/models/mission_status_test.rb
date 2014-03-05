@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class MovementTypeTest < ActiveSupport::TestCase
+class MissionStatusTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

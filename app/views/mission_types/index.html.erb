@@ -1,0 +1,27 @@
+<h1>Listing mission_types</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @mission_types.each do |mission_type| %>
+      <tr>
+        <td><%= mission_type.name %></td>
+        <td><%= link_to 'Show', mission_type %></td>
+        <td><%= link_to 'Edit', edit_mission_type_path(mission_type) %></td>
+        <td><%= link_to 'Destroy', mission_type, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Mission type', new_mission_type_path %>

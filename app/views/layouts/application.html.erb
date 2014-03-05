@@ -8,7 +8,12 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-
+<% if user_signed_in?  %>
+  <div class="logged">
+    <p>Welcome</p>
+    <%= link_to "Logout", destroy_user_session_path, :method => :delete  %>
+  </div>
+<% end %>
 <p class="notice"><%= notice %></p>
 <p class="alert"><%= alert %></p>
 
@@ -20,7 +25,9 @@
 		<li><%= link_to "Garrisons", garrisons_path %></li>
 		<li><%= link_to "Kingdoms", kingdoms_path %></li>
 		<li><%= link_to "Movements", movements_path %></li>
-		<li><%= link_to "Movement types", movement_types_path %></li>
+		<li><%= link_to "Missions", missions_path %></li>
+		<li><%= link_to "Mission types", mission_types_path %></li>
+		<li><%= link_to "Mission Statuses", mission_statuses_path %></li>
 		<li><%= link_to "Ressources", ressources_path %></li>
 		<li><%= link_to "Soldier types", soldier_types_path %></li>
 		<li><%= link_to "Stocks", stocks_path %></li>

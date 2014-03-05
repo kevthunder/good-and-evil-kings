@@ -1,8 +1,12 @@
 GoodAndEvilKings::Application.routes.draw do
 
+  resources :mission_statuses
+
+  resources :missions
+
   resources :movements
 
-  resources :movement_types
+  resources :mission_types
 
   resources :garrisons
 

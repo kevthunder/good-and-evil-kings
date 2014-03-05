@@ -5,4 +5,6 @@ class Castle < ActiveRecord::Base
   
   accepts_nested_attributes_for :tile
   accepts_nested_attributes_for :stocks, allow_destroy: true
+  
+  default_scope :include => :kingdom
 end
