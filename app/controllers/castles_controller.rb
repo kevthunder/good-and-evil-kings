@@ -69,7 +69,7 @@ class CastlesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def castle_params
-      params.require(:castle).permit(:name, :kingdom_id, stocks_attributes: [:qte, :ressource_id, :id, :_destroy], tile_attributes: [:x, :y, :id, :_destroy])
+      params.require(:castle).permit(:name, :kingdom_id, stocks_attributes: [:qte, :ressource_id, :id, :_destroy], garrisons_attributes: [:qte, :soldier_type_id, :id, :_destroy], tile_attributes: [:x, :y, :id, :_destroy])
     end
 	
 	

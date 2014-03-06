@@ -49,3 +49,5 @@ gem 'devise'
 #gem 'cancan'
 gem 'jquery-ui-rails'
 gem 'nested_form'
+
+gem 'debugger'

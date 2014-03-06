@@ -8,6 +8,9 @@
       <th></th>
       <th></th>
       <th></th>
+      <% if user_signed_in? %>
+        <th></th>
+      <% end %>
     </tr>
   </thead>
 
@@ -19,6 +22,9 @@
         <td><%= link_to 'Show', castle %></td>
         <td><%= link_to 'Edit', edit_castle_path(castle) %></td>
         <td><%= link_to 'Destroy', castle, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% if user_signed_in? %>
+          <td><%= link_to 'Mission', new_castle_mission_path(castle.id) %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>

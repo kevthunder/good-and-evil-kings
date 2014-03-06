@@ -1,10 +1,11 @@
 class MissionsController < ApplicationController
   before_action :set_mission, only: [:show, :edit, :update, :destroy]
+  before_filter :authenticate_user!
 
   # GET /missions
   # GET /missions.json
   def index
-    @missions = Mission.all
+    @missions = Mission.includes(:castle, :mission_type).joins(:castle => :kingdom).where(:kingdoms => {:user_id => current_user.id});
   end
 
   # GET /missions/1
@@ -15,6 +16,7 @@ class MissionsController < ApplicationController
   # GET /missions/new
   def new
     @mission = Mission.new
+    @myCastles = Castle.joins(:kingdom).where(:kingdoms => {:user_id => current_user.id});
   end
 
   # GET /missions/1/edit
@@ -69,6 +71,6 @@ class MissionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def mission_params
-      params.require(:mission).permit(:kingdom_id, :mission_type_id, :mission_status_id)
+      params.require(:mission).permit(:castle_id, :mission_type_id, :mission_status_id, :target_id, :target_type)
     end
 end

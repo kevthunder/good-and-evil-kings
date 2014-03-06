@@ -8,5 +8,8 @@
 	<span class="name"><%= castle.name %></span>
   <ul class="actions">
     <%= link_to 'Show', castle %>
+    <% if user_signed_in? %>
+      <%= link_to 'Mission', new_castle_mission_path(castle.id) %>
+    <% end %>
   </ul>
 </div>

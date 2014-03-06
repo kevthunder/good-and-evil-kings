@@ -2,8 +2,6 @@
 
 class TilesController < ApplicationController
   before_action :set_tile, only: [:show, :edit, :update, :destroy]
-  before_action :detect_ajax
-  layout :products_layout
   
   # GET /tiles
   # GET /tiles.json
@@ -100,12 +98,6 @@ class TilesController < ApplicationController
   end
 
   private
-    def detect_ajax
-      @ajax = request.xhr? || request.GET.has_key?(:ajax)
-    end
-    def products_layout
-      @ajax ? "ajax" : "application"
-    end
     
     # Use callbacks to share common setup or constraints between actions.
     def set_tile

@@ -3,8 +3,10 @@
 <table>
   <thead>
     <tr>
+      <th>Castle</th>
       <th>Mission type</th>
       <th>Mission status</th>
+      <th>Target</th>
       <th></th>
       <th></th>
       <th></th>
@@ -14,8 +16,10 @@
   <tbody>
     <% @missions.each do |mission| %>
       <tr>
-        <td><%= mission.mission_type %></td>
-        <td><%= mission.mission_status %></td>
+        <td><%= mission.castle.name %></td>
+        <td><%= mission.mission_type.name %></td>
+        <td><%= mission.mission_status!= nil ? mission.mission_status.name : '' %></td>
+        <td><%= mission.target_type + ':' + mission.target_id.to_s %></td>
         <td><%= link_to 'Show', mission %></td>
         <td><%= link_to 'Edit', edit_mission_path(mission) %></td>
         <td><%= link_to 'Destroy', mission, method: :delete, data: { confirm: 'Are you sure?' } %></td>

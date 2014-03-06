@@ -37,7 +37,9 @@ GoodAndEvilKings::Application.routes.draw do
   get 'tiles/list' => 'tiles#list'
   post 'tiles/partial' => 'tiles#partial'
   resources :tiles
-  resources :castles
+  resources :castles do
+    resources :missions, only: [:new, :create]
+  end
 
   # Example resource route with options:
   #   resources :products do
