@@ -21,5 +21,6 @@ module GoodAndEvilKings
     # config.i18n.default_locale = :de
 	
 	config.eager_load_paths += ["#{Rails.root}/lib"]
+	config.eager_load_paths += ["#{Rails.root}/lib/mission_behaviors"]
   end
 end

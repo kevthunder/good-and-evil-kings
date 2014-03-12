@@ -5,5 +5,10 @@
   <%= @mission_type.name %>
 </p>
 
+<p>
+  <strong>Behavior:</strong>
+  <%= @mission_type.behavior %>
+</p>
+
 <%= link_to 'Edit', edit_mission_type_path(@mission_type) %> |
 <%= link_to 'Back', mission_types_path %>

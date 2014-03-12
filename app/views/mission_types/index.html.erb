@@ -4,6 +4,7 @@
   <thead>
     <tr>
       <th>Name</th>
+      <th>Behavior</th>
       <th></th>
       <th></th>
       <th></th>
@@ -14,6 +15,7 @@
     <% @mission_types.each do |mission_type| %>
       <tr>
         <td><%= mission_type.name %></td>
+        <td><%= mission_type.behavior %></td>
         <td><%= link_to 'Show', mission_type %></td>
         <td><%= link_to 'Edit', edit_mission_type_path(mission_type) %></td>
         <td><%= link_to 'Destroy', mission_type, method: :delete, data: { confirm: 'Are you sure?' } %></td>

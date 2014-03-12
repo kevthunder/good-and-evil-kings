@@ -1,0 +1,4 @@
+class MovementMissionBehavior < MissionBehavior
+
+  
+end
