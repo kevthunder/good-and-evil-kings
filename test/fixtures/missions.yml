@@ -1,9 +1,17 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  mission_type_id: 
+  type: 
   mission_status_id: 
+  castle_id: 
+  target_id: 
+  target_type: Target
+  next_event: 2014-03-13 18:22:17
 
 two:
-  mission_type_id: 
+  type: 
   mission_status_id: 
+  castle_id: 
+  target_id: 
+  target_type: Target
+  next_event: 2014-03-13 18:22:17

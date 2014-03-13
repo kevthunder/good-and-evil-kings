@@ -1,4 +1,3 @@
-
 <%= form_for(@mission) do |f| %>
   <% if @mission.errors.any? %>
     <div id="error_explanation">
@@ -14,11 +13,11 @@
 
   <div class="field">
     <%= f.label :castle_id %><br>
-    <%= f.collection_select(:castle_id, @myCastles, :id, :name) %>
+    <%= f.text_field :castle_id %>
   </div>
   <div class="field">
-    <%= f.label :mission_type_id %><br>
-    <%= f.collection_select(:mission_type_id, MissionType.all, :id, :name) %>
+    <%= f.label :type %><br>
+    <%= f.collection_select(:type, MissionType.all, :class_name, :name) %>
   </div>
   
   <% if params.has_key? 'castle_id' %>

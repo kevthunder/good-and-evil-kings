@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140312222815) do
+ActiveRecord::Schema.define(version: 20140313221219) do
 
   create_table "actions", force: true do |t|
     t.datetime "time"
@@ -66,11 +66,10 @@ ActiveRecord::Schema.define(version: 20140312222815) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "behavior"
+    t.string   "class_name"
   end
 
   create_table "missions", force: true do |t|
-    t.integer  "mission_type_id"
     t.integer  "mission_status_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -78,11 +77,11 @@ ActiveRecord::Schema.define(version: 20140312222815) do
     t.integer  "target_id"
     t.string   "target_type"
     t.datetime "next_event"
+    t.string   "type"
   end
 
   add_index "missions", ["castle_id"], name: "index_missions_on_castle_id"
   add_index "missions", ["mission_status_id"], name: "index_missions_on_mission_status_id"
-  add_index "missions", ["mission_type_id"], name: "index_missions_on_mission_type_id"
   add_index "missions", ["target_id", "target_type"], name: "index_missions_on_target_id_and_target_type"
 
   create_table "movements", force: true do |t|

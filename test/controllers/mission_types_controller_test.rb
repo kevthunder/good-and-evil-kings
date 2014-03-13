@@ -18,7 +18,7 @@ class MissionTypesControllerTest < ActionController::TestCase
 
   test "should create mission_type" do
     assert_difference('MissionType.count') do
-      post :create, mission_type: { behavior: @mission_type.behavior, name: @mission_type.name }
+      post :create, mission_type: { class_name: @mission_type.class_name, name: @mission_type.name }
     end
 
     assert_redirected_to mission_type_path(assigns(:mission_type))
@@ -35,7 +35,7 @@ class MissionTypesControllerTest < ActionController::TestCase
   end
 
   test "should update mission_type" do
-    patch :update, id: @mission_type, mission_type: { behavior: @mission_type.behavior, name: @mission_type.name }
+    patch :update, id: @mission_type, mission_type: { class_name: @mission_type.class_name, name: @mission_type.name }
     assert_redirected_to mission_type_path(assigns(:mission_type))
   end
 

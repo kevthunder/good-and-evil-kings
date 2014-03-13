@@ -2,8 +2,8 @@
 
 one:
   name: MyString
-  behavior: MyString
+  class_name: MyString
 
 two:
   name: MyString
-  behavior: MyString
+  class_name: MyString
