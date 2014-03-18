@@ -1,4 +1,0 @@
-class MovementMissionBehavior < MissionBehavior
-
-  
-end

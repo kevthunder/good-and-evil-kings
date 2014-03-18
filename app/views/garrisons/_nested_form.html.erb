@@ -1,0 +1,19 @@
+<div id="garrisons">
+  <table>
+    <thead>
+      <tr>
+        <th>Qte</th>
+        <th>Soldier type</th>
+        <th></th>
+      </tr>
+    </thead>
+    <%= form.fields_for :garrisons, :wrapper => false do |stock_form| %>
+      <tr class="fields">
+        <td><%= stock_form.number_field :qte %></td>
+        <td><%= stock_form.collection_select(:soldier_type_id, SoldierType.all, :id, :name) %></td>
+        <td><%= stock_form.link_to_remove "Remove" %></td>
+      </tr>
+    <% end %>
+  </table>
+  <p><%= form.link_to_add "Add a garrison", :garrisons, :data => { :target => "#garrisons" }  %></p>
+</div>

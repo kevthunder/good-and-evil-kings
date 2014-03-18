@@ -1,1 +1,1 @@
-json.extract! @soldier_type, :id, :name, :created_at, :updated_at
+json.extract! @soldier_type, :id, :name, :speed, :attack, :defence, :interception, :carry, :created_at, :updated_at

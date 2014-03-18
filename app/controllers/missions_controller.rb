@@ -1,5 +1,6 @@
 class MissionsController < ApplicationController
   before_action :set_mission, only: [:show, :edit, :update, :destroy]
+  before_action :set_my_castles, only: [:new, :create, :edit, :update]
   before_filter :authenticate_user!
 
   # GET /missions
@@ -16,7 +17,6 @@ class MissionsController < ApplicationController
   # GET /missions/new
   def new
     @mission = Mission.new
-    @myCastles = Castle.joins(:kingdom).where(:kingdoms => {:user_id => current_user.id});
   end
 
   # GET /missions/1/edit
@@ -68,9 +68,13 @@ class MissionsController < ApplicationController
     def set_mission
       @mission = Mission.find(params[:id])
     end
+    
+    def set_my_castles
+      @myCastles = Castle.joins(:kingdom).where(:kingdoms => {:user_id => current_user.id});
+    end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def mission_params
-      params.require(:mission).permit(:castle_id, :type, :mission_status_id, :target_id, :target_type)
+      params.require(:mission).permit(:castle_id, :type, :mission_status_id, :target_id, :target_type, stocks_attributes: [:qte, :ressource_id, :id, :_destroy], garrisons_attributes: [:qte, :soldier_type_id, :id, :_destroy])
     end
 end

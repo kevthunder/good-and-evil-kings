@@ -5,5 +5,30 @@
   <%= @soldier_type.name %>
 </p>
 
+<p>
+  <strong>Speed:</strong>
+  <%= @soldier_type.speed %>
+</p>
+
+<p>
+  <strong>Attack:</strong>
+  <%= @soldier_type.attack %>
+</p>
+
+<p>
+  <strong>Defence:</strong>
+  <%= @soldier_type.defence %>
+</p>
+
+<p>
+  <strong>Interception:</strong>
+  <%= @soldier_type.interception %>
+</p>
+
+<p>
+  <strong>Carry:</strong>
+  <%= @soldier_type.carry %>
+</p>
+
 <%= link_to 'Edit', edit_soldier_type_path(@soldier_type) %> |
 <%= link_to 'Back', soldier_types_path %>

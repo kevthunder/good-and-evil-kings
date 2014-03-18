@@ -1,4 +1,0 @@
-class AttackMissionBehavior < MissionBehavior
-
-  
-end

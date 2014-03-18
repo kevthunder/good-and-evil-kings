@@ -1,0 +1,4 @@
+class MovementMission < Mission
+
+  
+end

@@ -1,0 +1,4 @@
+class TradeMission < Mission
+
+  
+end

@@ -2,6 +2,16 @@
 
 one:
   name: MyString
+  speed: 1
+  attack: 1
+  defence: 1
+  interception: 1
+  carry: 1
 
 two:
   name: MyString
+  speed: 1
+  attack: 1
+  defence: 1
+  interception: 1
+  carry: 1

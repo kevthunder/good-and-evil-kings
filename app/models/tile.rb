@@ -3,6 +3,11 @@ class Tile < ActiveRecord::Base
 	validates :y, presence: true
 	belongs_to :tiled, polymorphic: true
   
+  
+  def distance(point)  
+    Math.hypot(point.x - x, point.y - y)  
+  end  
+  
   scope :inBounds, ->(bounds) {
     unless bounds.respond_to?('each')
       bounds = [bounds];

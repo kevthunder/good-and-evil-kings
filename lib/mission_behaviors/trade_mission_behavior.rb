@@ -1,4 +1,0 @@
-class TradeMissionBehavior < MissionBehavior
-
-  
-end

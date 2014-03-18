@@ -4,6 +4,11 @@
   <thead>
     <tr>
       <th>Name</th>
+      <th>Speed</th>
+      <th>Attack</th>
+      <th>Defence</th>
+      <th>Interception</th>
+      <th>Carry</th>
       <th></th>
       <th></th>
       <th></th>
@@ -14,6 +19,11 @@
     <% @soldier_types.each do |soldier_type| %>
       <tr>
         <td><%= soldier_type.name %></td>
+        <td><%= soldier_type.speed %></td>
+        <td><%= soldier_type.attack %></td>
+        <td><%= soldier_type.defence %></td>
+        <td><%= soldier_type.interception %></td>
+        <td><%= soldier_type.carry %></td>
         <td><%= link_to 'Show', soldier_type %></td>
         <td><%= link_to 'Edit', edit_soldier_type_path(soldier_type) %></td>
         <td><%= link_to 'Destroy', soldier_type, method: :delete, data: { confirm: 'Are you sure?' } %></td>
