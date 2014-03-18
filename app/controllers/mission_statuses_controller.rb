@@ -69,6 +69,6 @@ class MissionStatusesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def mission_status_params
-      params.require(:mission_status).permit(:name)
+      params.require(:mission_status).permit(:name, :code)
     end
 end

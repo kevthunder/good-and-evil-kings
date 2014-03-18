@@ -4,10 +4,10 @@
   <thead>
     <tr>
       <th>Type</th>
-      <th>Mission status</th>
       <th>Castle</th>
       <th>Target</th>
       <th>Next event</th>
+      <th>Mission status code</th>
       <th></th>
       <th></th>
       <th></th>
@@ -18,10 +18,10 @@
     <% @missions.each do |mission| %>
       <tr>
         <td><%= mission.type %></td>
-        <td><%= mission.mission_status %></td>
         <td><%= mission.castle %></td>
         <td><%= mission.target %></td>
         <td><%= mission.next_event %></td>
+        <td><%= mission.mission_status_code %></td>
         <td><%= link_to 'Show', mission %></td>
         <td><%= link_to 'Edit', edit_mission_path(mission) %></td>
         <td><%= link_to 'Destroy', mission, method: :delete, data: { confirm: 'Are you sure?' } %></td>

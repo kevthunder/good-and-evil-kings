@@ -1,1 +1,1 @@
-json.extract! @mission_status, :id, :name, :created_at, :updated_at
+json.extract! @mission_status, :id, :name, :code, :created_at, :updated_at

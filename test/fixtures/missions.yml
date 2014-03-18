@@ -2,16 +2,16 @@
 
 one:
   type: 
-  mission_status_id: 
   castle_id: 
   target_id: 
   target_type: Target
-  next_event: 2014-03-13 18:22:17
+  next_event: 2014-03-17 21:45:09
+  mission_status_code: MyString
 
 two:
   type: 
-  mission_status_id: 
   castle_id: 
   target_id: 
   target_type: Target
-  next_event: 2014-03-13 18:22:17
+  next_event: 2014-03-17 21:45:09
+  mission_status_code: MyString

@@ -19,4 +19,7 @@ class Garrison < ActiveRecord::Base
   scope :interception, ->() {
     joins(:soldier_type).sum("soldier_types.interception * qte")
   }
+  scope :travel_time_between, ->(pos1,pos2) {
+    (pos1.distance(pos2) / speed() + 10)*64;
+  }
 end

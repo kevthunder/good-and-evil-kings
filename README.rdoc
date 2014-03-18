@@ -5,4 +5,6 @@ TODO
 
 
 Scaffolds
-* rails g scaffold type:string castle:references target:references{polymorphic} next_event:datetime mission_status_code:string --skip-migration
+* rails g scaffold missions type:string castle:references target:references{polymorphic} next_event:datetime mission_status_code:string --skip-migration
+* rails g scaffold soldier_types name:string speed:integer attack:integer defence:integer interception:integer carry:integer --skip-migration
+* rails g scaffold mission_statuses name:string code:string --skip-migration

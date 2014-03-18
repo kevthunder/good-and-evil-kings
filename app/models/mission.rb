@@ -20,7 +20,7 @@ class Mission < ActiveRecord::Base
     end
     
     def start()
-      
+      mission_status_code = @startStatus
     end
     
     def must_have_one_garrison

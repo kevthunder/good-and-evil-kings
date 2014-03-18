@@ -6,11 +6,6 @@
 </p>
 
 <p>
-  <strong>Mission status:</strong>
-  <%= @mission.mission_status %>
-</p>
-
-<p>
   <strong>Castle:</strong>
   <%= @mission.castle %>
 </p>
@@ -23,6 +18,11 @@
 <p>
   <strong>Next event:</strong>
   <%= @mission.next_event %>
+</p>
+
+<p>
+  <strong>Mission status code:</strong>
+  <%= @mission.mission_status_code %>
 </p>
 
 <%= link_to 'Edit', edit_mission_path(@mission) %> |
