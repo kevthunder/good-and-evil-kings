@@ -14,13 +14,20 @@ class Mission < ActiveRecord::Base
   def next()
   end
   
+  def self.model_name
+    return super if self == Mission
+    Mission.model_name
+  end
+  
   private
     def startBehavior
-      self.start
+      start
     end
     
     def start()
-      mission_status_code = @startStatus
+      if @startStatus
+        mission_status_code = @startStatus
+      end
     end
     
     def must_have_one_garrison
