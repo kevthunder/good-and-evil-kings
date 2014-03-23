@@ -36,5 +36,9 @@ class Mission < ActiveRecord::Base
     def must_have_one_stock
       errors.add(:stocks, 'must have at least one ressource') if (stocks.empty? or stocks.all? {|stock| stock.marked_for_destruction? })
     end
+    
+    def garrisons_must_be_available
+      errors.add(:garrisons, 'You cant send more soldier than you have at this castle') unless castle.garrisons.check_disponibility(garrisons)
+    end
 
 end

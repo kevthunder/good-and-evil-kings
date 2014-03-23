@@ -1,4 +1,4 @@
-class Updater extend self
+class Updater
 
   def update
     

@@ -17,5 +17,5 @@ class Castle < ActiveRecord::Base
   accepts_nested_attributes_for :tile
   accepts_nested_attributes_for :stocks, :garrisons, allow_destroy: true
   
-  default_scope :include => :kingdom
+  default_scope { includes(:kingdom) }
 end

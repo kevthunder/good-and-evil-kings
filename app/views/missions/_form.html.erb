@@ -1,4 +1,4 @@
-<%= nested_form_for(@mission, url: missions_path) do |f| %>
+<%= nested_form_for(@mission, url: params.has_key?('castle_id') ? castle_missions_path(params['castle_id']) : missions_path) do |f| %>
 
   <% if @mission.errors.any? %>
     <div id="error_explanation">
@@ -31,7 +31,7 @@
     </div>
     <div class="field">
       <%= f.label :target_id %><br>
-      <%= f.text_field :target_id, :value => params['castle_id'] %>
+      <%= f.text_field :target_id %>
     </div>
   <% end %>
 

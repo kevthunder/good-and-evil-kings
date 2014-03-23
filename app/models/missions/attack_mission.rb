@@ -1,6 +1,7 @@
 class AttackMission < Mission
 
-  validate :must_have_one_garrison
+  validate :must_have_one_garrison, on: :create
+  validate :garrisons_must_be_available, on: :create
   
   def initialize(id)
     @startStatus = "going"

@@ -42,12 +42,10 @@ end
 # gem 'capistrano', group: :development
 
 # Use debugger
-# gem 'debugger', group: [:development, :test]
-
+gem 'debugger', group: [:development, :test], require: false
+gem 'seed_dump', group: :development, require: false
 
 gem 'devise'
 #gem 'cancan'
 gem 'jquery-ui-rails'
 gem 'nested_form'
-
-gem 'debugger'
