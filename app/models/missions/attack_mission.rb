@@ -2,11 +2,19 @@ class AttackMission < Mission
   validate :must_have_one_garrison, on: :create
   validate :garrisons_must_be_available, on: :create
 
-  def initialize(id)
-    @startStatus = 'going'
+  def initialize(id = nil)
+    add_sequence(['going','returning'])
     super
   end
 
+  def start_going
+    garrisons.subtract_from(castle)
+  end
+  
+  def end_going
+    # todo : kill stuff
+  end
+  
   private
 
   def unsaved_garrisons
