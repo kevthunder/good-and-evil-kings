@@ -11,7 +11,10 @@ class Mission < ActiveRecord::Base
   before_create :start_behavior
 
   def next
-    update_status unless mission_status_code.nil?
+    unless mission_status_code.nil?
+      update_status 
+      save
+    end
   end
 
   attr_accessor :start_status

@@ -17,7 +17,8 @@ class Garrison < ActiveRecord::Base
     replace = {}
     i = 0
     garrisons.each do |garrison|
-      or_conds.push "(soldier_type_id = :soldier_type_id#{i} AND kingdom_id " + (garrison.kingdom_id.nil? ? 'IS NULL' : "= :kingdom_id#{i}") + ')'
+      or_conds.push "(soldier_type_id = :soldier_type_id#{i}" \
+        ' AND kingdom_id ' + (garrison.kingdom_id.nil? ? 'IS NULL' : "= :kingdom_id#{i}") + ')'
       replace[:"soldier_type_id#{i}"] = garrison.soldier_type_id
       replace[:"kingdom_id#{i}"] = garrison.kingdom_id
       i += 1
@@ -68,6 +69,18 @@ class Garrison < ActiveRecord::Base
       true
     end
 
+    def attack_cost(garrisonable)
+      att_data = get_battle_data('attack')
+      total_att = att_data.sum { |d| d[:power] }
+      def_data = garrisonable.garrisons.get_battle_data('defence')
+      total_def = def_data.sum { |d| d[:power] }
+      cost = [total_att,total_def,[total_att,total_def].sum * 3 / 8].min
+      att_casualties = att_data.map { |d| d[:qte] * cost / total_att }
+      def_casualties = def_data.map { |d| d[:qte] * cost / total_def }
+      #ratio = att.map{ |d| d[:power].to_f/t_power * t_qte/d[:qte].to_f }
+      { us: att_casualties, them: def_casualties }
+    end
+
     def add_to(garrisonable)
       garrisons = to_a
       match = garrisonable.garrisons.match_garrisons(garrisons).to_a
@@ -101,5 +114,20 @@ class Garrison < ActiveRecord::Base
     def calcul_travel_time(pos1, pos2, speed)
       ((pos1.distance(pos2) / speed + 10) * 64).to_i
     end
+    
+    def kill
+      each do |garrison|
+        garrison.destroy
+      end
+    end
+  end
+
+  #private
+
+  def self.get_battle_data(type)
+    joins(:soldier_type)
+      .group('soldier_type_id')
+      .pluck("SUM(soldier_types.#{type} * qte),qte")
+      .map { |d| { power: d[0], qte: d[1] } }
   end
 end

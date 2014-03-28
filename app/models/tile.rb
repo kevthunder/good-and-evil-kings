@@ -7,7 +7,7 @@ class Tile < ActiveRecord::Base
     Math.hypot(point.x - x, point.y - y)
   end
 
-  scope :inBounds, (lamba do |bounds|
+  scope :inBounds, (lambda do |bounds|
     bounds = [bounds] unless bounds.respond_to?('each')
 
     or_conds = Array.new

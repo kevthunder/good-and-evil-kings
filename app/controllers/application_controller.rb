@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   
+  before_action :fire_updater
   before_action :detect_ajax
   layout :global_layout
   
@@ -12,5 +13,8 @@ class ApplicationController < ActionController::Base
     end
     def global_layout
       @ajax ? "ajax" : "application"
+    end
+    def fire_updater
+      # Updater.update
     end
 end

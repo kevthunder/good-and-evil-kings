@@ -12,6 +12,7 @@ class AttackMission < Mission
   end
   
   def end_going
+    debugger
     # todo : kill stuff
   end
   
