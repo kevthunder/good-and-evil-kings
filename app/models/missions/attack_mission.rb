@@ -14,6 +14,9 @@ class AttackMission < Mission
   def end_going
     debugger
     # todo : kill stuff
+    cost = garrisons.attack_cost
+    cost.us.subtract_from(self)
+    cost.them.subtract_from(target)
   end
   
   private

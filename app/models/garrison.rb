@@ -47,56 +47,33 @@ class Garrison < ActiveRecord::Base
     def interception
       joins(:soldier_type).sum('soldier_types.interception * qte')
     end
+    
+    def carry
+      joins(:soldier_type).sum('soldier_types.carry * qte')
+    end
 
     def travel_time_between(pos1, pos2)
       Garrison.calcul_travel_time(pos1, pos2, speed)
     end
 
-    def subtract_from(garrisonable)
-      garrisons = to_a
-      match = garrisonable.garrisons.match_garrisons(garrisons).to_a
-
-      garrisons.each do |garrison|
-        matched = match.select { |g| g.can_unite?(garrison) }.first
-        return false if matched.nil? || matched.qte < garrison.qte
-        if matched.qte == garrison.qte
-          matched.destroy
-        else
-          matched.qte -= garrison.qte
-          matched.save
-        end
-      end
-      true
-    end
-
+    include GarrisonCollection
+    
     def attack_cost(garrisonable)
       att_data = get_battle_data('attack')
       total_att = att_data.sum { |d| d[:power] }
       def_data = garrisonable.garrisons.get_battle_data('defence')
       total_def = def_data.sum { |d| d[:power] }
       cost = [total_att,total_def,[total_att,total_def].sum * 3 / 8].min
-      att_casualties = att_data.map { |d| d[:qte] * cost / total_att }
-      def_casualties = def_data.map { |d| d[:qte] * cost / total_def }
-      #ratio = att.map{ |d| d[:power].to_f/t_power * t_qte/d[:qte].to_f }
-      { us: att_casualties, them: def_casualties }
-    end
-
-    def add_to(garrisonable)
-      garrisons = to_a
-      match = garrisonable.garrisons.match_garrisons(garrisons).to_a
-
-      garrisons.each do |garrison|
-        matched = match.select { |g| g.can_unite?(garrison) }.first
-        if matched.nil?
-          garrison.garrisonable = garrisonable
-          garrison.save
-        else
-          matched.qte += garrison.qte
-          matched.save
-          garrison.destroy
-        end
+      att_casualties = att_data.map do |d| 
+        Garrison.new(qte: d[:qte] * cost / total_att, soldier_type_id: d[:type]) 
       end
+      def_casualties = def_data.map do |d| 
+        Garrison.new(qte: d[:qte] * cost / total_def, soldier_type_id: d[:type]) 
+      end
+      #ratio = att.map{ |d| d[:power].to_f/t_power * t_qte/d[:qte].to_f }
+      { us: GarrisonList.new(att_casualties), them: GarrisonList.new(def_casualties) }
     end
+
 
     def check_disponibility?(garrisons)
       garrisons = [garrisons] unless garrisons.respond_to?('each')
@@ -127,7 +104,7 @@ class Garrison < ActiveRecord::Base
   def self.get_battle_data(type)
     joins(:soldier_type)
       .group('soldier_type_id')
-      .pluck("SUM(soldier_types.#{type} * qte),qte")
-      .map { |d| { power: d[0], qte: d[1] } }
+      .pluck("SUM(soldier_types.#{type} * qte),qte,soldier_type_id")
+      .map { |d| {type: d[2], power: d[0], qte: d[1] } }
   end
 end
