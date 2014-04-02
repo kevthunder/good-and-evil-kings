@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140318015003) do
+ActiveRecord::Schema.define(version: 20140402000511) do
 
   create_table "actions", force: true do |t|
     t.datetime "time"
@@ -92,6 +92,7 @@ ActiveRecord::Schema.define(version: 20140318015003) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "mission_id"
+    t.datetime "end_time"
   end
 
   add_index "movements", ["end_tile_id"], name: "index_movements_on_end_tile_id"

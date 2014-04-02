@@ -8,15 +8,47 @@ class AttackMission < Mission
   end
 
   def start_going
-    garrisons.subtract_from(castle)
+    create_movement :going
+    garrisons.subtract_from castle
   end
   
   def end_going
-    debugger
-    # todo : kill stuff
+    movement.destroy
+    battle
+    self.next_event = Time.now + calcul_travel_time
+  end
+  
+  def start_returning
+    create_movement :returning
+  end
+  
+  def end_returning
+    movement.destroy
+  end
+  
+  def create_movement(direction)
+    if direction == :going
+      start_tile = castle.tile
+      end_tile = target.tile
+    else
+      start_tile = target.tile
+      end_tile = castle.tile
+    end
+    self.movement = Movement.new(
+      start_time: Time.now,
+      end_time: next_event,
+      start_tile_attributes: {x: start_tile.x, y: start_tile.y},
+      end_tile_attributes: {x: end_tile.x, y: end_tile.y}
+    )
+  end
+  
+  def battle
+    # kill stuff
     cost = garrisons.attack_cost
     cost.us.subtract_from(self)
     cost.them.subtract_from(target)
+    # loot
+    target.stocks.give_any(self,garrisons.carry)
   end
   
   private
@@ -31,7 +63,7 @@ class AttackMission < Mission
   end
 
   def start
-    super
     self.next_event = Time.now + calcul_travel_time
+    super
   end
 end
