@@ -1,3 +1,31 @@
 // Place all the styles related to the Movements controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.movement{
+	position:absolute;
+  .soldiers{
+    background: image-url("army_small.png") no-repeat top;
+    width: 49px;
+    height: 41px;
+  }
+  &:hover {
+    z-index:100;
+    .actions{
+      display:block;
+    }
+  }
+  .actions{
+    position:absolute;
+    display:none;
+    list-style:none;
+    margin:0px;
+    padding:0px;
+    background-color:#cccccc;
+    li{
+      margin:0px;
+      padding:0px;
+      list-style:none;
+    }
+  }
+}

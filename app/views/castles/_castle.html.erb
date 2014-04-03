@@ -5,7 +5,8 @@
   end
 %>
 <div class="<%= classes.join(" ") %>" style="top:<%= pos.y %>px;left:<%= pos.x %>px;">
-	<span class="name"><%= castle.name %></span>
+	<div class="clickPixel"></div>
+  <span class="name"><%= castle.name %></span>
   <ul class="actions">
     <%= link_to 'Show', castle %>
     <% if user_signed_in? %>

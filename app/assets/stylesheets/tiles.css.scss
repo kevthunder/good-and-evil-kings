@@ -17,5 +17,17 @@
 	.content{
 		position: relative;
 	}
-	
 }
+.clickPixel{
+  z-index:1000;
+	position:absolute;
+  width:4px;
+  height:4px;
+  top:50%;
+  left:50%;
+  margin: -2px 0 0 -2px;
+  background-color: #00ff00;
+}
+/*div:hover > .clickPixel{
+  display:none;
+}*/
