@@ -1,9 +1,9 @@
 <% 
   classes = ['movement']
 %>
-<div class="<%= classes.join(" ") %>" start_time="<%= movement.start_time %>" start_x="<%= movement.start_tile.x %>" start_y="<%= movement.start_tile.y %>" end_time="<%= movement.end_time %>" end_x="<%= movement.end_tile.x %>" end_y="<%= movement.end_tile.y %>">
-	<div class="clickPixel"></div>
-  <div class="soldiers"></div>
+<div class="<%= classes.join(" ") %>" data_id="<%= movement.id %>" start_time="<%= movement.start_time.to_i %>" start_x="<%= movement.start_tile.x %>" start_y="<%= movement.start_tile.y %>" end_time="<%= movement.end_time.to_i %>" end_x="<%= movement.end_tile.x %>" end_y="<%= movement.end_tile.y %>">
+	
+  <div class="soldiers"><div class="clickPixel"></div></div>
   <ul class="actions">
     <%= link_to 'Show', movement %>
   </ul>

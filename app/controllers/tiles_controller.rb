@@ -29,7 +29,7 @@ class TilesController < ApplicationController
     end
     bounds = Zone.tilesToBounds(sections,@sectionSize);
     
-    @tiles = Tile.includes(:tiled => :kingdom).inBounds(bounds).group_by { |tile| Point.new(tile.x/@sectionSize, tile.y/@sectionSize) }
+    @tiles = Tile.includes(:tiled).inBounds(bounds).group_by { |tile| Point.new(tile.x/@sectionSize, tile.y/@sectionSize) }
     
     unless @ajax
       render "index"
