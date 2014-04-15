@@ -16,7 +16,8 @@ class Stock < ActiveRecord::Base
     end
   end
   
-  def tranfer(stockable,number,match = nil)
+  def tranfer(stockable,number = true,match = nil)
+    number = (number === true ? qte : number)
     matched = match_in(match.nil? ? stockable.stocks : match)
     
     transaction do
@@ -64,5 +65,16 @@ class Stock < ActiveRecord::Base
         s.tranfer(stockable,qte,match)
       end
     end
+    
+    
+    def add_to(stockable)
+      stocks = all.to_a
+      match = stockable.stocks.match_stocks(stocks).load
+
+      stocks.each do |s|
+        s.tranfer(stockable,true,match)
+      end
+    end
+    
   end
 end

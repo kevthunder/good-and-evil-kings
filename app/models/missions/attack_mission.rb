@@ -2,9 +2,9 @@ class AttackMission < Mission
   validate :must_have_one_garrison, on: :create
   validate :garrisons_must_be_available, on: :create
 
-  def initialize(id = nil)
+  after_initialize :after_initialize
+  def after_initialize()
     add_sequence(['going','returning'])
-    super
   end
 
   def start_going
@@ -13,7 +13,7 @@ class AttackMission < Mission
   end
   
   def end_going
-    movement.destroy
+    movement.destroy! unless movement.nil?
     battle
     self.next_event = Time.now + calcul_travel_time
   end
@@ -23,7 +23,9 @@ class AttackMission < Mission
   end
   
   def end_returning
-    movement.destroy
+    movement.destroy! unless movement.nil?
+    garrisons.add_to castle
+    stocks.add_to castle
   end
   
   def create_movement(direction)
@@ -44,11 +46,13 @@ class AttackMission < Mission
   
   def battle
     # kill stuff
-    cost = garrisons.attack_cost
-    cost.us.subtract_from(self)
-    cost.them.subtract_from(target)
-    # loot
-    target.stocks.give_any(self,garrisons.carry)
+    cost = garrisons.attack_cost(target)
+    transaction do
+      cost[:us].subtract_from(self)
+      cost[:them].subtract_from(target)
+      # loot
+      target.stocks.give_any(self,garrisons.carry)
+    end
   end
   
   private

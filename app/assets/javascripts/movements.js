@@ -1,5 +1,13 @@
 var movements = {};
 
+var clock = setInterval(movementTick,1000);
+
+function movementTick(){
+  $.each(movements,function(i,m){
+    m.update();
+  });
+}
+
 function registerMovements(content){
   var $content = $(content);
   $('.movement',$content).each(function(){
@@ -42,11 +50,11 @@ function Movement($elem){
   }
   this.setPos = function(prc){
     this.prc = prc;
-    console.log(prc);
+    //console.log(prc);
     var newPos = Movement.ptAtLinePrc( this.start, this.end, prc);
-    console.log(this.start);
-    console.log(this.end);
-    console.log(newPos);
+    //console.log(this.start);
+    //console.log(this.end);
+    //console.log(newPos);
     if(this.pos.x != newPos.x || this.pos.y != newPos.y){
       this.pos.x = newPos.x;
       this.pos.y = newPos.y;

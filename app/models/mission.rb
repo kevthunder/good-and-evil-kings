@@ -38,8 +38,9 @@ class Mission < ActiveRecord::Base
   attr_writer :next_status
 
   def update_status(code = nil)
-    next_status = code
+    self.next_status = code
     send('end_' + mission_status_code) if !mission_status_code.nil? && respond_to?('end_' + mission_status_code)
+    debugger
     self.mission_status_code = next_status
     send('start_' + mission_status_code) if !mission_status_code.nil? && respond_to?('start_' + mission_status_code)
   end

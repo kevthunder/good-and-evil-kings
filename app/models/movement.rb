@@ -1,6 +1,6 @@
 class Movement < ActiveRecord::Base
-  belongs_to :start_tile, class_name: "Tile"
-  belongs_to :end_tile, class_name: "Tile"
+  belongs_to :start_tile, class_name: "Tile", dependent: :destroy
+  belongs_to :end_tile, class_name: "Tile", dependent: :destroy
   
   after_create :bind_tiles
   

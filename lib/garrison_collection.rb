@@ -1,6 +1,10 @@
 module GarrisonCollection
     def subtract_from(garrisonable)
-      garrisons = to_a
+      if respond_to? :all
+        garrisons = all.load
+      else
+        garrisons = to_a
+      end
       match = garrisonable.garrisons.match_garrisons(garrisons).to_a
 
       garrisons.each do |garrison|
@@ -17,7 +21,11 @@ module GarrisonCollection
     end
 
     def add_to(garrisonable)
-      garrisons = to_a
+      if respond_to? :all
+        garrisons = all.load
+      else
+        garrisons = to_a
+      end
       match = garrisonable.garrisons.match_garrisons(garrisons).to_a
 
       garrisons.each do |garrison|
