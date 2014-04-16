@@ -3,7 +3,7 @@ class Point
     @x, @y = x,y  
   end  
     
-  attr_reader :x, :y  
+  attr_accessor :x, :y  
     
   def distance(point)  
     Math.hypot(point.x - x, point.y - y)  

@@ -40,7 +40,6 @@ class Mission < ActiveRecord::Base
   def update_status(code = nil)
     self.next_status = code
     send('end_' + mission_status_code) if !mission_status_code.nil? && respond_to?('end_' + mission_status_code)
-    debugger
     self.mission_status_code = next_status
     send('start_' + mission_status_code) if !mission_status_code.nil? && respond_to?('start_' + mission_status_code)
   end
