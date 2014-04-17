@@ -35,3 +35,31 @@
     }
   }
 }
+
+.elevations{
+  position:relative;
+  .elevation{
+    position:absolute;
+    .ground{
+      background: image-url("ground_small.png") no-repeat top;
+      width:200px;
+      height:100px;
+    }
+    .leftWall{
+      position:absolute;
+      background: image-url("leftwall_small.png") no-repeat top;
+      top:50px;
+      left:0px;
+      width:100px;
+      height:75px;
+    }
+    .rightWall{
+      position:absolute;
+      background: image-url("rightwall_small.png") no-repeat top;
+      top:50px;
+      left:100px;
+      width:100px;
+      height:75px;
+    }
+  }
+}
