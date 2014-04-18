@@ -36,30 +36,43 @@
   }
 }
 
+$elevations-tile-width : 200px;
+$elevations-tile-height : $elevations-tile-width / 2;
+$elevations-tile-depth : 25px;
+
+@mixin wall-elevation($orientation,$tall) {
+  &.tall#{$tall}{
+    background: image-url("#{$orientation}wall_#{$tall}tall_small.png") no-repeat top;
+    height: $elevations-tile-height / 2 + $elevations-tile-depth * $tall;
+  }
+}
+@mixin wall($orientation) {
+  .#{$orientation}Wall{
+      position:absolute;
+      top:$elevations-tile-height / 2;
+      @if $orientation == "left" { left:0px;  }
+      @if $orientation == "right" { left:$elevations-tile-width / 2;  }
+      width:$elevations-tile-width / 2;
+      &.tall1{
+        background: image-url("#{$orientation}wall_small.png") no-repeat top;
+        height:$elevations-tile-height / 2 + $elevations-tile-depth;
+      }
+      @include wall-elevation($orientation,2);
+      @include wall-elevation($orientation,3);
+      @include wall-elevation($orientation,4);
+    }
+}
+
 .elevations{
   position:relative;
   .elevation{
     position:absolute;
     .ground{
       background: image-url("ground_small.png") no-repeat top;
-      width:200px;
-      height:100px;
+      width:$elevations-tile-width;
+      height:$elevations-tile-height;
     }
-    .leftWall{
-      position:absolute;
-      background: image-url("leftwall_small.png") no-repeat top;
-      top:50px;
-      left:0px;
-      width:100px;
-      height:75px;
-    }
-    .rightWall{
-      position:absolute;
-      background: image-url("rightwall_small.png") no-repeat top;
-      top:50px;
-      left:100px;
-      width:100px;
-      height:75px;
-    }
+    @include wall("left");
+    @include wall("right");
   }
 }

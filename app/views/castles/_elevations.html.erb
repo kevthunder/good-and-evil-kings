@@ -3,12 +3,12 @@
   elev = Elevations.new.gen
   elev.each_points do |x,y,elevation|
     top = x * 50 + y * 50 + elevation * -25 + 80
-    left = x * 100 + y * -100 + 800
+    left = x * 100 + y * -100 + 700
 %>
   <%= tag("div", {class: 'elevation', posx: x, posy: y, elevation: elevation, style: "top: #{top}px; left: #{left}px"}, true) %>
     <div class="ground"></div>
-    <div class="leftWall <%= elevation - (elev.elevation(x,y+1) || 0) %>tall"></div>
-    <div class="rightWall <%= elevation - (elev.elevation(x+1,y) || 0) %>tall"></div>
+    <div class="leftWall tall<%= elevation - (elev.elevation(x,y+1) || 0) %>"></div>
+    <div class="rightWall tall<%= elevation - (elev.elevation(x+1,y) || 0) %>"></div>
   </div>
 <%
   end 
