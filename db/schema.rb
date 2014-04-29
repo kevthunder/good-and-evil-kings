@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140402000511) do
+ActiveRecord::Schema.define(version: 20140429004743) do
 
   create_table "actions", force: true do |t|
     t.datetime "time"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 20140402000511) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "kingdom_id"
+    t.string   "elevations_map"
   end
 
   add_index "castles", ["kingdom_id"], name: "index_castles_on_kingdom_id"

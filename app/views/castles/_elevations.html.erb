@@ -1,6 +1,6 @@
 <div class="elevations">
 <% 
-  elev = Elevations.new.gen
+  elev = @castle.elevations true
   elev.each_points do |x,y,elevation|
     top = x * 50 + y * 50 + elevation * -25 + 80
     left = x * 100 + y * -100 + 700

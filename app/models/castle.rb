@@ -3,6 +3,7 @@ class Castle < ActiveRecord::Base
   has_one :tile, as: :tiled, dependent: :destroy, validate: :true
   has_many :stocks, as: :stockable
   has_many :garrisons, as: :garrisonable
+  serialize :elevations_map, Array
 
   def x
     tile.x
@@ -10,6 +11,20 @@ class Castle < ActiveRecord::Base
 
   def y
     tile.y
+  end
+  
+  def elevations(save=false)
+    if @elevations.nil?
+      @elevations = Elevations.new(elevations_map)
+      @elevations.on_gen do |e|
+        self.elevations_map = e.map
+      end
+      if elevations_map.nil? || elevations_map.count == 0
+        @elevations.gen
+        self.save! if save
+      end
+    end
+    @elevations
   end
 
   def distance(point)

@@ -1,5 +1,5 @@
 class Elevations
-  attr_reader :width, :height  
+  attr_reader :map, :width, :height  
   
   def initialize(map = nil,width = 8,height = 8)
     @map, @width, @height = map, width, height
@@ -10,7 +10,12 @@ class Elevations
     @map = Array.new(width*height, 0)
     niv = width*height/4
     place_elevation() while @map.last == 0
+    @on_gen.call(self)
     self
+  end
+  
+  def on_gen(&block)
+    @on_gen = block;
   end
   
   def matrix
