@@ -68,10 +68,6 @@ class MissionsController < ApplicationController
     def set_mission
       @mission = Mission.find(params[:id])
     end
-    
-    def set_my_castles
-      @myCastles = Castle.joins(:kingdom).where(:kingdoms => {:user_id => current_user.id});
-    end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def mission_params

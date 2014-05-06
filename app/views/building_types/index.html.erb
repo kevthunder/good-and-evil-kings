@@ -1,0 +1,29 @@
+<h1>Listing building_types</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @building_types.each do |building_type| %>
+      <tr>
+        <td><%= building_type.name %></td>
+        <td><%= building_type.type %></td>
+        <td><%= link_to 'Show', building_type %></td>
+        <td><%= link_to 'Edit', edit_building_type_path(building_type) %></td>
+        <td><%= link_to 'Destroy', building_type, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Building type', new_building_type_path %>

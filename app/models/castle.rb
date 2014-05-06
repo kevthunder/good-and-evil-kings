@@ -3,6 +3,7 @@ class Castle < ActiveRecord::Base
   has_one :tile, as: :tiled, dependent: :destroy, validate: :true
   has_many :stocks, as: :stockable
   has_many :garrisons, as: :garrisonable
+  has_many :buildings
   serialize :elevations_map, Array
 
   def x
@@ -30,7 +31,7 @@ class Castle < ActiveRecord::Base
   def distance(point)
     Math.hypot(point.x - x, point.y - y)
   end
-
+  
   accepts_nested_attributes_for :tile
   accepts_nested_attributes_for :stocks, :garrisons, allow_destroy: true
 

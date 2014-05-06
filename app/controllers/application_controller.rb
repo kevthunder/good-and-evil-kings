@@ -17,4 +17,7 @@ class ApplicationController < ActionController::Base
     def fire_updater
       # Updater.update
     end
+    def set_my_castles
+      @myCastles = current_user.castles;
+    end
 end

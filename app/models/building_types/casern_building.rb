@@ -1,0 +1,2 @@
+class CasernBuilding < BuildingType
+end

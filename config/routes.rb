@@ -1,5 +1,9 @@
 GoodAndEvilKings::Application.routes.draw do
 
+  resources :building_types
+
+  resources :buildings
+
   resources :mission_statuses
 
   resources :missions

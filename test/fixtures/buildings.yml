@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  x: 1
+  'y': 1
+  building_type_id: 
+  castle_id: 
+
+two:
+  x: 1
+  'y': 1
+  building_type_id: 
+  castle_id: 

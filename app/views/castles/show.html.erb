@@ -13,5 +13,11 @@
 <%= link_to 'Edit', edit_castle_path(@castle) %> |
 <%= link_to 'Back', castles_path %>
 
-
-<%= render 'elevations' %>
+<div class="graphics">
+  <%= render 'elevations', :size => 200 %>
+  <div class="buildings">
+    <% @castle.buildings.each do |building| %>
+      <%= render building, :size => 200 %>
+    <% end %>
+  </div>
+</div>

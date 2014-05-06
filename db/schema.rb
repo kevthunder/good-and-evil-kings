@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140429004743) do
+ActiveRecord::Schema.define(version: 20140505232001) do
 
   create_table "actions", force: true do |t|
     t.datetime "time"
@@ -22,6 +22,25 @@ ActiveRecord::Schema.define(version: 20140429004743) do
   end
 
   add_index "actions", ["actionnable_id", "actionnable_type"], name: "index_actions_on_actionnable_id_and_actionnable_type"
+
+  create_table "building_types", force: true do |t|
+    t.string   "name"
+    t.string   "type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "buildings", force: true do |t|
+    t.integer  "x"
+    t.integer  "y"
+    t.integer  "building_type_id"
+    t.integer  "castle_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "buildings", ["building_type_id"], name: "index_buildings_on_building_type_id"
+  add_index "buildings", ["castle_id"], name: "index_buildings_on_castle_id"
 
   create_table "castles", force: true do |t|
     t.string   "name"

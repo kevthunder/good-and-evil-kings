@@ -10,7 +10,7 @@ class Elevations
     @map = Array.new(width*height, 0)
     niv = width*height/4
     place_elevation() while @map.last == 0
-    @on_gen.call(self)
+    @on_gen.call(self) unless @on_gen.nil?
     self
   end
   
@@ -26,6 +26,14 @@ class Elevations
     matrix.each_with_index do |row,y|
       row.each_with_index do |elevation,x|
         yield(x,y,elevation)
+      end
+    end
+  end
+  
+  def each_display_order
+    (0..max_slice_dist).each do |dist|
+      slice_each(dist) do |x,y|
+        yield(x,y,elevation(x,y))
       end
     end
   end
@@ -62,7 +70,7 @@ class Elevations
     # y = d – x
     # d <= w + h - 2
   
-    dist = width + height - 2
+    dist = max_slice_dist
     pos = rnd_diagonal_slice_pos(dist);
     until can_elevate(pos)
       pos = rnd_diagonal_slice_pos(dist)
@@ -71,8 +79,20 @@ class Elevations
     elevation(pos,elevation(pos)+1)
   end
   
+  def max_slice_dist
+    width + height - 2
+  end
+  def diagonal_slice(dist)
+    [0, dist - height + 1].max..[width - 1, dist].min
+  end
+  def slice_each(dist)
+    diagonal_slice(dist).each do |x|
+      yield(x,dist - x)
+    end
+  end
+  
   def rnd_diagonal_slice_pos(dist)
-    x = rand([0, dist - height + 1].max..[width - 1, dist].min)
+    x = rand(diagonal_slice(dist))
     Point.new(x, dist - x);
   end
   

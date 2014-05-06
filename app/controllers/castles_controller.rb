@@ -1,5 +1,5 @@
 class CastlesController < ApplicationController
-  before_action :set_castle, only: [:show, :edit, :update, :destroy]
+  before_action :set_castle, only: [:edit, :update, :destroy]
 
   # GET /castles
   # GET /castles.json
@@ -10,6 +10,7 @@ class CastlesController < ApplicationController
   # GET /castles/1
   # GET /castles/1.json
   def show
+    @castle = Castle.includes(:buildings).find(params[:id])
   end
 
   # GET /castles/new

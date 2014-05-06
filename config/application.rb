@@ -22,5 +22,6 @@ module GoodAndEvilKings
 	
 	config.eager_load_paths += ["#{Rails.root}/lib"]
 	config.eager_load_paths += ["#{Rails.root}/app/models/missions"]
+	config.eager_load_paths += ["#{Rails.root}/app/models/building_types"]
   end
 end
