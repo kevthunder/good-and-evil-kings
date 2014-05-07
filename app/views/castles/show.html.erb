@@ -10,8 +10,23 @@
   <%= @castle.kingdom %>
 </p>
 
-<%= link_to 'Edit', edit_castle_path(@castle) %> |
-<%= link_to 'Back', castles_path %>
+<div class="stocks">
+  <%= render @castle.stocks %>
+</div>
+
+<div class="garrisons">
+  <%= render @castle.garrisons %>
+</div>
+<ul class="actions">
+  <li><%= link_to 'Edit', edit_castle_path(@castle) %></li>
+  <li><%= link_to 'Back', castles_path %></li>
+  <% if user_signed_in? %>
+    <li><%= link_to 'Mission', new_castle_mission_path(@castle.id) %></li>
+  <% end %>
+  <% if @castle.owned_by?(current_user) %>
+    <li><%= link_to 'Recrute', new_castle_garrison_path(@castle.id) %></li>
+  <% end %>
+</ul>
 
 <div class="graphics">
   <%= render 'elevations', :size => 200 %>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140505232001) do
+ActiveRecord::Schema.define(version: 20140507004517) do
 
   create_table "actions", force: true do |t|
     t.datetime "time"
@@ -60,6 +60,7 @@ ActiveRecord::Schema.define(version: 20140505232001) do
     t.string   "garrisonable_type"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "ready"
   end
 
   add_index "garrisons", ["garrisonable_id", "garrisonable_type"], name: "index_garrisons_on_garrisonable_id_and_garrisonable_type"
@@ -134,6 +135,7 @@ ActiveRecord::Schema.define(version: 20140505232001) do
     t.integer  "defence"
     t.integer  "interception"
     t.integer  "carry"
+    t.integer  "recrute_time"
   end
 
   create_table "stocks", force: true do |t|

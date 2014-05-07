@@ -1,11 +1,9 @@
 <div class="elevations">
 <% 
-  half = size / 2
-  quarter = size / 4
   elev = @castle.elevations true
   elev.each_display_order do |x,y,elevation|
-    top = x * quarter + y * quarter + elevation * size / -8
-    left = x * half + y * half * -1 + half * 7
+    top = ElevationDisplay.top(x,y,elevation,size)
+    left = ElevationDisplay.left(x,y,elevation,size)
 %>
   <%= tag("div", {class: 'elevation', posx: x, posy: y, elevation: elevation, style: "top: #{top}px; left: #{left}px"}, true) %>
     <div class="ground"></div>

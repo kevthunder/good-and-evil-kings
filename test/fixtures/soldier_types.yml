@@ -7,6 +7,7 @@ one:
   defence: 1
   interception: 1
   carry: 1
+  recrute_time: 1
 
 two:
   name: MyString
@@ -15,3 +16,4 @@ two:
   defence: 1
   interception: 1
   carry: 1
+  recrute_time: 1

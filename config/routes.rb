@@ -43,6 +43,7 @@ GoodAndEvilKings::Application.routes.draw do
   resources :tiles
   resources :castles do
     resources :missions, only: [:new, :create]
+    resources :garrisons, only: [:new, :create]
   end
 
   # Example resource route with options:

@@ -1,1 +1,9 @@
-<div class="building"></div>
+<% 
+  elev = @castle.elevations true
+  elevation = @castle.elevations.elevation(building.x/2,building.y/2)
+  top = ElevationDisplay.top(building.x,building.y,elevation,size,2)
+  left = ElevationDisplay.left(building.x,building.y,elevation,size,2)
+%>
+<%= tag("div", {class: 'building', style: "top: #{top}px; left: #{left}px"}, true) %>
+  <div class="display"></div>
+</div>

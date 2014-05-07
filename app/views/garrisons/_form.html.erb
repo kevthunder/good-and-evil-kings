@@ -15,18 +15,26 @@
     <%= f.label :qte %><br>
     <%= f.number_field :qte %>
   </div>
-  <div class="field">
-    <%= f.label :kingdom_id %><br>
-    <%= f.text_field :kingdom_id %>
-  </div>
+  
   <div class="field">
     <%= f.label :soldier_type_id %><br>
-    <%= f.text_field :soldier_type_id %>
+    <%= f.collection_select(:soldier_type_id, SoldierType.all, :id, :name) %>
   </div>
-  <div class="field">
-    <%= f.label :garrisonable_id %><br>
-    <%= f.text_field :garrisonable_id %>
-  </div>
+  
+  <% if params.has_key? 'castle_id' %>
+    <%= f.hidden_field :garrisonable_type, :value => 'Castle' %>
+    <%= f.hidden_field :garrisonable_id, :value => params['castle_id'] %>
+  <% else %>
+    <div class="field">
+      <%= f.label :garrisonable_type %><br>
+      <%= f.text_field :garrisonable_type %>
+    </div>
+    <div class="field">
+      <%= f.label :garrisonable_id %><br>
+      <%= f.text_field :garrisonable_id %>
+    </div>
+  <% end %>
+  
   <div class="actions">
     <%= f.submit %>
   </div>

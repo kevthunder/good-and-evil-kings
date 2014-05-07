@@ -1,6 +1,6 @@
 <% 
   classes = ['castle']
-  if user_signed_in? && castle.kingdom.user_id == current_user.id
+  if user_signed_in? && castle.owned_by?(current_user)
     classes.push('mine')
   end
 %>

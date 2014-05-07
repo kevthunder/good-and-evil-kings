@@ -1,5 +1,7 @@
 class GarrisonsController < ApplicationController
   before_action :set_garrison, only: [:show, :edit, :update, :destroy]
+  before_action :set_my_castles, only: [:new, :create, :edit, :update]
+  before_filter :authenticate_user!
 
   # GET /garrisons
   # GET /garrisons.json
@@ -25,6 +27,8 @@ class GarrisonsController < ApplicationController
   # POST /garrisons.json
   def create
     @garrison = Garrison.new(garrison_params)
+    @garrison.kingdom_id = current_user.current_kingdom.id
+    @garrison.recruted
 
     respond_to do |format|
       if @garrison.save
@@ -69,6 +73,6 @@ class GarrisonsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def garrison_params
-      params.require(:garrison).permit(:qte, :kingdom_id, :soldier_type_id, :garrisonable_id, :garrisonable_type)
+      params.require(:garrison).permit(:qte, :soldier_type_id, :garrisonable_id, :garrisonable_type)
     end
 end

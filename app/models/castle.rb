@@ -14,6 +14,10 @@ class Castle < ActiveRecord::Base
     tile.y
   end
   
+  def owned_by?(user)
+    kingdom.user_id == user.id
+  end
+  
   def elevations(save=false)
     if @elevations.nil?
       @elevations = Elevations.new(elevations_map)

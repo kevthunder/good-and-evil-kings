@@ -9,7 +9,13 @@ class Garrison < ActiveRecord::Base
   def can_unite?(garrison)
     soldier_type_id == garrison.soldier_type_id && kingdom_id == garrison.kingdom_id
   end
+  
+  def recruted
+    ready = Time.now + soldier_type.recrute_time
+  end
 
+  scope :ready, -> { where(ready: nil) }
+  
   scope :match_garrisons, (lambda do |garrisons|
     garrisons = [garrisons] unless garrisons.respond_to?('each')
 
@@ -61,7 +67,7 @@ class Garrison < ActiveRecord::Base
     def attack_cost(garrisonable)
       att_data = get_battle_data('attack')
       total_att = att_data.sum { |d| d[:power] }
-      def_data = garrisonable.garrisons.get_battle_data('defence')
+      def_data = garrisonable.garrisons.ready.get_battle_data('defence')
       total_def = def_data.sum { |d| d[:power] }
       cost = [total_att,total_def,[total_att,total_def].sum * 3 / 8].min
       att_casualties = att_data.map do |d| 
@@ -79,7 +85,7 @@ class Garrison < ActiveRecord::Base
       garrisons = [garrisons] unless garrisons.respond_to?('each')
 
       garrisons = garrisons.to_a
-      match = match_garrisons(garrisons).to_a
+      match = ready.match_garrisons(garrisons).to_a
 
       garrisons.each do |garrison|
         matched = match.select { |g| g.can_unite?(garrison) }.first

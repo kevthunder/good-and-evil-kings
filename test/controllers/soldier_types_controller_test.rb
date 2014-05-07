@@ -18,7 +18,7 @@ class SoldierTypesControllerTest < ActionController::TestCase
 
   test "should create soldier_type" do
     assert_difference('SoldierType.count') do
-      post :create, soldier_type: { attack: @soldier_type.attack, carry: @soldier_type.carry, defence: @soldier_type.defence, interception: @soldier_type.interception, name: @soldier_type.name, speed: @soldier_type.speed }
+      post :create, soldier_type: { attack: @soldier_type.attack, carry: @soldier_type.carry, defence: @soldier_type.defence, interception: @soldier_type.interception, name: @soldier_type.name, recrute_time: @soldier_type.recrute_time, speed: @soldier_type.speed }
     end
 
     assert_redirected_to soldier_type_path(assigns(:soldier_type))
@@ -35,7 +35,7 @@ class SoldierTypesControllerTest < ActionController::TestCase
   end
 
   test "should update soldier_type" do
-    patch :update, id: @soldier_type, soldier_type: { attack: @soldier_type.attack, carry: @soldier_type.carry, defence: @soldier_type.defence, interception: @soldier_type.interception, name: @soldier_type.name, speed: @soldier_type.speed }
+    patch :update, id: @soldier_type, soldier_type: { attack: @soldier_type.attack, carry: @soldier_type.carry, defence: @soldier_type.defence, interception: @soldier_type.interception, name: @soldier_type.name, recrute_time: @soldier_type.recrute_time, speed: @soldier_type.speed }
     assert_redirected_to soldier_type_path(assigns(:soldier_type))
   end
 

@@ -5,7 +5,7 @@ module GarrisonCollection
       else
         garrisons = to_a
       end
-      match = garrisonable.garrisons.match_garrisons(garrisons).to_a
+      match = garrisonable.garrisons.ready.match_garrisons(garrisons).to_a
 
       garrisons.each do |garrison|
         matched = match.select { |g| g.can_unite?(garrison) }.first
@@ -26,7 +26,7 @@ module GarrisonCollection
       else
         garrisons = to_a
       end
-      match = garrisonable.garrisons.match_garrisons(garrisons).to_a
+      match = garrisonable.garrisons.ready.match_garrisons(garrisons).to_a
 
       garrisons.each do |garrison|
         matched = match.select { |g| g.can_unite?(garrison) }.first

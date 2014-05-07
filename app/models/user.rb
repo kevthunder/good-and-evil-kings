@@ -7,4 +7,7 @@ class User < ActiveRecord::Base
   def castles 
     Castle.joins(:kingdom).where(:kingdoms => {:user_id => id});
   end
+  def current_kingdom 
+    kingdom.first
+  end
 end
