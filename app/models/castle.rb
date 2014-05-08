@@ -15,7 +15,7 @@ class Castle < ActiveRecord::Base
   end
   
   def owned_by?(user)
-    kingdom.user_id == user.id
+    !user.nil? && kingdom.user_id == user.id
   end
   
   def elevations(save=false)

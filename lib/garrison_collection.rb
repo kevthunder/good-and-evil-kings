@@ -34,9 +34,7 @@ module GarrisonCollection
           garrison.garrisonable = garrisonable
           garrison.save
         else
-          matched.qte += garrison.qte
-          matched.save
-          garrison.destroy
+          garrison.add_to(matched);
         end
       end
     end

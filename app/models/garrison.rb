@@ -10,10 +10,32 @@ class Garrison < ActiveRecord::Base
     soldier_type_id == garrison.soldier_type_id && kingdom_id == garrison.kingdom_id
   end
   
+  def add_to(garrison)
+    garrison.qte += qte
+    garrison.save!
+    destroy!
+  end
+  
   def recruted
     ready = Time.now + soldier_type.recrute_time
   end
 
+  def merge
+    match = garrisonable.garrisons.ready.match_garrisons self
+    matched = match.count > 1
+    if matched
+      add_to(matched.first);
+    end
+    matched
+  end
+  
+  def on_ready
+    unless merge
+      ready = null
+      save!
+    end
+  end
+  
   scope :ready, -> { where(ready: nil) }
   
   scope :match_garrisons, (lambda do |garrisons|
@@ -33,7 +55,15 @@ class Garrison < ActiveRecord::Base
     where(or_conds.join(' OR '), replace)
   end)
 
+  scope :to_update, -> { where('ready < ?', Time.now) }
+
   class << self
+    def update
+      to_update.each do |garrison|
+        garrison.on_ready
+      end
+    end
+    
     def qte
       sum 'qte'
     end

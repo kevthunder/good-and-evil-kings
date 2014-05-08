@@ -1,5 +1,9 @@
+<% 
+  stocks_prop = :stocks if stocks_prop.nil?
+  add_label = "Add a stock" if add_label.nil?
+%>
 <div id="stocks">
-  <table id="stocks">
+  <table>
     <thead>
       <tr>
         <th>Qte</th>
@@ -7,7 +11,7 @@
         <th></th>
       </tr>
     </thead>
-    <%= form.fields_for :stocks, :wrapper => false do |stock_form| %>
+    <%= form.fields_for stocks_prop, :wrapper => false do |stock_form| %>
       <tr class="fields">
         <td><%= stock_form.number_field :qte %></td>
         <td><%= stock_form.collection_select(:ressource_id, Ressource.all, :id, :name) %></td>
@@ -15,5 +19,5 @@
       </tr>
     <% end %>
   </table>
-  <p><%= form.link_to_add "Add a stock", :stocks, :data => { :target => "#stocks" }  %></p>
+  <p><%= form.link_to_add add_label, stocks_prop, :data => { :target => "#stocks table" }  %></p>
 </div>

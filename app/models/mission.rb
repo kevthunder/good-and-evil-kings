@@ -1,4 +1,5 @@
 class Mission < ActiveRecord::Base
+  Updater.add_updated self
   belongs_to :mission_type, primary_key: 'class_name', foreign_key: 'type'
   belongs_to :mission_status, primary_key: 'code', foreign_key: 'mission_status_code'
   belongs_to :castle
@@ -51,6 +52,15 @@ class Mission < ActiveRecord::Base
 
   scope :to_update, -> { where('next_event < ?', Time.now) }
 
+  
+  class << self
+    def update
+      to_update.each do |mission|
+        mission.next
+      end
+    end
+  end
+  
   private
 
   def start_behavior

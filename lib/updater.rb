@@ -1,9 +1,15 @@
 class Updater
-
+  @@updated = []
   class << self
+    def add_updated(obj)
+      if obj.respond_to?(:update)
+        @@updated.push(obj)
+      end
+    end
+    
     def update
-      Mission.to_update.each do |mission|
-        mission.next
+      @@updated.each do |obj|
+        obj.update
       end
     end
   end
