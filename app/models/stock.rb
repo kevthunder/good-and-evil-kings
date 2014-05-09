@@ -66,15 +66,8 @@ class Stock < ActiveRecord::Base
       end
     end
     
+    include StockCollection
     
-    def add_to(stockable)
-      stocks = all.to_a
-      match = stockable.stocks.match_stocks(stocks).load
-
-      stocks.each do |s|
-        s.tranfer(stockable,true,match)
-      end
-    end
     
   end
 end

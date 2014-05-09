@@ -16,8 +16,17 @@ class Garrison < ActiveRecord::Base
     destroy!
   end
   
+  def buy
+    recruted
+    cost.subtract_from garrisonable
+  end
+  
   def recruted
     ready = Time.now + soldier_type.recrute_time
+  end
+  
+  def cost
+    costs = soldier_type.costs.multiply(qte)
   end
 
   def merge
