@@ -1,7 +1,7 @@
 == Good and evil kings
 
 TODO
-* use Use Single Table Inheritance instead of MissionsBehavior
+* building_time and costs for building types
 
 
 Scaffolds

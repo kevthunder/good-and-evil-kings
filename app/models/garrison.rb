@@ -5,7 +5,16 @@ class Garrison < ActiveRecord::Base
   belongs_to :kingdom
   belongs_to :soldier_type
   belongs_to :garrisonable, polymorphic: true
-
+  validate :able_to_buy, on: :create
+  before_create :on_recruted
+  after_create :buy
+ 
+  attr_accessor :recruted
+  
+  def initialize
+    @buying = false
+  end
+  
   def can_unite?(garrison)
     soldier_type_id == garrison.soldier_type_id && kingdom_id == garrison.kingdom_id
   end
@@ -16,13 +25,20 @@ class Garrison < ActiveRecord::Base
     destroy!
   end
   
-  def buy
-    recruted
-    cost.subtract_from garrisonable
+  def able_to_buy
+    errors.add(:qte, "is too big. Cant afford that much.") unless can_buy? || !recruted
   end
   
-  def recruted
-    ready = Time.now + soldier_type.recrute_time
+  def can_buy?
+    return cost.can_subtract_from? garrisonable
+  end
+  
+  def buy
+    cost.subtract_from garrisonable if recruted
+  end
+  
+  def on_recruted
+    ready = Time.now + soldier_type.recrute_time if recruted
   end
   
   def cost

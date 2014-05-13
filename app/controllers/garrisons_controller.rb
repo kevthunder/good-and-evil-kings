@@ -28,7 +28,7 @@ class GarrisonsController < ApplicationController
   def create
     @garrison = Garrison.new(garrison_params)
     @garrison.kingdom_id = current_user.current_kingdom.id
-    @garrison.buy
+    @garrison.recruted = true
 
     respond_to do |format|
       if @garrison.save
