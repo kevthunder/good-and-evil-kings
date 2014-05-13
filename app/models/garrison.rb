@@ -9,7 +9,10 @@ class Garrison < ActiveRecord::Base
   before_create :on_recruted
   after_create :buy
  
-  attr_accessor :recruted
+  include Buyable
+  alias_attribute :recruted, :bougth
+  alias_method :buyer, :garrisonable
+  alias_method :buyable_type, :soldier_type
   
   def initialize
     @buying = false
@@ -25,26 +28,6 @@ class Garrison < ActiveRecord::Base
     destroy!
   end
   
-  def able_to_buy
-    errors.add(:qte, "is too big. Cant afford that much.") unless can_buy? || !recruted
-  end
-  
-  def can_buy?
-    return cost.can_subtract_from? garrisonable
-  end
-  
-  def buy
-    cost.subtract_from garrisonable if recruted
-  end
-  
-  def on_recruted
-    ready = Time.now + soldier_type.recrute_time if recruted
-  end
-  
-  def cost
-    costs = soldier_type.costs.multiply(qte)
-  end
-
   def merge
     match = garrisonable.garrisons.ready.match_garrisons self
     matched = match.count > 1
@@ -60,8 +43,6 @@ class Garrison < ActiveRecord::Base
       save!
     end
   end
-  
-  scope :ready, -> { where(ready: nil) }
   
   scope :match_garrisons, (lambda do |garrisons|
     garrisons = [garrisons] unless garrisons.respond_to?('each')
@@ -80,15 +61,7 @@ class Garrison < ActiveRecord::Base
     where(or_conds.join(' OR '), replace)
   end)
 
-  scope :to_update, -> { where('ready < ?', Time.now) }
-
   class << self
-    def update
-      to_update.each do |garrison|
-        garrison.on_ready
-      end
-    end
-    
     def qte
       sum 'qte'
     end

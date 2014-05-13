@@ -69,6 +69,6 @@ class BuildingTypesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def building_type_params
-      params.require(:building_type).permit(:name, :type)
+      params.require(:building_type).permit(:name, :type, :build_time, costs_attributes: [:qte, :ressource_id, :id, :_destroy])
     end
 end

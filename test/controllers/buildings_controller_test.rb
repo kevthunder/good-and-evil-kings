@@ -18,7 +18,7 @@ class BuildingsControllerTest < ActionController::TestCase
 
   test "should create building" do
     assert_difference('Building.count') do
-      post :create, building: { building_type_id: @building.building_type_id, castle_id: @building.castle_id, x: @building.x, y: @building.y }
+      post :create, building: { building_type_id: @building.building_type_id, castle_id: @building.castle_id, ready: @building.ready, x: @building.x, y: @building.y }
     end
 
     assert_redirected_to building_path(assigns(:building))
@@ -35,7 +35,7 @@ class BuildingsControllerTest < ActionController::TestCase
   end
 
   test "should update building" do
-    patch :update, id: @building, building: { building_type_id: @building.building_type_id, castle_id: @building.castle_id, x: @building.x, y: @building.y }
+    patch :update, id: @building, building: { building_type_id: @building.building_type_id, castle_id: @building.castle_id, ready: @building.ready, x: @building.x, y: @building.y }
     assert_redirected_to building_path(assigns(:building))
   end
 

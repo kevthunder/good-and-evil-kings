@@ -7,6 +7,7 @@
       <th>Y</th>
       <th>Building type</th>
       <th>Castle</th>
+      <th>Ready</th>
       <th></th>
       <th></th>
       <th></th>
@@ -20,6 +21,7 @@
         <td><%= building.y %></td>
         <td><%= building.building_type %></td>
         <td><%= building.castle %></td>
+        <td><%= building.ready %></td>
         <td><%= link_to 'Show', building %></td>
         <td><%= link_to 'Edit', edit_building_path(building) %></td>
         <td><%= link_to 'Destroy', building, method: :delete, data: { confirm: 'Are you sure?' } %></td>

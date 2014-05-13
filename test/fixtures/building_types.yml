@@ -3,7 +3,9 @@
 one:
   name: MyString
   type: 
+  build_time: 1
 
 two:
   name: MyString
   type: 
+  build_time: 1

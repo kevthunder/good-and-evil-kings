@@ -27,6 +27,7 @@ class BuildingsController < ApplicationController
   # POST /buildings.json
   def create
     @building = Building.new(building_params)
+    @building.bougth = true
 
     respond_to do |format|
       if @building.save
@@ -71,6 +72,6 @@ class BuildingsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def building_params
-      params.require(:building).permit(:x, :y, :building_type_id, :castle_id)
+      params.require(:building).permit(:x, :y, :building_type_id, :castle_id, :ready)
     end
 end

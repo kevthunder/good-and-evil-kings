@@ -5,7 +5,7 @@ module StockCollection
       else
         stocks = to_a
       end
-      match = stockable.stocks.ready.match_stocks(stocks).to_a
+      match = stockable.stocks.match_stocks(stocks).to_a
 
       stocks.each do |stock|
         matched = match.select { |g| g.can_unite?(stock) }.first
@@ -20,7 +20,7 @@ module StockCollection
       else
         stocks = to_a
       end
-      match = stockable.stocks.ready.match_stocks(stocks).to_a
+      match = stockable.stocks.match_stocks(stocks).to_a
 
       stocks.each do |stock|
         matched = match.select { |g| g.can_unite?(stock) }.first
@@ -49,7 +49,7 @@ module StockCollection
     end
     
     def multiply(num)
-      StockList.new(map do |stock|
+      StockList.new(all.map do |stock|
         Stock.new(qte: stock.qte*num, ressource_id: stock.ressource_id)
       end)
     end

@@ -1,3 +1,3 @@
 class StockList < Array
-    include GarrisonCollection
+    include StockCollection
 end
