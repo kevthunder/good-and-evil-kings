@@ -55,6 +55,16 @@ class Elevations
     end
   end
   
+  def flat_zone?(zone)
+    firstlvl = elevation(zone.x1,zone.y1)
+    (zone.x1..zone.x2).each do |x|
+      (zone.y1..zone.y2).each do |y|
+        return false unless elevation(x,y) == firstlvl
+      end
+    end
+    true
+  end
+  
   private 
   
   def _elevation(x,y,val=nil)

@@ -1,7 +1,8 @@
 == Good and evil kings
 
 TODO
-* building placement constraints
+* incomes
+* modificators
 
 
 Scaffolds
