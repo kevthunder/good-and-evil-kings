@@ -4,8 +4,12 @@ one:
   name: MyString
   type: 
   build_time: 1
+  size_x: 1
+  size_y: 1
 
 two:
   name: MyString
   type: 
   build_time: 1
+  size_x: 1
+  size_y: 1

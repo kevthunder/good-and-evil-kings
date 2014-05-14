@@ -15,5 +15,15 @@
   <%= @building_type.build_time %>
 </p>
 
+<p>
+  <strong>Size x:</strong>
+  <%= @building_type.size_x %>
+</p>
+
+<p>
+  <strong>Size y:</strong>
+  <%= @building_type.size_y %>
+</p>
+
 <%= link_to 'Edit', edit_building_type_path(@building_type) %> |
 <%= link_to 'Back', building_types_path %>

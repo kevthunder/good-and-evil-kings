@@ -5,19 +5,12 @@ class Garrison < ActiveRecord::Base
   belongs_to :kingdom
   belongs_to :soldier_type
   belongs_to :garrisonable, polymorphic: true
-  validate :able_to_buy, on: :create
-  before_create :on_recruted
-  after_create :buy
  
   include Buyable
   alias_attribute :recruted, :bougth
   alias_method :buyer, :garrisonable
   alias_method :buyable_type, :soldier_type
-  
-  def initialize
-    @buying = false
-  end
-  
+
   def can_unite?(garrison)
     soldier_type_id == garrison.soldier_type_id && kingdom_id == garrison.kingdom_id
   end

@@ -23,6 +23,14 @@
     <%= f.label :build_time %><br>
     <%= f.number_field :build_time %>
   </div>
+  <div class="field">
+    <%= f.label :size_x %><br>
+    <%= f.number_field :size_x %>
+  </div>
+  <div class="field">
+    <%= f.label :size_y %><br>
+    <%= f.number_field :size_y %>
+  </div>
   
   <%= render 'stocks/nested_form', :form => f, :stocks_prop => :costs, :add_label => "Add cost" %>
   
