@@ -8,7 +8,7 @@ module StockCollection
       match = stockable.stocks.match_stocks(stocks).to_a
 
       stocks.each do |stock|
-        matched = match.select { |g| g.can_unite?(stock) }.first
+        matched = match.select { |s| s.can_unite?(stock) }.first
         return false if matched.nil? || matched.qte < stock.qte
       end
       true
@@ -23,7 +23,7 @@ module StockCollection
       match = stockable.stocks.match_stocks(stocks).to_a
 
       stocks.each do |stock|
-        matched = match.select { |g| g.can_unite?(stock) }.first
+        matched = match.select { |s| s.can_unite?(stock) }.first
         return false if matched.nil? || matched.qte < stock.qte
         if matched.qte == stock.qte
           matched.destroy

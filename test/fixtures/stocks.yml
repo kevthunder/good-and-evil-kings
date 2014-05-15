@@ -5,9 +5,11 @@ one:
   ressource_id: 
   stockable_id: 
   stockable_type: Stockable
+  type: 
 
 two:
   qte: 1
   ressource_id: 
   stockable_id: 
   stockable_type: Stockable
+  type: 

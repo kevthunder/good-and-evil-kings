@@ -1,10 +1,16 @@
 class Castle < ActiveRecord::Base
   belongs_to :kingdom
   has_one :tile, as: :tiled, dependent: :destroy, validate: :true
-  has_many :stocks, as: :stockable
+  has_many :incomes, -> { where(type: 'Income') }, as: :stockable
+  has_many :stocks, -> { where(type: nil) }, as: :stockable
   has_many :garrisons, as: :garrisonable
   has_many :buildings
   serialize :elevations_map, Array
+  
+  def stocks
+    incomes.apply self
+    super
+  end
 
   def x
     tile.x

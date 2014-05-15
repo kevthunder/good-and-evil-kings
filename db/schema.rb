@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140514000142) do
+ActiveRecord::Schema.define(version: 20140515012040) do
 
   create_table "actions", force: true do |t|
     t.datetime "time"
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(version: 20140514000142) do
     t.datetime "updated_at"
     t.integer  "kingdom_id"
     t.string   "elevations_map"
+    t.datetime "incomes_date"
   end
 
   add_index "castles", ["kingdom_id"], name: "index_castles_on_kingdom_id"
@@ -149,10 +150,12 @@ ActiveRecord::Schema.define(version: 20140514000142) do
     t.string   "stockable_type"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "type"
   end
 
   add_index "stocks", ["ressource_id"], name: "index_stocks_on_ressource_id"
   add_index "stocks", ["stockable_id", "stockable_type"], name: "index_stocks_on_stockable_id_and_stockable_type"
+  add_index "stocks", ["type"], name: "index_stocks_on_type"
 
   create_table "tiles", force: true do |t|
     t.integer  "x"

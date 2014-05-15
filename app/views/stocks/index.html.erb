@@ -6,6 +6,7 @@
       <th>Qte</th>
       <th>Ressource</th>
       <th>Stockable</th>
+      <th>Type</th>
       <th></th>
       <th></th>
       <th></th>
@@ -18,6 +19,7 @@
         <td><%= stock.qte %></td>
         <td><%= stock.ressource %></td>
         <td><%= stock.stockable %></td>
+        <td><%= stock.type %></td>
         <td><%= link_to 'Show', stock %></td>
         <td><%= link_to 'Edit', edit_stock_path(stock) %></td>
         <td><%= link_to 'Destroy', stock, method: :delete, data: { confirm: 'Are you sure?' } %></td>

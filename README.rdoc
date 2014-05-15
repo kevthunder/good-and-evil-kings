@@ -11,3 +11,5 @@ Scaffolds
 * rails g scaffold mission_statuses name:string code:string --skip-migration
 * rails g scaffold buildings x:integer y:integer building_type:references castle:references ready:datetime --skip-migration
 * rails g scaffold building_types name:string type:string build_time:integer size_x:integer size_y:integer --skip-migration
+* rails g scaffold building_types name:string type:string build_time:integer size_x:integer size_y:integer --skip-migration
+* rails g scaffold stocks qte:integer ressource:references stockable:references{polymorphic} type:string --skip-migration

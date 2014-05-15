@@ -7,6 +7,10 @@ class Stock < ActiveRecord::Base
     ressource_id == stock.ressource_id
   end
   
+  def self.model_name
+    return super if self == Mission
+    Mission.model_name
+  end
   
   def match_in(stocks)
     if(!stocks.respond_to?('where') || stocks.loaded?)
@@ -16,7 +20,7 @@ class Stock < ActiveRecord::Base
     end
   end
   
-  def tranfer(stockable,number = true,match = nil)
+  def tranfer(stockable,number = true,match = nil, edit_self = true)
     number = (number === true ? qte : number)
     matched = match_in(match.nil? ? stockable.stocks : match)
     
@@ -24,19 +28,20 @@ class Stock < ActiveRecord::Base
       unless matched.nil?
         matched.qte += number
         matched.save
+      else if !edit_self || number != qte
+        stockable.stocks.create qte: number, ressource_id: ressource_id
       end
-      if number != qte
-        if matched.nil?
-          stockable.stocks.create qte: number, ressource_id: ressource_id
-        end
-        self.qte -= number
-        save
-      else
-        if matched.nil?
-          self.stockable = stockable
+      if edit_self
+        if number != qte
+          self.qte -= number
           save
         else
-          destroy
+          if matched.nil?
+            self.stockable = stockable
+            save
+          else
+            destroy
+          end
         end
       end
     end
