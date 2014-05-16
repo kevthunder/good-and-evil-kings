@@ -1,9 +1,14 @@
 class Income < Stock
+  before_save :must_be_applied
   
   def to_add_since since
     from = (since - updated_at) / (3600/qty)
     to = (DateTime.now - updated_at) / (3600/qty)
     to - from
+  end
+  
+  def must_be_applied
+    stockable.incomes.apply
   end
   
   class << self
