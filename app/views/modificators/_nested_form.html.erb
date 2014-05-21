@@ -1,0 +1,25 @@
+<% 
+  modificators_prop = :modificators if modificators_prop.nil?
+  add_label = "Add a modificator" if add_label.nil?
+%>
+<div id="modificators">
+  <table>
+    <thead>
+      <tr>
+        <th>Num</th>
+        <th>Prop</th>
+        <th>Multiply</th>
+        <th></th>
+      </tr>
+    </thead>
+    <%= form.fields_for modificators_prop, :wrapper => false do |modificator_form| %>
+      <tr class="fields">
+        <td><%= modificator_form.text_field :num %></td>
+        <td><%= modificator_form.text_field :prop %></td>
+        <td><%= modificator_form.check_box :multiply %></td>
+        <td><%= modificator_form.link_to_remove "Remove" %></td>
+      </tr>
+    <% end %>
+  </table>
+  <p><%= form.link_to_add add_label, modificators_prop, :data => { :target => "#modificators table" }  %></p>
+</div>

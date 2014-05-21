@@ -25,20 +25,20 @@ class Stock < ActiveRecord::Base
     matched = match_in(match.nil? ? stockable.stocks : match)
     
     transaction do
-      unless matched.nil?
+      if !matched.nil?
         matched.qte += number
-        matched.save
-      else if !edit_self || number != qte
+        matched.save!
+      elsif !edit_self || number != qte
         stockable.stocks.create qte: number, ressource_id: ressource_id
       end
       if edit_self
         if number != qte
           self.qte -= number
-          save
+          save!
         else
           if matched.nil?
             self.stockable = stockable
-            save
+            save!
           else
             destroy
           end
@@ -52,6 +52,9 @@ class Stock < ActiveRecord::Base
     where ressource_id: stocks.map{ |s| s.ressource_id }
   end)
   
+  scope :renderable, (lambda do 
+    includes(:ressource)
+  end)
   
   class << self
     def qte

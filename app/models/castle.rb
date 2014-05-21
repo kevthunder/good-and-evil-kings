@@ -8,7 +8,7 @@ class Castle < ActiveRecord::Base
   serialize :elevations_map, Array
   
   def stocks
-    incomes.apply self
+    incomes.apply(self)
     super
   end
 

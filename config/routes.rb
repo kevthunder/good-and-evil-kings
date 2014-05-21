@@ -1,5 +1,7 @@
 GoodAndEvilKings::Application.routes.draw do
 
+  resources :modificators
+
   resources :building_types
 
   resources :buildings

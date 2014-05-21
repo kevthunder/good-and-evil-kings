@@ -1,8 +1,8 @@
 == Good and evil kings
 
 TODO
-* incomes
 * modificators
+  * HABTM Polymorphic ?
 
 
 Scaffolds
@@ -13,3 +13,4 @@ Scaffolds
 * rails g scaffold building_types name:string type:string build_time:integer size_x:integer size_y:integer --skip-migration
 * rails g scaffold building_types name:string type:string build_time:integer size_x:integer size_y:integer --skip-migration
 * rails g scaffold stocks qte:integer ressource:references stockable:references{polymorphic} type:string --skip-migration
+* rails g scaffold modificator prop:string num:float multiply:boolean modifiable:references{polymorphic} applier:references{polymorphic} --skip-migration

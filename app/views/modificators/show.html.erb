@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Prop:</strong>
+  <%= @modificator.prop %>
+</p>
+
+<p>
+  <strong>Num:</strong>
+  <%= @modificator.num %>
+</p>
+
+<p>
+  <strong>Multiply:</strong>
+  <%= @modificator.multiply %>
+</p>
+
+<p>
+  <strong>Modifiable:</strong>
+  <%= @modificator.modifiable %>
+</p>
+
+<p>
+  <strong>Applier:</strong>
+  <%= @modificator.applier %>
+</p>
+
+<%= link_to 'Edit', edit_modificator_path(@modificator) %> |
+<%= link_to 'Back', modificators_path %>

@@ -1,0 +1,35 @@
+<h1>Listing modificators</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Prop</th>
+      <th>Num</th>
+      <th>Multiply</th>
+      <th>Modifiable</th>
+      <th>Applier</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @modificators.each do |modificator| %>
+      <tr>
+        <td><%= modificator.prop %></td>
+        <td><%= modificator.num %></td>
+        <td><%= modificator.multiply %></td>
+        <td><%= modificator.modifiable %></td>
+        <td><%= modificator.applier %></td>
+        <td><%= link_to 'Show', modificator %></td>
+        <td><%= link_to 'Edit', edit_modificator_path(modificator) %></td>
+        <td><%= link_to 'Destroy', modificator, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Modificator', new_modificator_path %>

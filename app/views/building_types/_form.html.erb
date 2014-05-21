@@ -33,6 +33,7 @@
   </div>
   
   <%= render 'stocks/nested_form', :form => f, :stocks_prop => :costs, :add_label => "Add cost" %>
+  <%= render 'modificators/nested_form', :form => f %>
   
   <div class="actions">
     <%= f.submit %>

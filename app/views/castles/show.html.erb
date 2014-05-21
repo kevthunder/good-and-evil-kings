@@ -11,11 +11,11 @@
 </p>
 
 <div class="stocks">
-  <%= render @castle.stocks %>
+  <%= render @castle.stocks.renderable %>
 </div>
 
 <div class="garrisons">
-  <%= render @castle.garrisons %>
+  <%= render @castle.garrisons.renderable %>
 </div>
 <ul class="actions">
   <li><%= link_to 'Edit', edit_castle_path(@castle) %></li>

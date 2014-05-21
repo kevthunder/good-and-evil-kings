@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140515012040) do
+ActiveRecord::Schema.define(version: 20140521013557) do
 
   create_table "actions", force: true do |t|
     t.datetime "time"
@@ -110,6 +110,21 @@ ActiveRecord::Schema.define(version: 20140515012040) do
   add_index "missions", ["castle_id"], name: "index_missions_on_castle_id"
   add_index "missions", ["mission_status_code"], name: "index_missions_on_mission_status_code"
   add_index "missions", ["target_id", "target_type"], name: "index_missions_on_target_id_and_target_type"
+
+  create_table "modificators", force: true do |t|
+    t.string   "prop"
+    t.float    "num"
+    t.boolean  "multiply",        default: false, null: false
+    t.integer  "modifiable_id"
+    t.string   "modifiable_type"
+    t.integer  "applier_id"
+    t.string   "applier_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "modificators", ["applier_id", "applier_type"], name: "index_modificators_on_applier_id_and_applier_type"
+  add_index "modificators", ["modifiable_id", "modifiable_type"], name: "index_modificators_on_modifiable_id_and_modifiable_type"
 
   create_table "movements", force: true do |t|
     t.datetime "start_time"

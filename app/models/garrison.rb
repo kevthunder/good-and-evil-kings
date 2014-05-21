@@ -53,6 +53,10 @@ class Garrison < ActiveRecord::Base
 
     where(or_conds.join(' OR '), replace)
   end)
+  
+  scope :renderable, (lambda do 
+    includes(:soldier_type)
+  end)
 
   class << self
     def qte

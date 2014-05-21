@@ -1,0 +1,37 @@
+<%= form_for(@modificator) do |f| %>
+  <% if @modificator.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@modificator.errors.count, "error") %> prohibited this modificator from being saved:</h2>
+
+      <ul>
+      <% @modificator.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :prop %><br>
+    <%= f.text_field :prop %>
+  </div>
+  <div class="field">
+    <%= f.label :num %><br>
+    <%= f.text_field :num %>
+  </div>
+  <div class="field">
+    <%= f.label :multiply %><br>
+    <%= f.check_box :multiply %>
+  </div>
+  <div class="field">
+    <%= f.label :modifiable_id %><br>
+    <%= f.text_field :modifiable_id %>
+  </div>
+  <div class="field">
+    <%= f.label :applier_id %><br>
+    <%= f.text_field :applier_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
