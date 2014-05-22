@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  modificator_id: 
+  modifiable_id: 
+  modifiable_type: Modifiable
+  applier_id: 
+  applier_type: Applier
+
+two:
+  modificator_id: 
+  modifiable_id: 
+  modifiable_type: Modifiable
+  applier_id: 
+  applier_type: Applier

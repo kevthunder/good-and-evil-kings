@@ -7,6 +7,8 @@ class Castle < ActiveRecord::Base
   has_many :buildings
   serialize :elevations_map, Array
   
+  include Modifiable
+  
   def stocks
     incomes.apply(self)
     super

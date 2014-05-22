@@ -2,8 +2,6 @@
 
 TODO
 * modificators
-  * HABTM Polymorphic ?
-
 
 Scaffolds
 * rails g scaffold missions type:string castle:references target:references{polymorphic} next_event:datetime mission_status_code:string --skip-migration
@@ -14,3 +12,4 @@ Scaffolds
 * rails g scaffold building_types name:string type:string build_time:integer size_x:integer size_y:integer --skip-migration
 * rails g scaffold stocks qte:integer ressource:references stockable:references{polymorphic} type:string --skip-migration
 * rails g scaffold modificator prop:string num:float multiply:boolean modifiable:references{polymorphic} applier:references{polymorphic} --skip-migration
+* rails g scaffold modification modificator:references modifiable:references{polymorphic} applier:references{polymorphic} --skip-resource_route --skip-assets --skip-scaffold_controller --skip-migration
