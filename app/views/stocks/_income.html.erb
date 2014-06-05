@@ -1,0 +1,4 @@
+<div class="income <%= income.ressource.name.underscore %>">
+  <span class="label"><%= income.ressource.name %></span>
+  <span class="qte"><%= (income.qte >= 0 ? '+' : '') + income.qte.to_s %>/h</span>
+</div>

@@ -29,6 +29,7 @@ class Stock < ActiveRecord::Base
         matched.qte += number
         matched.save!
       elsif !edit_self || number != qte
+        debugger
         stockable.stocks.create qte: number, ressource_id: ressource_id
       end
       if edit_self

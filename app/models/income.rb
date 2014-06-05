@@ -2,18 +2,20 @@ class Income < Stock
   before_save :must_be_applied
   
   def to_add_since since
+    debugger
+    return 0 unless qte != 0
     if since.nil?
       since = updated_at
     else
-      since = max(since,updated_at)
+      since = [since,updated_at].max
     end
-    from = (since - updated_at) / (3600/qty)
-    to = (DateTime.now - updated_at) / (3600/qty)
-    to - from
+    from = (since.to_f  - updated_at.to_f ) / (3600/qte)
+    to = (DateTime.now.to_f - updated_at.to_f) / (3600/qte)
+    to.to_i - from.to_i
   end
   
   def must_be_applied
-    stockable.incomes.apply
+    stockable.incomes.apply stockable
   end
   
   class << self
@@ -25,7 +27,7 @@ class Income < Stock
           match = stockable.stocks.match_stocks(incomes).load
           incomes.each do |income|
             add = income.to_add_since stockable.incomes_date
-            income.tranfer(stockable,add,match,false)
+            income.tranfer(stockable,add,match,false) if add != 0
           end
           stockable.incomes_date = DateTime.now
           stockable.save!

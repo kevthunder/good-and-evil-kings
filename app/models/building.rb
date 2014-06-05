@@ -2,6 +2,7 @@ class Building < ActiveRecord::Base
   belongs_to :building_type
   belongs_to :castle
   validate :dont_overlapse, :in_bounds, :on_flat_land
+  after_create :apply_mod
   
   include Buyable
   alias_method :buyer, :castle
@@ -31,6 +32,10 @@ class Building < ActiveRecord::Base
   
   def bounds
     Point.new(16,16)
+  end
+  
+  def apply_mod
+    building_type.modificators.indirect_link_to(castle,self)
   end
   
   scope :overlapsing, (lambda do |building|

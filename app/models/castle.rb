@@ -13,6 +13,21 @@ class Castle < ActiveRecord::Base
     incomes.apply(self)
     super
   end
+  
+  def default_income(id)
+    0
+  end
+  
+  def income(id,val)
+    income = incomes.where(ressource_id: id.to_i).first
+    debugger
+    if(income.nil?) 
+      incomes.create(ressource_id: id.to_i,qte: val.to_i)
+    else
+      income.qte = val.to_i
+      income.save!
+    end
+  end
 
   def x
     tile.x
