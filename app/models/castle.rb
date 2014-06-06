@@ -1,8 +1,9 @@
 class Castle < ActiveRecord::Base
   belongs_to :kingdom
   has_one :tile, as: :tiled, dependent: :destroy, validate: :true
-  has_many :incomes, -> { where(type: 'Income') }, as: :stockable
+  has_many :incomes, as: :stockable
   has_many :stocks, -> { where(type: nil) }, as: :stockable
+  has_many :stocks_raw, class_name: :Stock, as: :stockable
   has_many :garrisons, as: :garrisonable
   has_many :buildings
   serialize :elevations_map, Array
@@ -20,7 +21,6 @@ class Castle < ActiveRecord::Base
   
   def income(id,val)
     income = incomes.where(ressource_id: id.to_i).first
-    debugger
     if(income.nil?) 
       incomes.create(ressource_id: id.to_i,qte: val.to_i)
     else

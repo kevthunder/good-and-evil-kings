@@ -14,7 +14,7 @@ class Modificator < ActiveRecord::Base
     end
   end
   
-  def update_modifiable
+  def update_modifiable()
     modifications.each { |m| m.update_modifiable } unless modifications.count > 10
     modifiable_direct.update_prop_mod(prop) unless modifiable_direct.nil?
   end
@@ -32,6 +32,17 @@ class Modificator < ActiveRecord::Base
       all.each do |m|
         m.indirect_link_to(modifiable, applier)
       end
+    end
+    
+    def each_with_applier(indirect=true)
+      if(indirect){
+        indirect_ids = pluck('modifications.id').to_a
+        modifications = Modification.where(id: indirect_ids).to_a
+        indirect = indirect_ids.map{ |id| modifications.find{ |m| m.id == id } }
+      }
+      all.each_with_index{ |m,i|
+        yield(m, indirect[i] || m.applier)
+      }
     end
   
     def parse_prop_opt(prop)

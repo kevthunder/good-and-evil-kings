@@ -14,6 +14,12 @@ module Modifiable
                                    )
   end
   
+  def update_all_prop_mod() 
+    modificators.group(:prop).pluck(:prop).each do |prop|
+      update_prop_mod(prop)
+    end
+  end
+  
   def update_prop_mod(prop) 
     prop_opt = Modificator.parse_prop_opt(prop)
     val = get_prop_mod(prop)
@@ -21,6 +27,7 @@ module Modifiable
       self.send(prop_opt[:name], *prop_opt[:args], val)
     end
   end
+  
   def get_prop_mod(prop)
     prop_opt = Modificator.parse_prop_opt(prop)
     default = 0
@@ -29,7 +36,7 @@ module Modifiable
       default = self.send(def_method, *prop_opt[:args])
     end
     val = default;
-    mods = Modificator.where(prop: prop).order(:multiply)
+    mods = modificators.where(prop: prop).order(:multiply)
     mods.each do |mod|
       val = mod.apply(val)
     end

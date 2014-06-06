@@ -2,7 +2,6 @@ class Income < Stock
   before_save :must_be_applied
   
   def to_add_since since
-    debugger
     return 0 unless qte != 0
     if since.nil?
       since = updated_at
@@ -19,12 +18,11 @@ class Income < Stock
   end
   
   class << self
-    def apply stockable
+    def apply(stockable)
       if stockable.incomes_date.nil? || stockable.incomes_date + 1 < DateTime.now
         incomes = all.load
         if incomes.to_a.count > 0 # to_a because it's loaded
-          stockable.incomes_date = DateTime.now
-          match = stockable.stocks.match_stocks(incomes).load
+          match = stockable.stocks_raw.unscope(where: :type).where(type: nil).match_stocks(incomes).load # for some reason stockable.stocks has where(type: :income)
           incomes.each do |income|
             add = income.to_add_since stockable.incomes_date
             income.tranfer(stockable,add,match,false) if add != 0

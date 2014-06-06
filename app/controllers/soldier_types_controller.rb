@@ -69,6 +69,10 @@ class SoldierTypesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def soldier_type_params
-      params.require(:soldier_type).permit(:name, :speed, :attack, :defence, :interception, :carry, :recrute_time, costs_attributes: [:qte, :ressource_id, :id, :_destroy])
+      params.require(:soldier_type).permit(
+        :name, :speed, :attack, :defence, :interception, :carry, :recrute_time, 
+        costs_attributes: [:qte, :ressource_id, :id, :_destroy],
+        modificators_attributes: [:num, :prop, :multiply, :id, :_destroy]
+      )
     end
 end
