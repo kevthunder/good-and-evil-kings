@@ -2,8 +2,6 @@
 
 TODO
 * upkeep
-  * Modifiable::get_prop_mod allow applier to alter value
-    * Modificator::each_with_applier
 * max stock
 * interception missions
 

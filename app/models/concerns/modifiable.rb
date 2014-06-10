@@ -37,8 +37,8 @@ module Modifiable
     end
     val = default;
     mods = modificators.where(prop: prop).order(:multiply)
-    mods.each do |mod|
-      val = mod.apply(val)
+    mods.each_with_applier do |mod,applier|
+      val = mod.apply(val,applier)
     end
     val
   end

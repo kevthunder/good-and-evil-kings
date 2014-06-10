@@ -6,7 +6,12 @@ class Modificator < ActiveRecord::Base
   after_create :update_modifiable
   # has_many :modifiable_indirect, :through => :modifications, :source_type => :Modification
   
-  def apply(val)
+  def apply(val,applier = nil)
+    applier = applier || self.applier
+    num = self.num
+    if applier.respond_to?('alter_mod_num')
+      num = applier.alter_mod(self.dup).num
+    end
     if multiply
       val * num
     else
@@ -19,15 +24,15 @@ class Modificator < ActiveRecord::Base
     modifiable_direct.update_prop_mod(prop) unless modifiable_direct.nil?
   end
   
-  def indirect_link_to(modifiable, applier = nil)
-    existing = modifiable.modifications.where( modificator_id: id, applier_id: (applier.nil? ? nil : applier.id) ).first
+  def indirect_link_to(modifiable, applier = nil, create = false)
+    existing = create ? nil : modifiable.modifications.where( modificator_id: id, applier: applier ).first
     if existing.nil?
       modifiable.modifications.create(modificator_id: id, applier: applier )
     end
   end
     
   class << self
-    def indirect_link_to(modifiable, applier = nil) 
+    def indirect_link_to(modifiable, applier = nil, create = false) 
       modifiable.modifications.load
       all.each do |m|
         m.indirect_link_to(modifiable, applier)
@@ -35,13 +40,13 @@ class Modificator < ActiveRecord::Base
     end
     
     def each_with_applier(indirect=true)
-      if(indirect){
+      if indirect
         indirect_ids = pluck('modifications.id').to_a
         modifications = Modification.where(id: indirect_ids).to_a
         indirect = indirect_ids.map{ |id| modifications.find{ |m| m.id == id } }
-      }
+      end
       all.each_with_index{ |m,i|
-        yield(m, indirect[i] || m.applier)
+        yield(m, (indirect[i] || m).applier)
       }
     end
   

@@ -2,11 +2,13 @@ class Building < ActiveRecord::Base
   belongs_to :building_type
   belongs_to :castle
   validate :dont_overlapse, :in_bounds, :on_flat_land
-  after_create :apply_mod
   
   include Buyable
   alias_method :buyer, :castle
   alias_method :buyable_type, :building_type
+  
+  include ModApplier
+  apply_mods_to :castle, provider: :building_type, direct: false
   
   def dont_overlapse
     errors.add(:base, "Cant place building on top of each other.") if overlapse?
@@ -32,10 +34,6 @@ class Building < ActiveRecord::Base
   
   def bounds
     Point.new(16,16)
-  end
-  
-  def apply_mod
-    building_type.modificators.indirect_link_to(castle,self)
   end
   
   scope :overlapsing, (lambda do |building|

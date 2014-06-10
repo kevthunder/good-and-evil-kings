@@ -21,6 +21,11 @@ class Garrison < ActiveRecord::Base
     destroy!
   end
   
+  def alter_mod(mod)
+    mod.num *= qte
+    mod
+  end
+  
   def merge
     match = garrisonable.garrisons.ready.match_garrisons self
     matched = match.count > 1
