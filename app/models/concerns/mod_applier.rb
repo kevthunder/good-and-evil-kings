@@ -23,8 +23,9 @@ module ModApplier
   end
   
   def apply_mods_state_changed?(opt)
-    return true if send(opt[:prop]+"_changed?")
-    return true if !opt[:switch].nil? && send(opt[:switch]+"_changed?")
+    return true if send(opt[:id_prop].to_s + "_changed?")
+    return true if !opt[:type_prop].nil? && send(opt[:type_prop].to_s + "_changed?")
+    return true if !opt[:switch].nil? && send(opt[:switch].to_s + "_changed?")
     false
   end
   
@@ -59,14 +60,13 @@ module ModApplier
   end
   
   module ClassMethods
-    @@apply_mods_opt = []
     attr_writer :apply_mods_opt
     def apply_mods_opt
-      @@apply_mods_opt
+      @apply_mods_opt ||= []
     end
     
     def apply_mods_to(prop,opt)
-      default = {direct: true, switch: nil, provider: nil}
+      default = {direct: true, switch: nil, provider: nil, id_prop: prop.to_s + "_id", type_prop: column_names.include?(prop.to_s + "_type") ? prop.to_s + "_type" : nil }
       self.apply_mods_opt.push(default.merge({prop: prop}.merge(opt)))
     end
     

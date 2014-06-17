@@ -9,7 +9,7 @@ class Modificator < ActiveRecord::Base
   def apply(val,applier = nil)
     applier = applier || self.applier
     num = self.num
-    if applier.respond_to?('alter_mod_num')
+    if applier.respond_to?('alter_mod')
       num = applier.alter_mod(self.dup).num
     end
     if multiply

@@ -10,6 +10,9 @@ class Garrison < ActiveRecord::Base
   alias_attribute :recruted, :bougth
   alias_method :buyer, :garrisonable
   alias_method :buyable_type, :soldier_type
+  
+  include ModApplier
+  apply_mods_to :garrisonable, provider: :soldier_type, direct: false
 
   def can_unite?(garrison)
     soldier_type_id == garrison.soldier_type_id && kingdom_id == garrison.kingdom_id
@@ -126,6 +129,24 @@ class Garrison < ActiveRecord::Base
 
     def calcul_travel_time(pos1, pos2, speed)
       ((pos1.distance(pos2) / speed + 10) * 64).to_i
+    end
+    
+    def get_upkeep_equiv(income)
+      consumers = joins(soldier_type: :modificators).ready.where(
+        'modificators.prop = :prop AND modificators.num < 0', 
+        { :prop => 'income:'+income.ressource_id.to_s }
+      )
+      consumptions = consumers.pluck('garrisons.id, modificators.num, modificators.num * garrisons.qte').to_a
+      total = consumptions.sum{ |r| -r[2].to_i }
+      number = -income.qte
+      taken = consumers.map do |consumer|
+        per_unit = consumptions.first{ |r| r[0].to_i == consumer.id }[1] * -1
+        qte = (consumer.qte * per_unit * number / total / per_unit).ceil
+        number -= (consumer.qte - qte) * per_unit
+        total -= (consumer.qte - qte) * per_unit
+        Garrison.new(qte: qte, soldier_type_id: consumer.soldier_type_id) 
+      end
+      GarrisonList.new(taken);
     end
     
     def kill

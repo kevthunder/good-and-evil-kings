@@ -1,7 +1,8 @@
 == Good and evil kings
 
 TODO
-* upkeep
+* starvation
+  * tests
 * max stock
 * interception missions
 

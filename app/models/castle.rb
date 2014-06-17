@@ -28,6 +28,10 @@ class Castle < ActiveRecord::Base
       income.save!
     end
   end
+  
+  def on_stock_empty(income)
+    garrisons.get_upkeep_equiv(income).subtract_from(self)
+  end
 
   def x
     tile.x
