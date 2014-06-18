@@ -2,9 +2,28 @@ class Stock < ActiveRecord::Base
   belongs_to :ressource
   belongs_to :stockable, polymorphic: true
   
+  before_save :limit_qte
+  
   
   def can_unite?(stock)
     ressource_id == stock.ressource_id
+  end
+  
+  def max
+    stockable.nil? ? nil : (stockable.respond_to?(:max_stock) ? stockable.max_stock(self) : nil)
+  end
+  
+  def min
+    0
+  end
+  
+  def limit_qte
+    unless qte.nil?
+      self.qte = [qte,max].min unless max.nil?
+      self.qte = [qte,min].max unless min.nil?
+    end
+    debugger
+    qte
   end
   
   def self.model_name

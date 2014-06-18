@@ -5,6 +5,8 @@ module Modifiable
     has_many :modificators_direct, class_name: :Modificator, :as => :modifiable
     has_many :modifications, :as => :modifiable
     has_many :modificators_indirect, :through => :modifications
+    
+    after_initialize :init_created_prop_mod
   end
 
   def modificators 
@@ -14,8 +16,12 @@ module Modifiable
                                    )
   end
   
+  def init_created_prop_mod
+    update_all_prop_mod if id.nil?
+  end
+  
   def update_all_prop_mod() 
-    modificators.group(:prop).pluck(:prop).each do |prop|
+    (self.class.prop_mod_list + modificators.group(:prop).pluck(:prop).to_a).uniq{ |p| p.to_s }.each do |prop|
       update_prop_mod(prop)
     end
   end
@@ -23,19 +29,24 @@ module Modifiable
   def update_prop_mod(prop) 
     prop_opt = Modificator.parse_prop_opt(prop)
     val = get_prop_mod(prop)
-    if self.respond_to?( prop_opt[:name] )
+    if self.respond_to?( prop_opt[:name]+"=" )
+      self.send(prop_opt[:name]+"=", *prop_opt[:args], val)
+    elsif self.respond_to?( prop_opt[:name] )
       self.send(prop_opt[:name], *prop_opt[:args], val)
     end
   end
   
-  def get_prop_mod(prop)
+  def default_prop_mod(prop)
     prop_opt = Modificator.parse_prop_opt(prop)
     default = 0
     def_method = 'default_' + prop_opt[:name]
     if self.respond_to?( def_method )
       default = self.send(def_method, *prop_opt[:args])
     end
-    val = default;
+  end
+  
+  def get_prop_mod(prop)
+    val = default_prop_mod(prop);
     mods = modificators.where(prop: prop).order(:multiply)
     mods.each_with_applier do |mod,applier|
       val = mod.apply(val,applier)
@@ -44,7 +55,18 @@ module Modifiable
   end
   
   module ClassMethods
+    attr_writer :prop_mod_list
+    def prop_mod_list
+      @prop_mod_list ||= []
+    end
     
+    def prop_mod(prop,opt = {})
+      self.prop_mod_list.push(prop);
+      
+      unless opt[:default].nil?
+        define_method("default_#{prop}") { opt[:default] }
+      end
+    end
   end
 
 end

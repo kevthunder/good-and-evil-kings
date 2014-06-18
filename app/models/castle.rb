@@ -9,10 +9,15 @@ class Castle < ActiveRecord::Base
   serialize :elevations_map, Array
   
   include Modifiable
+  prop_mod :max_stock, default: 1000
   
   def stocks
     incomes.apply(self)
     super
+  end
+  
+  def max_stock(stock = nil)
+    super()
   end
   
   def default_income(id)

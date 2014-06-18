@@ -10,4 +10,12 @@ class Modification < ActiveRecord::Base
     modifiable.update_prop_mod(modificator.prop) unless modifiable.nil?
   end
   
+  class << self
+    def update_modifiables(modifiable)
+      all.each do |mod|
+        mod.modifiable = modifiable
+        mod.save!
+      end
+    end
+  end
 end

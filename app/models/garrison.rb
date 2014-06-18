@@ -24,6 +24,12 @@ class Garrison < ActiveRecord::Base
     destroy!
   end
   
+  
+  def apply_mods_state_changed?(opt)
+    return true if qte_changed?
+    super(opt)
+  end
+  
   def alter_mod(mod)
     mod.num *= qte
     mod
@@ -132,6 +138,7 @@ class Garrison < ActiveRecord::Base
     end
     
     def get_upkeep_equiv(income)
+      return GarrisonList.new() unless income.qte < 0
       consumers = joins(soldier_type: :modificators).ready.where(
         'modificators.prop = :prop AND modificators.num < 0', 
         { :prop => 'income:'+income.ressource_id.to_s }
@@ -140,10 +147,13 @@ class Garrison < ActiveRecord::Base
       total = consumptions.sum{ |r| -r[2].to_i }
       number = -income.qte
       taken = consumers.map do |consumer|
-        per_unit = consumptions.first{ |r| r[0].to_i == consumer.id }[1] * -1
-        qte = (consumer.qte * per_unit * number / total / per_unit).ceil
-        number -= (consumer.qte - qte) * per_unit
-        total -= (consumer.qte - qte) * per_unit
+        qte = 0
+        if total > 0
+          per_unit = consumptions.first{ |r| r[0].to_i == consumer.id }[1] * -1
+          qte = (consumer.qte * per_unit * number / total / per_unit).ceil
+          number -= (consumer.qte - qte) * per_unit
+          total -= (consumer.qte - qte) * per_unit
+        end
         Garrison.new(qte: qte, soldier_type_id: consumer.soldier_type_id) 
       end
       GarrisonList.new(taken);

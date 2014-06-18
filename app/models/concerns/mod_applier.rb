@@ -37,7 +37,7 @@ module ModApplier
     self.class.apply_mods_opt.each do |opt|
       val = apply_mods?(opt) ? send(opt[:prop]) : nil
       if opt[:direct]
-        modificators_direct.update_all(:modifiable => val)
+        modificators_direct.update_modifiables(val)
       end
       unless opt[:provider].nil?
         send(opt[:provider]).modificators.indirect_link_to(val,self,create)
@@ -50,10 +50,10 @@ module ModApplier
       if apply_mods_state_changed?(opt)
         val = apply_mods?(opt) ? send(opt[:prop]) : nil
         if opt[:direct]
-          modificators_direct.update_all(:modifiable => val)
+          modificators_direct.update_modifiables(val)
         end
         unless opt[:provider].nil?
-          modifications.update_all(:modifiable => val)
+          modifications.update_modifiables(val)
         end
       end
     end

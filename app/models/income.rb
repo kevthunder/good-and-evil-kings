@@ -3,6 +3,14 @@ class Income < Stock
   
   before_save :must_be_applied
   
+  def max
+    nil
+  end
+  
+  def min
+    nil
+  end
+  
   def to_add_since since
     return 0 unless qte != 0
     if since.nil?

@@ -1,10 +1,8 @@
 == Good and evil kings
 
 TODO
-* starvation
-  * tests
-* max stock
 * interception missions
+* coins ?
 
 Scaffolds
 * rails g scaffold missions type:string castle:references target:references{polymorphic} next_event:datetime mission_status_code:string --skip-migration

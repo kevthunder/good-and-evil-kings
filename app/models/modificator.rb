@@ -32,6 +32,13 @@ class Modificator < ActiveRecord::Base
   end
     
   class << self
+    def update_modifiables(modifiable)
+      all.each do |mod|
+        mod.modifiable = modifiable
+        mod.save!
+      end
+    end
+  
     def indirect_link_to(modifiable, applier = nil, create = false) 
       modifiable.modifications.load
       all.each do |m|
@@ -42,7 +49,7 @@ class Modificator < ActiveRecord::Base
     def each_with_applier(indirect=true)
       if indirect
         indirect_ids = pluck('modifications.id').to_a
-        modifications = Modification.where(id: indirect_ids).to_a
+        modifications = Modification.unscoped.where(id: indirect_ids).to_a
         indirect = indirect_ids.map{ |id| modifications.find{ |m| m.id == id } }
       end
       all.each_with_index{ |m,i|
@@ -51,9 +58,10 @@ class Modificator < ActiveRecord::Base
     end
   
     def parse_prop_opt(prop)
+      split = prop.to_s.split(':')
       {
-        name: prop.split(':').first,
-        args: prop.split(':').last.split(';')
+        name: split.first,
+        args: split.length > 1 ? split.last.split(';') : []
       }
     end
   end
