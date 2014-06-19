@@ -1,6 +1,8 @@
 == Good and evil kings
 
 TODO
+* default incomes
+  * simulate allways create new stocks
 * interception missions
 * coins ?
 

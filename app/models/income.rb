@@ -11,16 +11,21 @@ class Income < Stock
     nil
   end
   
-  def to_add_since since
+  def to_add_interval(from, to)
     return 0 unless qte != 0
-    if since.nil?
-      since = updated_at
+    if from.nil?
+      from = updated_at
     else
-      since = [since,updated_at].max
+      from = [from,updated_at].max
     end
-    from = (since.to_f  - updated_at.to_f ) / sec_per_change
-    to = (DateTime.now.to_f - updated_at.to_f) / sec_per_change
-    to.to_i - from.to_i
+    rfrom = (from.to_f  - updated_at.to_f ) / sec_per_change
+    rto = (to.to_f - updated_at.to_f) / sec_per_change
+    rto.to_i - rfrom.to_i
+  end
+  
+  def apply_interval(from, to, match = nil)
+    add = to_add_interval(from, to)
+    tranfer(stockable,add,match,false) if add != 0
   end
   
   def must_be_applied
@@ -94,6 +99,7 @@ class Income < Stock
     do_full_break
   end
   
+  
   scope :to_update, -> { where('breakpoint_time < ?', Time.now) }
   
   class << self
@@ -104,23 +110,45 @@ class Income < Stock
       end
     end
     
-    def apply(stockable)
-      if stockable.incomes_date.nil? || stockable.incomes_date + 1 < DateTime.now
-        incomes = all.load
-        if incomes.to_a.count > 0 # to_a because it's loaded
-          match = get_appliable_stocks(stockable).match_stocks(incomes).load
-          incomes.each do |income|
-            add = income.to_add_since stockable.incomes_date
-            income.tranfer(stockable,add,match,false) if add != 0
-          end
+    def apply(stockable = nil)
+      each_stockable(stockable) do |stockable,incomes|
+        if incomes.apply_interval(stockable.incomes_date,DateTime.now, stockable)
           stockable.incomes_date = DateTime.now
           stockable.save!
         end
       end
     end
     
-    def get_appliable_stocks(stockable)
-      stockable.stocks_raw.unscope(where: :type).where(type: nil) # for some reason stockable.stocks has where(type: :income)
+    def simulate(time, stockable = nil)
+      each_stockable(stockable) do |stockable,incomes|
+        incomes.apply_interval(DateTime.now, DateTime.now+time, stockable)
+      end
     end
+    
+    def each_stockable(stockable = nil)
+      if stockable.nil?
+        all.includes(:stockable).group(:stockable_id,:stockable_id).each do |i|
+          yield i.stockable, where(stockable: i.stockable)
+        end
+      else
+        yield stockable, all
+      end
+    end
+    
+    #private 
+    
+    def apply_interval(from, to, stockable = nil)
+      incomes = all.load
+      if incomes.to_a.count > 0 # to_a because it's loaded
+        match = nil
+        match = get_normal_stocks(stockable).match_stocks(incomes).load unless stockable.nil?
+        incomes.each do |income|
+          #income.stockable = stockable unless stockable.nil?
+          income.apply_interval(from, to, match)
+        end
+        true
+      end
+    end
+    
   end
 end

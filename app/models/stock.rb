@@ -22,7 +22,6 @@ class Stock < ActiveRecord::Base
       self.qte = [qte,max].min unless max.nil?
       self.qte = [qte,min].max unless min.nil?
     end
-    debugger
     qte
   end
   
@@ -48,8 +47,7 @@ class Stock < ActiveRecord::Base
         matched.qte += number
         matched.save!
       elsif !edit_self || number != qte
-        debugger
-        stockable.stocks.create qte: number, ressource_id: ressource_id
+        get_normal_stocks.create qte: number, ressource_id: ressource_id
       end
       if edit_self
         if number != qte
@@ -65,6 +63,10 @@ class Stock < ActiveRecord::Base
         end
       end
     end
+  end
+  
+  def get_normal_stocks
+    self.class.get_normal_stocks(stockable)
   end
   
   scope :match_stocks, (lambda do |stocks|
@@ -92,6 +94,10 @@ class Stock < ActiveRecord::Base
         total -= qte
         s.tranfer(stockable,qte,match)
       end
+    end
+    
+    def get_normal_stocks(stockable)
+      unscoped.where(stockable: stockable).where(type: nil) # for some reason stockable.stocks has where(type: :income)
     end
     
     include StockCollection

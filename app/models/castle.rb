@@ -1,7 +1,7 @@
 class Castle < ActiveRecord::Base
   belongs_to :kingdom
   has_one :tile, as: :tiled, dependent: :destroy, validate: :true
-  has_many :incomes, as: :stockable
+  has_many :incomes, as: :stockable, inverse_of: :stockable
   has_many :stocks, -> { where(type: nil) }, as: :stockable
   has_many :stocks_raw, class_name: :Stock, as: :stockable
   has_many :garrisons, as: :garrisonable
@@ -10,6 +10,9 @@ class Castle < ActiveRecord::Base
   
   include Modifiable
   prop_mod :max_stock, default: 1000
+  prop_mod "income:1"
+  prop_mod "income:2"
+  prop_mod "income:3"
   
   def stocks
     incomes.apply(self)
@@ -21,7 +24,7 @@ class Castle < ActiveRecord::Base
   end
   
   def default_income(id)
-    0
+    10
   end
   
   def income(id,val)
