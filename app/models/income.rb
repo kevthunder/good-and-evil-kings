@@ -106,15 +106,19 @@ class Income < Stock
   
     def update
       to_update.each do |income|
-        income.do_break
+        Stock.unscoped do
+          income.do_break
+        end
       end
     end
     
     def apply(stockable = nil)
       each_stockable(stockable) do |stockable,incomes|
         if incomes.apply_interval(stockable.incomes_date,DateTime.now, stockable)
-          stockable.incomes_date = DateTime.now
-          stockable.save!
+          Stock.unscoped do
+            stockable.incomes_date = DateTime.now
+            stockable.save!
+          end
         end
       end
     end
@@ -135,18 +139,25 @@ class Income < Stock
       end
     end
     
+    def test
+      debugger
+      test = 123
+    end
+    
     #private 
     
     def apply_interval(from, to, stockable = nil)
       incomes = all.load
-      if incomes.to_a.count > 0 # to_a because it's loaded
-        match = nil
-        match = get_normal_stocks(stockable).match_stocks(incomes).load unless stockable.nil?
-        incomes.each do |income|
-          #income.stockable = stockable unless stockable.nil?
-          income.apply_interval(from, to, match)
+      Stock.unscoped do
+        if incomes.to_a.count > 0 # to_a because it's loaded
+          match = nil
+          match = stockable.stocks_raw.where(type: nil).match_stocks(incomes).load unless stockable.nil?
+          incomes.each do |income|
+            #income.stockable = stockable unless stockable.nil?
+            income.apply_interval(from, to, match)
+          end
+          true
         end
-        true
       end
     end
     
