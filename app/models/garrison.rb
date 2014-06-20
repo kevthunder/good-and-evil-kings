@@ -12,7 +12,7 @@ class Garrison < ActiveRecord::Base
   alias_method :buyable_type, :soldier_type
   
   include ModApplier
-  apply_mods_to :garrisonable, provider: :soldier_type, direct: false
+  apply_mods_to :garrisonable, provider: :soldier_type, direct: false, switch: :is_ready
 
   def can_unite?(garrison)
     soldier_type_id == garrison.soldier_type_id && kingdom_id == garrison.kingdom_id
@@ -36,17 +36,19 @@ class Garrison < ActiveRecord::Base
   end
   
   def merge
-    match = garrisonable.garrisons.ready.match_garrisons self
-    matched = match.count > 1
-    if matched
-      add_to(matched.first);
+    if ready.nil?
+      match = garrisonable.garrisons.ready.match_garrisons self
+      matched = match.count > 0
+      if matched
+        add_to(match.first);
+      end
+      matched
     end
-    matched
   end
   
   def on_ready
+    self.ready = nil
     unless merge
-      ready = null
       save!
     end
   end
@@ -58,10 +60,13 @@ class Garrison < ActiveRecord::Base
     replace = {}
     i = 0
     garrisons.each do |garrison|
-      or_conds.push "(soldier_type_id = :soldier_type_id#{i}" \
-        ' AND kingdom_id ' + (garrison.kingdom_id.nil? ? 'IS NULL' : "= :kingdom_id#{i}") + ')'
+      or_conds.push "(soldier_type_id = :soldier_type_id#{i}" + 
+        ' AND kingdom_id ' + (garrison.kingdom_id.nil? ? 'IS NULL' : "= :kingdom_id#{i}") + 
+        " AND id <> :not_id#{i}" + 
+      ')'
       replace[:"soldier_type_id#{i}"] = garrison.soldier_type_id
       replace[:"kingdom_id#{i}"] = garrison.kingdom_id
+      replace[:"not_id#{i}"] = garrison.id
       i += 1
     end
 

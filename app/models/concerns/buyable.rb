@@ -33,11 +33,23 @@ module Buyable
   end
   
   def on_bougth
-    ready = calcul_ready if bougth && readyable
+    self.ready = calcul_ready if bougth && readyable
+  end
+  
+  def is_ready
+    ready.nil?
+  end
+  def is_ready_changed?
+    ready_changed?
   end
   
   def calcul_ready
-    Time.now + buyable_type.buy_time
+    Time.now + buy_time
+  end
+  
+  def on_ready
+    self.ready = nil
+    save!
   end
   
   def cost
@@ -45,7 +57,15 @@ module Buyable
   end
   
   def readyable
-    self.respond_to?(:ready) && buyable_type.respond_to?(:buy_time)
+    self.respond_to?(:ready) && !buy_time.nil?
+  end
+  
+  def buy_time
+    if buyable_type.respond_to?(:buy_time)
+      buyable_type.buy_time 
+    else
+      nil
+    end
   end
   
   module ClassMethods

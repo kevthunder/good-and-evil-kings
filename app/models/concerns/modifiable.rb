@@ -49,7 +49,7 @@ module Modifiable
     val = default_prop_mod(prop);
     mods = modificators.where(prop: prop).order(:multiply)
     mods.each_with_applier do |mod,applier|
-      val = mod.apply(val,applier)
+      val = mod.apply(val,self,applier)
     end
     val
   end

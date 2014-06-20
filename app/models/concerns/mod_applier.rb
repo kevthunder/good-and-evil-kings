@@ -22,6 +22,10 @@ module ModApplier
     true
   end
   
+  def apply_mod?(mod,target)
+    apply_mods?(self.class.apply_mods_opt.first{ |opt| send(opt[:prop_id]) == target.id})
+  end
+  
   def apply_mods_state_changed?(opt)
     return true if send(opt[:id_prop].to_s + "_changed?")
     return true if !opt[:type_prop].nil? && send(opt[:type_prop].to_s + "_changed?")

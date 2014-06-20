@@ -6,9 +6,10 @@ class Modificator < ActiveRecord::Base
   after_create :update_modifiable
   # has_many :modifiable_indirect, :through => :modifications, :source_type => :Modification
   
-  def apply(val,applier = nil)
+  def apply(val,target,applier = nil)
     applier = applier || self.applier
     num = self.num
+    return val if applier.respond_to?('apply_mod?') && !applier.apply_mod?(self,target)
     if applier.respond_to?('alter_mod')
       num = applier.alter_mod(self.dup).num
     end
@@ -25,9 +26,10 @@ class Modificator < ActiveRecord::Base
   end
   
   def indirect_link_to(modifiable, applier = nil, create = false)
-    existing = create ? nil : modifiable.modifications.where( modificator_id: id, applier: applier ).first
+    modifications = modifiable.nil? ? Modification.where(modifiable_id: nil) : modifiable.modifications
+    existing = create ? nil : modifications.where( modificator_id: id, applier: applier ).first
     if existing.nil?
-      modifiable.modifications.create(modificator_id: id, applier: applier )
+      Modification.create(modifiable:modifiable, modificator_id: id, applier: applier )
     end
   end
     
@@ -40,7 +42,7 @@ class Modificator < ActiveRecord::Base
     end
   
     def indirect_link_to(modifiable, applier = nil, create = false) 
-      modifiable.modifications.load
+      modifiable.modifications.load unless modifiable.nil?
       all.each do |m|
         m.indirect_link_to(modifiable, applier)
       end
