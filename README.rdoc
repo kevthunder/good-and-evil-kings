@@ -1,7 +1,9 @@
 == Good and evil kings
 
 TODO
-* coins ?
+* coins
+** Collect Taxes mission
+*** form for each mission types
 * interception missions
 
 Scaffolds

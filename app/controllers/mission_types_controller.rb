@@ -69,6 +69,9 @@ class MissionTypesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def mission_type_params
-      params.require(:mission_type).permit(:name, :class_name)
+      params.require(:mission_type).permit(
+        :name, :class_name,
+        options_attributes: [:name, :val, :id, :_destroy]
+      )
     end
 end

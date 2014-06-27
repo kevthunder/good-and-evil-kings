@@ -18,7 +18,12 @@
   </div>
   <div class="field">
     <%= f.label :type %><br>
-    <%= f.collection_select(:type, MissionType.all, :class_name, :name) %>
+    
+    <% mission_types = params.has_key?('castle_id')   \
+        ? MissionType.allowing_target(Castle.find(params['castle_id']),current_user.current_kingdom) 
+        : MissionType.all
+    %>
+    <%= f.collection_select(:type, mission_types, :class_name, :name) %>
   </div>
   
   <% if params.has_key? 'castle_id' %>

@@ -71,6 +71,10 @@ class MissionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def mission_params
-      params.require(:mission).permit(:castle_id, :type, :mission_status_id, :target_id, :target_type, stocks_attributes: [:qte, :ressource_id, :id, :_destroy], garrisons_attributes: [:qte, :soldier_type_id, :id, :_destroy])
+      params.require(:mission).permit(
+        :castle_id, :type, :mission_status_id, :target_id, :target_type, 
+        stocks_attributes: [:qte, :ressource_id, :id, :_destroy], 
+        garrisons_attributes: [:qte, :soldier_type_id, :id, :_destroy]
+      )
     end
 end

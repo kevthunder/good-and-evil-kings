@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @option.name %>
+</p>
+
+<p>
+  <strong>Val:</strong>
+  <%= @option.val %>
+</p>
+
+<p>
+  <strong>Target:</strong>
+  <%= @option.target %>
+</p>
+
+<%= link_to 'Edit', edit_option_path(@option) %> |
+<%= link_to 'Back', options_path %>
