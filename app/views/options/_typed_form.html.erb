@@ -1,0 +1,22 @@
+<%= form.fields_for :options_attributes do |group_form| %>
+  <% 
+    optsGroups = type.options.to_a.group_by{ |o| o.name }
+    i = 0
+    optsGroups.each_pair do |key,opts|
+  %>
+    <%= group_form.fields_for i.to_s do |option_form| %>
+      <%= option_form.hidden_field(:name, value: key) %>
+      <div class="field">
+        <%= option_form.label :val, key.humanize %><br>
+        <%= 
+          if opts.length == 1
+            option_form.text_field :val 
+          else
+            option_form.collection_select(:val, opts, :val, :read_val)
+          end
+        %>
+      </div>
+    <% end %>
+    <% i += 1 %>
+  <% end %>
+<% end %>

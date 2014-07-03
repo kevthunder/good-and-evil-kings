@@ -10,6 +10,14 @@ class MissionType < ActiveRecord::Base
     return klass.allow_target(target,kingdom) if klass.respond_to?(:allow_target)
     true
   end
+  
+  def needs_field(field_name)
+    klass.needs_field(field_name)
+  end
+  
+  def opt_read_val(opt)
+    klass.opt_read_val(opt)
+  end
 
   class << self
     def allowing_target(target,kingdom)

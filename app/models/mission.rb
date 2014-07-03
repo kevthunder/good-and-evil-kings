@@ -59,6 +59,20 @@ class Mission < ActiveRecord::Base
         mission.next
       end
     end
+    
+    def needs_field(field_name)
+      return send("needs_field_" + field_name.to_s) if respond_to?("needs_field_" + field_name.to_s)
+      false
+    end
+    
+    def needs_field_castle_id
+      true
+    end
+    
+    def opt_read_val(opt)
+      return send("opt_" + opt.name + "_read_val", opt) if respond_to?("opt_" + opt.name + "_read_val")
+      nil
+    end
   end
   
   private

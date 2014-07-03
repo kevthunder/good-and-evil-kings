@@ -59,6 +59,10 @@ class AttackMission < Mission
     def allow_target(target,kingdom)
       target.respond_to?(:kingdom) && target.kingdom != kingdom
     end
+    
+    def needs_field_garrisons
+      true
+    end
   end
   
   private

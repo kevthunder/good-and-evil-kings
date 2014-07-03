@@ -1,5 +1,4 @@
 <%= nested_form_for(@mission, url: params.has_key?('castle_id') ? castle_missions_path(params['castle_id']) : @mission) do |f| %>
-
   <% if @mission.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@mission.errors.count, "error") %> prohibited this mission from being saved:</h2>
@@ -12,18 +11,17 @@
     </div>
   <% end %>
 
-  <div class="field">
+  <%= switched_field(:castle_id,@mission_types) do |classes| %>
+  <div class="field <%= classes %>">
     <%= f.label :castle_id %><br>
     <%= f.collection_select(:castle_id, @myCastles, :id, :name) %>
   </div>
+  <% end %>
+  
   <div class="field">
     <%= f.label :type %><br>
     
-    <% mission_types = params.has_key?('castle_id')   \
-        ? MissionType.allowing_target(Castle.find(params['castle_id']),current_user.current_kingdom) 
-        : MissionType.all
-    %>
-    <%= f.collection_select(:type, mission_types, :class_name, :name) %>
+    <%= f.collection_select(:type, @mission_types, :class_name, :name) %>
   </div>
   
   <% if params.has_key? 'castle_id' %>
@@ -40,9 +38,23 @@
     </div>
   <% end %>
 
-  <%= render 'stocks/nested_form', :form => f %>
-  <%= render 'garrisons/nested_form', :form => f %>
+  <%= switched_field(:stocks,@mission_types) do |classes| %>
+    <div class="multiple <%= classes %>">
+    <%= render 'stocks/nested_form', :form => f %>
+    </div>
+  <% end %>
   
+  <%= switched_field(:garrisons,@mission_types) do |classes| %>
+    <div class="multiple <%= classes %>">
+    <%= render 'garrisons/nested_form', :form => f %>
+    </div>
+  <% end %>
+  
+  <% @mission_types.each do |type| %>
+    <div class="switchedField for<%= type.class_name %>">
+    <%= render 'options/typed_form', type: type, :form => f %>
+    </div>
+  <% end %>
   
   <div class="actions">
     <%= f.submit %>
