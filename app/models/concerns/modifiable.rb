@@ -34,15 +34,14 @@ module Modifiable
     elsif self.respond_to?( prop_opt[:name] )
       self.send(prop_opt[:name], *prop_opt[:args], val)
     end
+    save if changed?
   end
   
   def default_prop_mod(prop)
     prop_opt = Modificator.parse_prop_opt(prop)
-    default = 0
     def_method = 'default_' + prop_opt[:name]
-    if self.respond_to?( def_method )
-      default = self.send(def_method, *prop_opt[:args])
-    end
+    return self.send(def_method, *prop_opt[:args]) if self.respond_to?( def_method )
+    0
   end
   
   def get_prop_mod(prop)

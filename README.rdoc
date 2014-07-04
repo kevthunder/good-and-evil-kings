@@ -3,7 +3,7 @@
 TODO
 * coins
 ** Collect Taxes mission
-*** form for each mission types
+*** Mission actions
 * interception missions
 
 Scaffolds

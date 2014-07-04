@@ -96,6 +96,24 @@ class Stock < ActiveRecord::Base
       end
     end
     
+    def add(number, ressource, stockable)
+      if ressource.is_a?(String) || ressource.is_a?(Symbol)
+        ressource_id = Ressource.find_by_name(ressource) 
+      elsif ressource.respond_to?(:id)
+        ressource_id = ressource.id
+      else
+        ressource_id = ressource
+      end
+      
+      existing = find_by_ressource_id(ressource_id)
+      if existing 
+        existing.qte += number;
+        existing.save
+      else
+        stockable.stocks_raw.create qte: number, ressource_id: ressource_id
+      end
+    end
+    
     
     include StockCollection
     

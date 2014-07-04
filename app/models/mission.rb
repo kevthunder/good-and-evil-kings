@@ -6,9 +6,10 @@ class Mission < ActiveRecord::Base
   belongs_to :target, polymorphic: true
   has_many :stocks, as: :stockable
   has_many :garrisons, as: :garrisonable
+  has_many :options, as: :target
   has_one :movement
 
-  accepts_nested_attributes_for :stocks, :garrisons, allow_destroy: true
+  accepts_nested_attributes_for :stocks, :garrisons, :options, allow_destroy: true
 
   before_create :start_behavior
 
