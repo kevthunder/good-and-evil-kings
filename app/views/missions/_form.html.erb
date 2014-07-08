@@ -56,6 +56,19 @@
     </div>
   <% end %>
   
+  
+  <% @mission_types.select{ |type| type.needs_field :mission_length_id }.each do |type| %>
+    <div class="field switchedField for<%= type.class_name %>">
+      <%= f.label :mission_length_id %><br>
+      
+      <% if @mission.respond_to?(:mission_length_id) %>
+        <%= f.collection_select(:mission_length_id, type.mission_lengths, :id, :label) %> <%= @mission.mission_length_id %>
+      <% else %>
+        <%= select_tag('mission[mission_length_id]', options_from_collection_for_select(type.mission_lengths, :id, :label)) %>
+      <% end %>
+    </div>
+  <% end %>
+  
   <div class="actions">
     <%= f.submit %>
   </div>

@@ -1,13 +1,21 @@
 class TaxMission < Mission
-
+  has_one :mission_length, as: :target
+  
+  /*def mission_length_id 
+    mission_length.nil? ? nil : mission_length.id
+  end
+  def mission_length_id= val
+    mission_length = MissionLength.find(val)
+    self.mission_length = mission_length unless mission_length.nil?
+  end*/
+  
   after_initialize :after_initialize
   def after_initialize()
     add_sequence(['collecting','waiting'])
   end
   
   def length 
-    unsaved = options.select{ |o| o.name == "length"}
-    (unsaved.length > 0 ? unsaved.first : options.find_by_name(:length) ).val.to_i.second
+    mission_length.seconds.second
   end
   
   def start
@@ -20,6 +28,14 @@ class TaxMission < Mission
     target.stocks.add((target.pop * (length / 900) ** 0.75).to_i ,:coins,target)
   end
   
+  def actions
+    actions = super
+    if mission_status_code == "waiting"
+      actions.push('redeem')
+    end
+    actions
+  end
+  
   class << self
     def allow_target(target,kingdom)
       target.respond_to?(:kingdom) && target.kingdom == kingdom
@@ -27,6 +43,10 @@ class TaxMission < Mission
     
     def needs_field_castle_id
       false
+    end
+    
+    def needs_field_mission_length_id
+      true
     end
     
     def opt_length_read_val(opt)

@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Label:</strong>
+  <%= @mission_length.label %>
+</p>
+
+<p>
+  <strong>Seconds:</strong>
+  <%= @mission_length.seconds %>
+</p>
+
+<p>
+  <strong>Reward:</strong>
+  <%= @mission_length.reward %>
+</p>
+
+<p>
+  <strong>Target:</strong>
+  <%= @mission_length.target %>
+</p>
+
+<%= link_to 'Edit', edit_mission_length_path(@mission_length) %> |
+<%= link_to 'Back', mission_lengths_path %>

@@ -1,5 +1,5 @@
 class MissionsController < ApplicationController
-  before_action :set_mission, only: [:show, :edit, :update, :destroy]
+  before_action :set_mission, only: [:show, :edit, :update, :destroy, :redeem]
   before_action :set_my_castles, only: [:new, :create, :edit, :update]
   before_action :set_mission_types, only: [:new, :create, :edit, :update]
   before_filter :authenticate_user!
@@ -13,6 +13,16 @@ class MissionsController < ApplicationController
   # GET /missions/1
   # GET /missions/1.json
   def show
+  end
+  
+  def redeem
+    if @mission.actions.include? :redeem
+      @mission.redeem
+      
+      redirect_to @mission
+    else
+      redirect_to @mission, notice: 'you cant redeem this mission.'
+    end
   end
 
   # GET /missions/new
@@ -79,7 +89,7 @@ class MissionsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def mission_params
       params.require(:mission).permit(
-        :castle_id, :type, :mission_status_id, :target_id, :target_type, 
+        :castle_id, :type, :mission_status_id, :target_id, :target_type, :mission_length_id,
         stocks_attributes: [:qte, :ressource_id, :id, :_destroy], 
         garrisons_attributes: [:qte, :soldier_type_id, :id, :_destroy],
         options_attributes: [:name, :val, :id, :_destroy]

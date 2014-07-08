@@ -3,7 +3,7 @@
 TODO
 * coins
 ** Collect Taxes mission
-*** Mission actions
+*** mission_length_id : copy mission_length from mission_type
 * interception missions
 
 Scaffolds
@@ -16,3 +16,4 @@ Scaffolds
 * rails g scaffold stocks qte:integer ressource:references stockable:references{polymorphic} type:string --skip-migration
 * rails g scaffold modificator prop:string num:float multiply:boolean modifiable:references{polymorphic} applier:references{polymorphic} --skip-migration
 * rails g scaffold modification modificator:references modifiable:references{polymorphic} applier:references{polymorphic} --skip-resource_route --skip-assets --skip-scaffold_controller --skip-migration
+* rails g scaffold mission_lengths label:string seconds:integer reward:float target:references{polymorphic} --skip-migration

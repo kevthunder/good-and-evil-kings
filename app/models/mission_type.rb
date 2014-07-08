@@ -1,6 +1,7 @@
 class MissionType < ActiveRecord::Base
   has_many :options, as: :target
-  accepts_nested_attributes_for :options, allow_destroy: true
+  has_many :mission_lengths, as: :target
+  accepts_nested_attributes_for :options, :mission_lengths, allow_destroy: true
   
   def klass()
     Object.const_get(class_name)

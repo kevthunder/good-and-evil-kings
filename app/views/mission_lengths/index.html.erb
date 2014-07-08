@@ -1,0 +1,33 @@
+<h1>Listing mission_lengths</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Label</th>
+      <th>Seconds</th>
+      <th>Reward</th>
+      <th>Target</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @mission_lengths.each do |mission_length| %>
+      <tr>
+        <td><%= mission_length.label %></td>
+        <td><%= mission_length.seconds %></td>
+        <td><%= mission_length.reward %></td>
+        <td><%= mission_length.target %></td>
+        <td><%= link_to 'Show', mission_length %></td>
+        <td><%= link_to 'Edit', edit_mission_length_path(mission_length) %></td>
+        <td><%= link_to 'Destroy', mission_length, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Mission length', new_mission_length_path %>

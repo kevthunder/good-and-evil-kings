@@ -71,7 +71,8 @@ class MissionTypesController < ApplicationController
     def mission_type_params
       params.require(:mission_type).permit(
         :name, :class_name,
-        options_attributes: [:name, :val, :id, :_destroy]
+        options_attributes: [:name, :val, :id, :_destroy],
+        mission_lengths_attributes: [:label, :seconds, :reward, :id, :_destroy]
       )
     end
 end

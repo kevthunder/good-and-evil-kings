@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140703225913) do
+ActiveRecord::Schema.define(version: 20140708000601) do
 
   create_table "actions", force: true do |t|
     t.datetime "time"
@@ -83,6 +83,18 @@ ActiveRecord::Schema.define(version: 20140703225913) do
   end
 
   add_index "kingdoms", ["user_id"], name: "index_kingdoms_on_user_id"
+
+  create_table "mission_lengths", force: true do |t|
+    t.string   "label"
+    t.integer  "seconds"
+    t.float    "reward"
+    t.integer  "target_id"
+    t.string   "target_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "mission_lengths", ["target_id", "target_type"], name: "index_mission_lengths_on_target_id_and_target_type"
 
   create_table "mission_statuses", force: true do |t|
     t.string   "name"

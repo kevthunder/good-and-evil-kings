@@ -1,0 +1,33 @@
+<%= form_for(@mission_length) do |f| %>
+  <% if @mission_length.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@mission_length.errors.count, "error") %> prohibited this mission_length from being saved:</h2>
+
+      <ul>
+      <% @mission_length.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :label %><br>
+    <%= f.text_field :label %>
+  </div>
+  <div class="field">
+    <%= f.label :seconds %><br>
+    <%= f.number_field :seconds %>
+  </div>
+  <div class="field">
+    <%= f.label :reward %><br>
+    <%= f.text_field :reward %>
+  </div>
+  <div class="field">
+    <%= f.label :target_id %><br>
+    <%= f.text_field :target_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,2 @@
+module MissionLengthsHelper
+end

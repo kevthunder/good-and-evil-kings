@@ -50,6 +50,20 @@ class Mission < ActiveRecord::Base
     return super if self == Mission
     Mission.model_name
   end
+  
+  def actions
+    []
+  end
+  
+  def actions_list
+    Hash[*actions.map{ |a| [a, a.humanize] }.flatten]
+  end
+  
+  def update 
+    if  next_event < Time.now
+      self.next
+    end
+  end
 
   scope :to_update, -> { where('next_event < ?', Time.now) }
 
@@ -57,7 +71,7 @@ class Mission < ActiveRecord::Base
   class << self
     def update
       to_update.each do |mission|
-        mission.next
+        mission.update
       end
     end
     

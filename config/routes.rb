@@ -1,5 +1,7 @@
 GoodAndEvilKings::Application.routes.draw do
 
+  resources :mission_lengths
+
   resources :options
 
   resources :modificators
@@ -11,6 +13,7 @@ GoodAndEvilKings::Application.routes.draw do
   resources :mission_statuses
 
   resources :missions
+  get 'missions/:id/redeem' => 'missions#redeem'
 
   resources :movements
 
