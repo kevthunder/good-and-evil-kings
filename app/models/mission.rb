@@ -14,10 +14,11 @@ class Mission < ActiveRecord::Base
   before_create :start_behavior
 
   def next
+    self.next_event = nil
     unless mission_status_code.nil?
       update_status 
-      save
     end
+    save
   end
 
   attr_accessor :start_status
@@ -59,8 +60,8 @@ class Mission < ActiveRecord::Base
     Hash[*actions.map{ |a| [a, a.humanize] }.flatten]
   end
   
-  def update 
-    if  next_event < Time.now
+  def update_event
+    if !next_event.nil? && next_event < Time.now
       self.next
     end
   end
@@ -71,7 +72,7 @@ class Mission < ActiveRecord::Base
   class << self
     def update
       to_update.each do |mission|
-        mission.update
+        mission.update_event
       end
     end
     

@@ -1,13 +1,22 @@
 class TaxMission < Mission
   has_one :mission_length, as: :target
   
-  /*def mission_length_id 
-    mission_length.nil? ? nil : mission_length.id
+  def mission_length_origin
+    mission_length.nil? ? nil : mission_type.mission_lengths.find_by_seconds(mission_length.seconds)
   end
-  def mission_length_id= val
-    mission_length = MissionLength.find(val)
-    self.mission_length = mission_length unless mission_length.nil?
-  end*/
+  def mission_length_origin_id 
+    mission_length_origin = self.mission_length_origin
+    mission_length_origin.nil? ? nil : mission_length_origin.id
+  end
+  def mission_length_origin_id= val
+    mission_length_origin = mission_type.mission_lengths.find(val)
+    mission_length = self.mission_length
+    mission_length = MissionLength.new if mission_length.nil?
+    mission_length.seconds = mission_length_origin.seconds
+    mission_length.reward = mission_length_origin.reward
+    self.mission_length = mission_length
+    mission_length.save
+  end
   
   after_initialize :after_initialize
   def after_initialize()
@@ -24,8 +33,13 @@ class TaxMission < Mission
     super
   end
   
+  def remaining 
+    (next_event.nil? ? 0 : (next_event - Time.now).second / length) * 0.9 + 0.10
+  end
+  
   def redeem
-    target.stocks.add((target.pop * (length / 900) ** 0.75).to_i ,:coins,target)
+    
+    target.stocks.add((target.pop * length * mission_length.reward * remaining).to_i ,:coins,target)
   end
   
   def actions
@@ -45,7 +59,7 @@ class TaxMission < Mission
       false
     end
     
-    def needs_field_mission_length_id
+    def needs_field_mission_length_origin_id
       true
     end
     
