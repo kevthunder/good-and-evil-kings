@@ -16,7 +16,7 @@ class MissionsController < ApplicationController
   end
   
   def redeem
-    if @mission.actions.include? :redeem
+    if @mission.actions.include? "redeem"
       @mission.redeem
       
       redirect_to @mission

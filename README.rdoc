@@ -1,10 +1,15 @@
 == Good and evil kings
 
 TODO
-* coins
-** Collect Taxes mission
-*** mission_length_id : copy mission_length from mission_type
+* trade mission
+** trade cart garrison
+* AI
+** table ai
+** next action 12h + rnd * 24
+* coins global
 * interception missions
+* Assistance mission
+** workers
 
 Scaffolds
 * rails g scaffold missions type:string castle:references target:references{polymorphic} next_event:datetime mission_status_code:string --skip-migration

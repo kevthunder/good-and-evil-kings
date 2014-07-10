@@ -105,12 +105,14 @@ class Stock < ActiveRecord::Base
         ressource_id = ressource
       end
       
-      existing = find_by_ressource_id(ressource_id)
-      if existing 
-        existing.qte += number;
-        existing.save
-      else
-        stockable.stocks_raw.create qte: number, ressource_id: ressource_id
+      if ressource_id
+        existing = find_by_ressource_id(ressource_id)
+        if existing 
+          existing.qte += number;
+          existing.save
+        else
+          stockable.stocks_raw.create qte: number, ressource_id: ressource_id
+        end
       end
     end
     

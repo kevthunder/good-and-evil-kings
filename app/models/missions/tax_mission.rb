@@ -33,13 +33,21 @@ class TaxMission < Mission
     super
   end
   
+  def start_waiting
+    self.next_event = Time.now + length
+  end
+  
   def remaining 
     (next_event.nil? ? 0 : (next_event - Time.now).second / length) * 0.9 + 0.10
   end
   
+  def reward(remaining = 1)
+    (target.pop * length * mission_length.reward * remaining / 820).to_i
+  end
+  
   def redeem
-    
-    target.stocks.add((target.pop * length * mission_length.reward * remaining).to_i ,:coins,target)
+    target.stocks.add(reward(remaining).to_i ,:Coins,target)
+    destroy
   end
   
   def actions
