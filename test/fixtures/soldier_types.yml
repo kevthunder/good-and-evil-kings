@@ -8,6 +8,7 @@ one:
   interception: 1
   carry: 1
   recrute_time: 1
+  military: false
 
 two:
   name: MyString
@@ -17,3 +18,4 @@ two:
   interception: 1
   carry: 1
   recrute_time: 1
+  military: false

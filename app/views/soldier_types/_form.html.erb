@@ -39,6 +39,10 @@
     <%= f.label :recrute_time %><br>
     <%= f.number_field :recrute_time %>
   </div>
+  <div class="field">
+    <%= f.label :military %><br>
+    <%= f.check_box :military %>
+  </div>
   
   <%= render 'stocks/nested_form', :form => f, :stocks_prop => :costs, :add_label => "Add cost" %>
   <%= render 'modificators/nested_form', :form => f %>
