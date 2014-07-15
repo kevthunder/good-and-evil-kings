@@ -73,6 +73,14 @@ class Garrison < ActiveRecord::Base
     where(or_conds.join(' OR '), replace)
   end)
   
+  scope :military, (lambda do 
+    where(:military => true)
+  end)
+  
+  scope :civil, (lambda do 
+    where(:military => false)
+  end)
+  
   scope :renderable, (lambda do 
     includes(:soldier_type)
   end)

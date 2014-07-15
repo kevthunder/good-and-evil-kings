@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140710000400) do
+ActiveRecord::Schema.define(version: 20140715224724) do
 
   create_table "actions", force: true do |t|
     t.datetime "time"
@@ -196,6 +196,7 @@ ActiveRecord::Schema.define(version: 20140710000400) do
     t.integer  "carry"
     t.integer  "recrute_time"
     t.boolean  "military"
+    t.string   "machine_name"
   end
 
   create_table "stocks", force: true do |t|
