@@ -89,6 +89,10 @@ class Mission < ActiveRecord::Base
       return send("opt_" + opt.name + "_read_val", opt) if respond_to?("opt_" + opt.name + "_read_val")
       nil
     end
+    
+    def find_by_type(name)
+      where(:soldier_type_id => SoldierType.find_by_machine_name(name).id)
+    return
   end
   
   private

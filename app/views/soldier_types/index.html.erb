@@ -4,6 +4,7 @@
   <thead>
     <tr>
       <th>Name</th>
+      <th>Machine name</th>
       <th>Speed</th>
       <th>Attack</th>
       <th>Defence</th>
@@ -21,6 +22,7 @@
     <% @soldier_types.each do |soldier_type| %>
       <tr>
         <td><%= soldier_type.name %></td>
+        <td><%= soldier_type.machine_name %></td>
         <td><%= soldier_type.speed %></td>
         <td><%= soldier_type.attack %></td>
         <td><%= soldier_type.defence %></td>
