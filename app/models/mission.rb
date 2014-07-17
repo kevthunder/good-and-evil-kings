@@ -7,7 +7,7 @@ class Mission < ActiveRecord::Base
   has_many :stocks, as: :stockable
   has_many :garrisons, as: :garrisonable
   has_many :options, as: :target
-  has_one :movement
+  has_one :movement, dependent: :destroy
 
   accepts_nested_attributes_for :stocks, :garrisons, :options, allow_destroy: true
 
@@ -66,6 +66,22 @@ class Mission < ActiveRecord::Base
     end
   end
 
+  def create_movement(direction)
+    if direction == :going
+      start_tile = castle.tile
+      end_tile = target.tile
+    else
+      start_tile = target.tile
+      end_tile = castle.tile
+    end
+    self.movement = Movement.new(
+      start_time: Time.now,
+      end_time: next_event,
+      start_tile_attributes: {x: start_tile.x, y: start_tile.y},
+      end_tile_attributes: {x: end_tile.x, y: end_tile.y}
+    )
+  end
+  
   scope :to_update, -> { where('next_event < ?', Time.now) }
 
   
@@ -89,21 +105,22 @@ class Mission < ActiveRecord::Base
       return send("opt_" + opt.name + "_read_val", opt) if respond_to?("opt_" + opt.name + "_read_val")
       nil
     end
-    
-    def find_by_type(name)
-      where(:soldier_type_id => SoldierType.find_by_machine_name(name).id)
-    return
   end
   
   private
 
   def unsaved_garrisons
-    garrisons.loaded? && garrisons.count == 0 && garrisons.size > 0
+    new_record? || garrisons.loaded? && garrisons.count == 0 && garrisons.size > 0
   end
 
   def calcul_travel_time
     return garrisons.travel_time_between(castle, target) unless unsaved_garrisons
     Garrison.calcul_travel_time(castle, target, SoldierType.where(id: garrisons.map { |g| g.soldier_type_id }).minimum('speed'))
+  end
+  
+  def stocks_qte
+    return stocks.to_a.sum{ |g| g.qte} if new_record?
+    stocks.qte
   end
   
   def start_behavior

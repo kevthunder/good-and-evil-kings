@@ -177,6 +177,10 @@ class Garrison < ActiveRecord::Base
         garrison.destroy
       end
     end
+    
+    def find_by_type(name)
+      where(:soldier_type_id => SoldierType.find_by_machine_name(name).id)
+    end
   end
 
   #private

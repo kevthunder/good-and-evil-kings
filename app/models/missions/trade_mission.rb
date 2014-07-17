@@ -2,6 +2,7 @@ class TradeMission < Mission
   validate :garrisons_must_carry, on: :create
   validate :must_have_some_goods, on: :create
 
+  after_initialize :after_initialize
   def after_initialize()
     add_sequence(['going','returning'])
   end
@@ -42,7 +43,7 @@ class TradeMission < Mission
   private
   
   def garrisons_can_carry?
-    castle.garrisons.ready.find_by_type(:trade_cart).carry < stocks.qte
+    castle.garrisons.ready.find_by_type(:trade_cart).carry < stocks_qte
   end
   
   def garrisons_must_carry
@@ -55,7 +56,7 @@ class TradeMission < Mission
 
   def start
     type = SoldierType.find_by_machine_name(:trade_cart)
-    garrisons.create(qte: stocks.qte/type.carry, kingdom_id: castle.kingdom_id, soldier_type: type)
+    garrisons.new(qte: stocks.qte/type.carry, kingdom_id: castle.kingdom_id, soldier_type: type)
     self.next_event = Time.now + calcul_travel_time
     super
   end

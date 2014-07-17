@@ -2,6 +2,7 @@
 
 TODO
 * trade mission
+** garrison and stocks are not removed from castle
 ** trade cart garrison
 * AI
 ** table ai
@@ -13,7 +14,7 @@ TODO
 
 Scaffolds
 * rails g scaffold missions type:string castle:references target:references{polymorphic} next_event:datetime mission_status_code:string --skip-migration
-* rails g scaffold soldier_types name:string speed:integer attack:integer defence:integer interception:integer carry:integer recrute_time:integer military:boolean --skip-migration
+* rails g scaffold soldier_types name:string machine_name:string speed:integer attack:integer defence:integer interception:integer carry:integer recrute_time:integer military:boolean --skip-migration
 * rails g scaffold mission_statuses name:string code:string --skip-migration
 * rails g scaffold buildings x:integer y:integer building_type:references castle:references ready:datetime --skip-migration
 * rails g scaffold building_types name:string type:string build_time:integer size_x:integer size_y:integer --skip-migration

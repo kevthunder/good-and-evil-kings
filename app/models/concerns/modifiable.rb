@@ -17,16 +17,16 @@ module Modifiable
   end
   
   def init_created_prop_mod
-    update_all_prop_mod if id.nil?
+    update_all_prop_mod(false) if new_record?
   end
   
-  def update_all_prop_mod() 
+  def update_all_prop_mod(save = true) 
     (self.class.prop_mod_list + modificators.group(:prop).pluck(:prop).to_a).uniq{ |p| p.to_s }.each do |prop|
-      update_prop_mod(prop)
+      update_prop_mod(prop,save)
     end
   end
   
-  def update_prop_mod(prop) 
+  def update_prop_mod(prop, save = true) 
     prop_opt = Modificator.parse_prop_opt(prop)
     val = get_prop_mod(prop)
     if self.respond_to?( prop_opt[:name]+"=" )
@@ -34,7 +34,7 @@ module Modifiable
     elsif self.respond_to?( prop_opt[:name] )
       self.send(prop_opt[:name], *prop_opt[:args], val)
     end
-    save if changed?
+    self.save if changed? && save
   end
   
   def default_prop_mod(prop)

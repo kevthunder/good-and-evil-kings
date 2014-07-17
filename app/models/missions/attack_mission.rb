@@ -28,22 +28,6 @@ class AttackMission < Mission
     stocks.add_to castle
   end
   
-  def create_movement(direction)
-    if direction == :going
-      start_tile = castle.tile
-      end_tile = target.tile
-    else
-      start_tile = target.tile
-      end_tile = castle.tile
-    end
-    self.movement = Movement.new(
-      start_time: Time.now,
-      end_time: next_event,
-      start_tile_attributes: {x: start_tile.x, y: start_tile.y},
-      end_tile_attributes: {x: end_tile.x, y: end_tile.y}
-    )
-  end
-  
   def battle
     # kill stuff
     cost = garrisons.attack_cost(target)

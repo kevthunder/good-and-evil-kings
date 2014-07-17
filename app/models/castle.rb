@@ -29,8 +29,12 @@ class Castle < ActiveRecord::Base
   
   def income(id,val)
     income = incomes.where(ressource_id: id.to_i).first
-    if(income.nil?) 
-      incomes.create(ressource_id: id.to_i,qte: val.to_i)
+    if income.nil?  
+      if new_record?
+        incomes.new(ressource_id: id.to_i,qte: val.to_i)
+      else
+        incomes.create(ressource_id: id.to_i,qte: val.to_i)
+      end
     else
       income.qte = val.to_i
       income.save!

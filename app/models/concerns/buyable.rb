@@ -6,6 +6,7 @@ module Buyable
       Updater.add_updated self
       scope :to_update, -> { where('ready < ?', Time.now) }
       scope :ready, -> { where(ready: nil) }
+      scope :not_ready, -> { where.not(ready: nil) }
     end
     validate :able_to_buy, on: :create
     before_create :on_bougth
@@ -65,6 +66,12 @@ module Buyable
       buyable_type.buy_time 
     else
       nil
+    end
+  end
+  
+  def update_readyable
+    if readyable && ready < Time.now
+      on_ready
     end
   end
   
