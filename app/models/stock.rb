@@ -4,6 +4,7 @@ class Stock < ActiveRecord::Base
   
   before_save :limit_qte
   
+  include Quantifiable
   
   def can_unite?(stock)
     ressource_id == stock.ressource_id
@@ -36,6 +37,10 @@ class Stock < ActiveRecord::Base
     else
       stocks.where(ressource_id: ressource_id).first
     end
+  end
+  
+  def to_i
+    qte
   end
   
   def tranfer(stockable,number = true,match = nil, edit_self = true)
@@ -77,10 +82,6 @@ class Stock < ActiveRecord::Base
   end)
   
   class << self
-    def qte
-      sum 'qte'
-    end
-    
     def give_any(stockable,number)
       stocks = all.to_a
       Stock.unscoped do
@@ -116,6 +117,11 @@ class Stock < ActiveRecord::Base
       end
     end
     
+    Ressource.all.each do |r| 
+      define_method(r.name.parameterize) do ||
+        find_by_ressource_id(r.id)
+      end
+    end
     
     include StockCollection
     

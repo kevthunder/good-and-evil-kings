@@ -4,8 +4,8 @@ class Mission < ActiveRecord::Base
   belongs_to :mission_status, primary_key: 'code', foreign_key: 'mission_status_code'
   belongs_to :castle
   belongs_to :target, polymorphic: true
-  has_many :stocks, as: :stockable
-  has_many :garrisons, as: :garrisonable
+  has_many :stocks, ->{ extending Quantifiable::HasManyExtension }, as: :stockable
+  has_many :garrisons, ->{ extending Quantifiable::HasManyExtension }, as: :garrisonable
   has_many :options, as: :target
   has_one :movement, dependent: :destroy
 

@@ -6,6 +6,8 @@ class Garrison < ActiveRecord::Base
   belongs_to :soldier_type
   belongs_to :garrisonable, polymorphic: true
  
+  include Quantifiable
+  
   include Buyable
   alias_attribute :recruted, :bougth
   alias_method :buyer, :garrisonable
@@ -86,10 +88,6 @@ class Garrison < ActiveRecord::Base
   end)
 
   class << self
-    def qte
-      sum 'qte'
-    end
-
     def speed
       joins(:soldier_type).minimum('soldier_types.speed')
     end

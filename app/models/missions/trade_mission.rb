@@ -40,6 +40,11 @@ class TradeMission < Mission
     self.next_event = Time.now + calcul_travel_time
   end
     
+  def set_carriers
+    type = SoldierType.find_by_machine_name(:trade_cart)
+    self.garrisons = [Garrison.new(qte: stocks_qte/type.carry, kingdom_id: castle.kingdom_id, soldier_type: type)]
+  end
+  
   private
   
   def garrisons_can_carry?
@@ -51,12 +56,12 @@ class TradeMission < Mission
   end
   
   def must_have_some_goods
-    errors.add(:stocks, 'not enough trade carts to carry those goods') if stocks.qte < 0
+    errors.add(:stocks, 'not enough trade carts to carry those goods') if stocks_qte < 0
   end
 
+  
   def start
-    type = SoldierType.find_by_machine_name(:trade_cart)
-    garrisons.new(qte: stocks.qte/type.carry, kingdom_id: castle.kingdom_id, soldier_type: type)
+    set_carriers
     self.next_event = Time.now + calcul_travel_time
     super
   end
