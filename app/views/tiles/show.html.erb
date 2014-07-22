@@ -1,6 +1,5 @@
 <p id="notice"><%= notice %></p>
 
-
 <p>
   <strong>X:</strong>
   <%= @tile.x %>
@@ -9,6 +8,11 @@
 <p>
   <strong>Y:</strong>
   <%= @tile.y %>
+</p>
+
+<p>
+  <strong>Tiled:</strong>
+  <%= @tile.tiled %>
 </p>
 
 <%= link_to 'Edit', edit_tile_path(@tile) %> |

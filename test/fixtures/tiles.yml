@@ -1,11 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  model: MyString
   x: 1
   'y': 1
+  tiled_id: 
+  tiled_type: Tiled
 
 two:
-  model: MyString
   x: 1
   'y': 1
+  tiled_id: 
+  tiled_type: Tiled

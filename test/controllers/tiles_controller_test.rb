@@ -18,7 +18,7 @@ class TilesControllerTest < ActionController::TestCase
 
   test "should create tile" do
     assert_difference('Tile.count') do
-      post :create, tile: { model: @tile.model, x: @tile.x, y: @tile.y }
+      post :create, tile: { tiled_id: @tile.tiled_id, tiled_type: @tile.tiled_type, x: @tile.x, y: @tile.y }
     end
 
     assert_redirected_to tile_path(assigns(:tile))
@@ -35,7 +35,7 @@ class TilesControllerTest < ActionController::TestCase
   end
 
   test "should update tile" do
-    patch :update, id: @tile, tile: { model: @tile.model, x: @tile.x, y: @tile.y }
+    patch :update, id: @tile, tile: { tiled_id: @tile.tiled_id, tiled_type: @tile.tiled_type, x: @tile.x, y: @tile.y }
     assert_redirected_to tile_path(assigns(:tile))
   end
 
