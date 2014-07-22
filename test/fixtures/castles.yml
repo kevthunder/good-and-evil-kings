@@ -2,8 +2,16 @@
 
 one:
   name: MyString
-  user_id: 
+  kingdom_id: 
+  elevations_map: MyString
+  incomes_date: 2014-07-22 17:10:18
+  max_stock: 1
+  pop: 1
 
 two:
   name: MyString
-  user_id: 
+  kingdom_id: 
+  elevations_map: MyString
+  incomes_date: 2014-07-22 17:10:18
+  max_stock: 1
+  pop: 1
