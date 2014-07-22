@@ -91,7 +91,11 @@ module Quantifiable
     private
     
     def method_missing(name, *args, &block)
-      to_collection.send(name, *args, &block)
+      if !respond_to?(name) && Quantifiable::Collection.method_defined?(name)
+        to_collection.send(name, *args, &block)
+      else
+        super
+      end
     end
     
   end
