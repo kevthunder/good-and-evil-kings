@@ -28,7 +28,7 @@ module Quantifiable
     end
     
     def subtract(quantifiables)
-      quantifiables = quantifiables.to_collection if quantifiables.respond_to?(to_collection)
+      quantifiables = quantifiables.to_collection if quantifiables.respond_to?(:to_collection)
       quantifiables = [quantifiables] unless quantifiables.respond_to?('each')
       matchings = match(quantifiables).to_a
 

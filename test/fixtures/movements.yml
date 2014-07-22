@@ -2,10 +2,10 @@
 
 one:
   start_time: 2014-01-27 19:53:44
-  start_tile_id: 
-  end_tile_id: 
+  start_tile : m1_start
+  end_tile : m1_end
 
 two:
   start_time: 2014-01-27 19:53:44
-  start_tile_id: 
-  end_tile_id: 
+  start_tile : m2_start
+  end_tile : m2_end

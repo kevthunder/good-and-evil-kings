@@ -18,6 +18,6 @@ class ApplicationController < ActionController::Base
       # Updater.update
     end
     def set_my_castles
-      @myCastles = current_user.castles;
+      @myCastles = current_user.castles unless current_user.nil?
     end
 end

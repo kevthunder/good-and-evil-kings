@@ -1,9 +1,9 @@
 class Castle < ActiveRecord::Base
   belongs_to :kingdom
   has_one :tile, as: :tiled, dependent: :destroy, validate: :true
-  has_many :incomes, as: :stockable, inverse_of: :stockable
-  has_many :stocks, -> { where(type: nil) }, as: :stockable
-  has_many :stocks_raw, class_name: :Stock, as: :stockable
+  has_many :incomes, ->{ extending Quantifiable::HasManyExtension }, as: :stockable, inverse_of: :stockable
+  has_many :stocks, -> { extending(Quantifiable::HasManyExtension).where(type: nil) }, as: :stockable
+  has_many :stocks_raw, ->{ extending Quantifiable::HasManyExtension }, class_name: :Stock, as: :stockable
   has_many :garrisons, ->{ extending Garrison::HasManyExtension }, as: :garrisonable
   has_many :buildings
   serialize :elevations_map, Array

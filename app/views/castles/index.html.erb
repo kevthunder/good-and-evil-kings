@@ -5,7 +5,6 @@
     <tr>
       <th>Name</th>
       <th>Kingdom</th>
-      <th>Elevations map</th>
       <th>Incomes date</th>
       <th>Max stock</th>
       <th>Pop</th>
@@ -22,8 +21,7 @@
     <% @castles.each do |castle| %>
       <tr>
         <td><%= castle.name %></td>
-        <td><%= castle.kingdom %></td>
-        <td><%= castle.elevations_map %></td>
+        <td><%= castle.kingdom.name %></td>
         <td><%= castle.incomes_date %></td>
         <td><%= castle.max_stock %></td>
         <td><%= castle.pop %></td>

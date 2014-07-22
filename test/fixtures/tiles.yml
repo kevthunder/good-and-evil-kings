@@ -3,11 +3,30 @@
 one:
   x: 1
   'y': 1
-  tiled_id: 
-  tiled_type: Tiled
+  tiled : one (Castle)
 
 two:
   x: 1
   'y': 1
-  tiled_id: 
-  tiled_type: Tiled
+  tiled : two (Castle)
+  
+  
+m1_start:
+  x: 1
+  'y': 1
+  tiled : one (Movement)
+
+m1_end:
+  x: 10
+  'y': 10
+  tiled : one (Movement)
+  
+m2_start:
+  x: 1
+  'y': 1
+  tiled : two (Movement)
+
+m2_end:
+  x: 10
+  'y': 10
+  tiled : two (Movement)

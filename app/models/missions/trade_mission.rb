@@ -18,7 +18,6 @@ class TradeMission < Mission
     stocks.add_to target
   end
   
-  
   def start_returning
     create_movement :returning
   end
@@ -34,15 +33,10 @@ class TradeMission < Mission
     end
   end
   
-  def end_going
-    movement.destroy! unless movement.nil?
-    battle
-    self.next_event = Time.now + calcul_travel_time
-  end
     
   def set_carriers
     type = SoldierType.find_by_machine_name(:trade_cart)
-    self.garrisons = [Garrison.new(qte: stocks_qte/type.carry, kingdom_id: castle.kingdom_id, soldier_type: type)]
+    self.garrisons = [Garrison.new(qte: (stocks_qte/type.carry.to_f).ceil, kingdom_id: castle.kingdom_id, soldier_type: type)]
   end
   
   private

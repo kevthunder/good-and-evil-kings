@@ -3,13 +3,13 @@
 one:
   modificator_id: 
   modifiable_id: 
-  modifiable_type: Modifiable
+  modifiable_type:
   applier_id: 
-  applier_type: Applier
+  applier_type:
 
 two:
   modificator_id: 
   modifiable_id: 
-  modifiable_type: Modifiable
+  modifiable_type:
   applier_id: 
-  applier_type: Applier
+  applier_type:

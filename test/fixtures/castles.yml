@@ -2,16 +2,16 @@
 
 one:
   name: MyString
-  kingdom_id: 
-  elevations_map: MyString
+  kingdom: one
+  elevations_map: 
   incomes_date: 2014-07-22 17:10:18
   max_stock: 1
   pop: 1
 
 two:
   name: MyString
-  kingdom_id: 
-  elevations_map: MyString
+  kingdom: two
+  elevations_map: 
   incomes_date: 2014-07-22 17:10:18
   max_stock: 1
   pop: 1
