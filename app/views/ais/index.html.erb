@@ -1,0 +1,29 @@
+<h1>Listing ais</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Castle</th>
+      <th>Next action</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @ais.each do |ai| %>
+      <tr>
+        <td><%= ai.castle %></td>
+        <td><%= ai.next_action %></td>
+        <td><%= link_to 'Show', ai %></td>
+        <td><%= link_to 'Edit', edit_ai_path(ai) %></td>
+        <td><%= link_to 'Destroy', ai, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Ai', new_ai_path %>

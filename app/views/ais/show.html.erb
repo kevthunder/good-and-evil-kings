@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Castle:</strong>
+  <%= @ai.castle %>
+</p>
+
+<p>
+  <strong>Next action:</strong>
+  <%= @ai.next_action %>
+</p>
+
+<%= link_to 'Edit', edit_ai_path(@ai) %> |
+<%= link_to 'Back', ais_path %>

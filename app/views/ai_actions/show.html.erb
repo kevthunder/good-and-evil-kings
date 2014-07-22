@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Type:</strong>
+  <%= @ai_action.type %>
+</p>
+
+<p>
+  <strong>Weigth:</strong>
+  <%= @ai_action.weigth %>
+</p>
+
+<%= link_to 'Edit', edit_ai_action_path(@ai_action) %> |
+<%= link_to 'Back', ai_actions_path %>

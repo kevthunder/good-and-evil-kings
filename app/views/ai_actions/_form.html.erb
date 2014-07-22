@@ -1,0 +1,25 @@
+<%= form_for(@ai_action) do |f| %>
+  <% if @ai_action.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@ai_action.errors.count, "error") %> prohibited this ai_action from being saved:</h2>
+
+      <ul>
+      <% @ai_action.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :type %><br>
+    <%= f.text_field :type %>
+  </div>
+  <div class="field">
+    <%= f.label :weigth %><br>
+    <%= f.number_field :weigth %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

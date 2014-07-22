@@ -1,5 +1,9 @@
 GoodAndEvilKings::Application.routes.draw do
 
+  resources :ai_actions
+
+  resources :ais
+
   resources :mission_lengths
 
   resources :options

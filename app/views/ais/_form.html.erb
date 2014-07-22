@@ -1,0 +1,25 @@
+<%= form_for(@ai) do |f| %>
+  <% if @ai.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@ai.errors.count, "error") %> prohibited this ai from being saved:</h2>
+
+      <ul>
+      <% @ai.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :castle_id %><br>
+    <%= f.text_field :castle_id %>
+  </div>
+  <div class="field">
+    <%= f.label :next_action %><br>
+    <%= f.datetime_select :next_action %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,29 @@
+<h1>Listing ai_actions</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Weigth</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @ai_actions.each do |ai_action| %>
+      <tr>
+        <td><%= ai_action.type %></td>
+        <td><%= ai_action.weigth %></td>
+        <td><%= link_to 'Show', ai_action %></td>
+        <td><%= link_to 'Edit', edit_ai_action_path(ai_action) %></td>
+        <td><%= link_to 'Destroy', ai_action, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Ai action', new_ai_action_path %>
