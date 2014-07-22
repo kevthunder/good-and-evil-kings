@@ -9,8 +9,8 @@ class TradeMission < Mission
   
   def start_going
     create_movement :going
-    garrisons.subtract_from castle
-    stocks.subtract_from castle
+    castle.garrisons.subtract garrisons
+    castle.stocks.subtract stocks
   end
   
   def end_going

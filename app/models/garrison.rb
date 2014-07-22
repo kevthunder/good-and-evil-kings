@@ -2,11 +2,16 @@
 
 # A group Of soldier of the same type
 class Garrison < ActiveRecord::Base
+  module HasManyExtension
+    include Quantifiable::HasManyExtension
+  end
+  
   belongs_to :kingdom
   belongs_to :soldier_type
   belongs_to :garrisonable, polymorphic: true
  
   include Quantifiable
+  self.quantified = SoldierType
   
   include Buyable
   alias_attribute :recruted, :bougth

@@ -5,6 +5,8 @@ class Stock < ActiveRecord::Base
   before_save :limit_qte
   
   include Quantifiable
+  self.quantified = Ressource
+  
   
   def can_unite?(stock)
     ressource_id == stock.ressource_id
@@ -27,8 +29,8 @@ class Stock < ActiveRecord::Base
   end
   
   def self.model_name
-    return super if self == Mission
-    Mission.model_name
+    return super if self == Stock
+    Stock.model_name
   end
   
   def match_in(stocks)

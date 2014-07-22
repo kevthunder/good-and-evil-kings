@@ -4,7 +4,7 @@ class Castle < ActiveRecord::Base
   has_many :incomes, as: :stockable, inverse_of: :stockable
   has_many :stocks, -> { where(type: nil) }, as: :stockable
   has_many :stocks_raw, class_name: :Stock, as: :stockable
-  has_many :garrisons, as: :garrisonable
+  has_many :garrisons, ->{ extending Garrison::HasManyExtension }, as: :garrisonable
   has_many :buildings
   serialize :elevations_map, Array
   
