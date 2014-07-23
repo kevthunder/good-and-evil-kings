@@ -2,8 +2,7 @@
 
 TODO
 * AI
-** table ai
-** next action 12h + rnd * 24
+** BuildAction
 * coins global
 * interception missions
 * Assistance mission

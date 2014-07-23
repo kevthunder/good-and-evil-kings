@@ -10,6 +10,7 @@ class Ai < ActiveRecord::Base
   def do_action
     action = AiAction.random_executable_for self
     action.execute_for self unless action.nil?
+    self.next_action = DateTime.now + rand(12.hour..36.hour)
   end
   
   def update_event

@@ -7,11 +7,18 @@ class AiAction < ActiveRecord::Base
     false
   end
   
-  scope :random, -> { all( :order=>'RAND()/weight', :limit => 1 ) }
+  scope :randoms, -> { order(ActiveRecordUtil.random_funct+'/weight') }
   
   class << self
-    def random_executable_for(ai)
+    def random
+      randoms.first
+    end
     
+    def random_executable_for(ai)
+      randoms.each do |a|
+        return a if a.executable_for(ai)
+      end
+      nil
     end
   end
 end
