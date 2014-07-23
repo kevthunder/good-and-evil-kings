@@ -4,7 +4,7 @@
   <thead>
     <tr>
       <th>Type</th>
-      <th>Weigth</th>
+      <th>Weight</th>
       <th></th>
       <th></th>
       <th></th>
@@ -15,7 +15,7 @@
     <% @ai_actions.each do |ai_action| %>
       <tr>
         <td><%= ai_action.type %></td>
-        <td><%= ai_action.weigth %></td>
+        <td><%= ai_action.weight %></td>
         <td><%= link_to 'Show', ai_action %></td>
         <td><%= link_to 'Edit', edit_ai_action_path(ai_action) %></td>
         <td><%= link_to 'Destroy', ai_action, method: :delete, data: { confirm: 'Are you sure?' } %></td>

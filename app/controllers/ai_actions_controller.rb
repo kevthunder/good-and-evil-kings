@@ -69,6 +69,6 @@ class AiActionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def ai_action_params
-      params.require(:ai_action).permit(:type, :weigth)
+      params.require(:ai_action).permit(:type, :weight)
     end
 end

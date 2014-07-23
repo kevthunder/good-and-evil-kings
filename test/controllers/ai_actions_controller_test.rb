@@ -18,7 +18,7 @@ class AiActionsControllerTest < ActionController::TestCase
 
   test "should create ai_action" do
     assert_difference('AiAction.count') do
-      post :create, ai_action: { type: @ai_action.type, weigth: @ai_action.weigth }
+      post :create, ai_action: { type: @ai_action.type, weight: @ai_action.weight }
     end
 
     assert_redirected_to ai_action_path(assigns(:ai_action))
@@ -35,7 +35,7 @@ class AiActionsControllerTest < ActionController::TestCase
   end
 
   test "should update ai_action" do
-    patch :update, id: @ai_action, ai_action: { type: @ai_action.type, weigth: @ai_action.weigth }
+    patch :update, id: @ai_action, ai_action: { type: @ai_action.type, weight: @ai_action.weight }
     assert_redirected_to ai_action_path(assigns(:ai_action))
   end
 

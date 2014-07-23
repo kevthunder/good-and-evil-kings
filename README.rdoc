@@ -22,6 +22,5 @@ Scaffolds
 * rails g scaffold modificator prop:string num:float multiply:boolean modifiable:references{polymorphic} applier:references{polymorphic} --skip-migration
 * rails g scaffold modification modificator:references modifiable:references{polymorphic} applier:references{polymorphic} --skip-resource_route --skip-assets --skip-scaffold_controller --skip-migration
 * rails g scaffold mission_lengths label:string seconds:integer reward:float target:references{polymorphic} --skip-migration
-
-
-* rails g scaffold ai castle:references next_action:datetime
+* rails g scaffold ai castle:references next_action:datetime --skip-migration
+* rails g scaffold ai_action type:string weight:integer --skip-migration

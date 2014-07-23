@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140722233353) do
+ActiveRecord::Schema.define(version: 20140723000311) do
 
   create_table "actions", force: true do |t|
     t.datetime "time"
@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 20140722233353) do
 
   create_table "ai_actions", force: true do |t|
     t.string   "type"
-    t.integer  "weigth"
+    t.integer  "weight"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
