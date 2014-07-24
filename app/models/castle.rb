@@ -2,7 +2,7 @@ class Castle < ActiveRecord::Base
   belongs_to :kingdom
   has_one :tile, as: :tiled, dependent: :destroy, validate: :true
   has_many :incomes, ->{ extending Quantifiable::HasManyExtension }, as: :stockable, inverse_of: :stockable
-  has_many :stocks, -> { extending(Quantifiable::HasManyExtension).where(type: nil) }, as: :stockable
+  has_many :stocks, -> { extending(Quantifiable::HasManyExtension).where(type: nil) }, as: :stockable, inverse_of: :stockable
   has_many :stocks_raw, ->{ extending Quantifiable::HasManyExtension }, class_name: :Stock, as: :stockable
   has_many :garrisons, ->{ extending Garrison::HasManyExtension }, as: :garrisonable
   has_many :buildings
@@ -13,6 +13,8 @@ class Castle < ActiveRecord::Base
   prop_mod "income:1"
   prop_mod "income:2"
   prop_mod "income:3"
+  
+  include Randomizable
   
   def stocks
     incomes.apply(self)
@@ -39,6 +41,14 @@ class Castle < ActiveRecord::Base
       income.qte = val.to_i
       income.save!
     end
+  end
+  
+  def recruitable_qty
+    5
+  end
+  
+  def remaining_recruitable_qty
+    recruitable_qty - garrisons.not_ready.count
   end
   
   def on_stock_empty(income)
@@ -73,6 +83,20 @@ class Castle < ActiveRecord::Base
 
   def distance(point)
     Math.hypot(point.x - x, point.y - y)
+  end
+  
+  def buyable_buildings()
+    if @buyable_buildings.nil?
+      @buyable_buildings = Building.buyable_types_for(self.stocks)
+    end
+    @buyable_buildings
+  end
+  
+  def buyable_troops()
+    if @buyable_troops.nil?
+      @buyable_troops = Stock.buyable_types_for(self.stocks)
+    end
+    @buyable_troops
   end
   
   accepts_nested_attributes_for :tile

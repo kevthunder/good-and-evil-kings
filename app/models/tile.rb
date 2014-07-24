@@ -24,4 +24,9 @@ class Tile < ActiveRecord::Base
 
     Tile.where(or_conds.join(' OR '), replace)
   end)
+  
+  scope :within_square_dist, (lambda do |point,dist|
+    inBounds(Zone.new(point.x - dist, point.y - dist, point.x + dist, point.y + dist))
+  end)
+  
 end

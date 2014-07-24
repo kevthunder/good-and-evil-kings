@@ -120,7 +120,7 @@ class Stock < ActiveRecord::Base
     end
     
     Ressource.all.each do |r| 
-      define_method(r.name.parameterize) do ||
+      define_method(r.alias) do ||
         find_by_ressource_id(r.id)
       end
     end

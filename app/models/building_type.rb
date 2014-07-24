@@ -4,8 +4,14 @@ class BuildingType < ActiveRecord::Base
 
   accepts_nested_attributes_for :costs, :modificators, allow_destroy: true
   
+  include Randomizable
+  
   def self.model_name
     return super if self == BuildingType
     BuildingType.model_name
+  end
+  
+  class << self
+  
   end
 end

@@ -20,3 +20,8 @@ SoldierType.create!([
   {name: "Light Cavalry", speed: 10, attack: 5, defence: 3, interception: 10, carry: 20},
   {name: "Archer", speed: 7, attack: 3, defence: 10, interception: 5, carry: 15}
 ])
+AiAction.create!([
+  {type: "BuildAction", weight: "100"},
+  {type: "RecruteAction", weight: "100"},
+  {type: "AttackAction", weight: "100"}
+])

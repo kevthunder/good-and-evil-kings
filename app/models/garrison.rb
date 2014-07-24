@@ -81,11 +81,11 @@ class Garrison < ActiveRecord::Base
   end)
   
   scope :military, (lambda do 
-    where(:military => true)
+    joins(:soldier_type).merge(SoldierType.where(:military => true))
   end)
   
   scope :civil, (lambda do 
-    where(:military => false)
+    joins(:soldier_type).merge(SoldierType.where(:military => false))
   end)
   
   scope :renderable, (lambda do 

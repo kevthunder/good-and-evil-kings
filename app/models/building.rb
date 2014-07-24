@@ -4,8 +4,8 @@ class Building < ActiveRecord::Base
   validate :dont_overlapse, :in_bounds, :on_flat_land
   
   include Buyable
-  alias_method :buyer, :castle
-  alias_method :buyable_type, :building_type
+  self.buyer = :castle
+  self.buyable_type = :building_type
   
   include ModApplier
   apply_mods_to :castle, provider: :building_type, direct: false

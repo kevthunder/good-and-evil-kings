@@ -1,5 +1,5 @@
 class Ressource < ActiveRecord::Base
   def alias
-    name.parameterize(string, '_')
+    name.parameterize('_')
   end
 end

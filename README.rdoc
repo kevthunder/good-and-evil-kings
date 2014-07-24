@@ -1,12 +1,11 @@
 == Good and evil kings
 
 TODO
-* AI
-** BuildAction
 * coins global
 * interception missions
 * Assistance mission
 ** workers
+* create AIs
 
 Scaffolds
 * rails g scaffold castles name:string kingdom:references elevations_map:string incomes_date:datetime max_stock:integer pop:integer --skip-migration

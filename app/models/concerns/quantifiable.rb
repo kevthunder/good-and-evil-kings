@@ -2,13 +2,21 @@ module Quantifiable
   extend ActiveSupport::Concern
   
   class Collection < Array
-    attr_reader :model_name
+    attr_reader :model
     
-    def initialize(model_name, *args)
-      @model_name = model_name
+    def initialize(model, *args)
+      @model = model
       super(*args)
     end
     
+    def match(quantifiables)
+      return match_single(quantifiables) unless quantifiables.respond_to?('map')
+      select{ |q1| quantifiables.any?{ |q2| q2.can_unite?(q1) } }
+    end
+    
+    def match_single(quantifiable)
+      match([quantifiable]).first
+    end
     
     
   end
@@ -24,7 +32,7 @@ module Quantifiable
     end
     
     def to_collection
-      Quantifiable::Collection.new(model_name,to_a)
+      Quantifiable::Collection.new(klass,to_a)
     end
     
     def subtract(quantifiables)
@@ -58,8 +66,11 @@ module Quantifiable
   
   included do
     scope :match, (lambda do |quantifiables|
-      quantifiables = [quantifiables] unless quantifiables.respond_to?('map')
+      return match_single(quantifiables) unless quantifiables.respond_to?('map')
       where quantified_key => quantifiables.map{ |s| s.send(quantified_key) }
+    end)
+    scope :match_single, (lambda do |quantifiable|
+      match([quantifiable]).first
     end)
   end
   
@@ -74,7 +85,7 @@ module Quantifiable
     end
     
     def to_collection
-      Quantifiable::Collection.new(model_name,all.to_a)
+      Quantifiable::Collection.new(self,all.to_a)
     end
     
     
