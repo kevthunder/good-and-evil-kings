@@ -2,9 +2,11 @@
 
 TODO
 * coins global
-* interception missions
 * Assistance mission
 ** workers
+* karma
+* interception missions
+* building upgrade
 * create AIs
 
 Scaffolds

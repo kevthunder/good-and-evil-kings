@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140723000311) do
+ActiveRecord::Schema.define(version: 20140724234036) do
 
   create_table "actions", force: true do |t|
     t.datetime "time"
@@ -199,6 +199,7 @@ ActiveRecord::Schema.define(version: 20140723000311) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "global"
   end
 
   create_table "soldier_types", force: true do |t|
