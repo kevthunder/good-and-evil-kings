@@ -2,6 +2,7 @@
 
 TODO
 * coins global
+** castle.accessible_stocks : redefine condition & after_add
 * Assistance mission
 ** workers
 * karma
@@ -18,6 +19,7 @@ Scaffolds
 * rails g scaffold buildings x:integer y:integer building_type:references castle:references ready:datetime --skip-migration
 * rails g scaffold building_types name:string type:string build_time:integer size_x:integer size_y:integer --skip-migration
 * rails g scaffold building_types name:string type:string build_time:integer size_x:integer size_y:integer --skip-migration
+* rails g scaffold ressource name:string global:boolean --skip-migration
 * rails g scaffold stocks qte:integer ressource:references stockable:references{polymorphic} type:string --skip-migration
 * rails g scaffold modificator prop:string num:float multiply:boolean modifiable:references{polymorphic} applier:references{polymorphic} --skip-migration
 * rails g scaffold modification modificator:references modifiable:references{polymorphic} applier:references{polymorphic} --skip-resource_route --skip-assets --skip-scaffold_controller --skip-migration
