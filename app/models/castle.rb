@@ -2,7 +2,25 @@ class Castle < ActiveRecord::Base
   belongs_to :kingdom
   has_one :tile, as: :tiled, dependent: :destroy, validate: :true
   has_many :incomes, ->{ extending Quantifiable::HasManyExtension }, as: :stockable, inverse_of: :stockable
-  has_many :stocks, -> { extending(Quantifiable::HasManyExtension).where(type: nil) }, as: :stockable, inverse_of: :stockable
+  has_many :stocks, -> { extending(Quantifiable::HasManyExtension).where(type: nil) }, as: :stockable, inverse_of: :stockable do
+    def add_qty(number, ressource)
+      if ressource.is_a?(String) || ressource.is_a?(Symbol)
+        ressource = Ressource.find_by_name(ressource)
+      elsif ressource.is_a?(Integer)
+        ressource = Ressource.find(ressource)
+      end
+      if(ressource.global)
+        proxy_association.owner.kingdom.stocks.add_qty(number, ressource, proxy_association.owner.kingdom)
+      else
+        super(number, ressource, proxy_association.owner)
+      end
+    end
+    
+    def up_to_date
+      proxy_association.owner.incomes.apply(proxy_association.owner)
+      self
+    end
+  end
   has_many :stocks_raw, ->{ extending Quantifiable::HasManyExtension }, class_name: :Stock, as: :stockable
   has_many :garrisons, ->{ extending Garrison::HasManyExtension }, as: :garrisonable
   has_many :buildings
@@ -16,9 +34,15 @@ class Castle < ActiveRecord::Base
   
   include Randomizable
   
-  def stocks
+  def accessible_stocks
     incomes.apply(self)
-    super
+    Stock.where(
+      '("stocks"."stockable_type" = :type AND "stocks"."stockable_id" = :id) OR ("stocks"."stockable_type" = :kindom_type AND "stocks"."stockable_id" = :kindom_id)',
+      {id: self.id,
+      type: self.class.to_s,
+      kindom_id: self.kingdom_id,
+      kindom_type: "Kingdom"}
+    ).where(type: nil)
   end
   
   def max_stock(stock = nil)
@@ -87,14 +111,14 @@ class Castle < ActiveRecord::Base
   
   def buyable_buildings()
     if @buyable_buildings.nil?
-      @buyable_buildings = Building.buyable_types_for(self.stocks)
+      @buyable_buildings = Building.buyable_types_for(self.accessible_stocks)
     end
     @buyable_buildings
   end
   
   def buyable_troops()
     if @buyable_troops.nil?
-      @buyable_troops = Stock.buyable_types_for(self.stocks)
+      @buyable_troops = Garrison.buyable_types_for(self.accessible_stocks)
     end
     @buyable_troops
   end

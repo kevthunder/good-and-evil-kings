@@ -36,13 +36,13 @@ class TradeMission < Mission
     
   def set_carriers
     type = SoldierType.find_by_machine_name(:trade_cart)
-    self.garrisons = [Garrison.new(qte: (stocks_qte/type.carry.to_f).ceil, kingdom_id: castle.kingdom_id, soldier_type: type)]
+    self.garrisons = [Garrison.new(qte: (stocks.qte/type.carry.to_f).ceil, kingdom_id: castle.kingdom_id, soldier_type: type)]
   end
   
   private
   
   def garrisons_can_carry?
-    castle.garrisons.ready.find_by_type(:trade_cart).carry < stocks_qte
+    castle.garrisons.ready.find_by_type(:trade_cart).carry < stocks.qte
   end
   
   def garrisons_must_carry
@@ -50,7 +50,7 @@ class TradeMission < Mission
   end
   
   def must_have_some_goods
-    errors.add(:stocks, 'not enough trade carts to carry those goods') if stocks_qte < 0
+    errors.add(:stocks, 'not enough trade carts to carry those goods') if stocks.qte < 0
   end
 
   

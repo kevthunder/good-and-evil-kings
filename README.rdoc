@@ -1,6 +1,7 @@
 == Good and evil kings
 
 TODO
+* TradeMission : must_own_goods
 * coins global
 ** castle.accessible_stocks : redefine condition & after_add
 * Assistance mission

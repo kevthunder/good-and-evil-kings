@@ -26,11 +26,11 @@ module Buyable
   end
   
   def can_buy?
-    return cost.can_subtract_from? buyer
+    return buyer_accessible_stocks.can_subtract?(cost)
   end
   
   def buy
-    cost.subtract_from buyer if bougth
+    buyer_accessible_stocks.subtract(cost) if bougth
   end
   
   def on_bougth
@@ -67,6 +67,10 @@ module Buyable
   
   def buyer
     send(self.class.buyer)
+  end
+  
+  def buyer_accessible_stocks
+    buyer.respond_to?(:accessible_stocks) ? buyer.accessible_stocks : buyer.stocks
   end
   
   def buy_time

@@ -46,7 +46,7 @@ class TaxMission < Mission
   end
   
   def redeem
-    target.stocks.add(reward(remaining).to_i ,:Coins,target)
+    target.stocks.add_qty(reward(remaining).to_i ,:Coins)
     destroy
   end
   

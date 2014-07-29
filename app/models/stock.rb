@@ -99,9 +99,9 @@ class Stock < ActiveRecord::Base
       end
     end
     
-    def add(number, ressource, stockable)
+    def add_qty(number, ressource, stockable)
       if ressource.is_a?(String) || ressource.is_a?(Symbol)
-        ressource_id = Ressource.find_by_name(ressource) 
+        ressource_id = Ressource.find_by_name(ressource).id
       elsif ressource.respond_to?(:id)
         ressource_id = ressource.id
       else
@@ -114,7 +114,7 @@ class Stock < ActiveRecord::Base
           existing.qte += number;
           existing.save
         else
-          stockable.stocks_raw.create qte: number, ressource_id: ressource_id
+          stockable.stocks.create qte: number, ressource_id: ressource_id
         end
       end
     end

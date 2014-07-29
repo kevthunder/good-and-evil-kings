@@ -35,7 +35,7 @@ class AttackMission < Mission
       cost[:us].subtract_from(self)
       cost[:them].subtract_from(target)
       # loot
-      target.stocks.give_any(self,garrisons.carry)
+      target.stocks.up_to_date.give_any(self,garrisons.carry)
     end
   end
   

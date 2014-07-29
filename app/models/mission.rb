@@ -117,12 +117,7 @@ class Mission < ActiveRecord::Base
     return garrisons.travel_time_between(castle, target) unless unsaved_garrisons
     Garrison.calcul_travel_time(castle, target, SoldierType.where(id: garrisons.map { |g| g.soldier_type_id }).minimum('speed'))
   end
-  
-  def stocks_qte
-    return stocks.to_a.sum{ |g| g.qte} if new_record?
-    stocks.qte
-  end
-  
+
   def start_behavior
     start
   end

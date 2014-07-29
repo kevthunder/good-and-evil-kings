@@ -15,8 +15,8 @@ class Garrison < ActiveRecord::Base
   
   include Buyable
   alias_attribute :recruted, :bougth
-  alias_method :buyer, :garrisonable
-  alias_method :buyable_type, :soldier_type
+  self.buyer = :garrisonable
+  self.buyable_type = :soldier_type
   
   include ModApplier
   apply_mods_to :garrisonable, provider: :soldier_type, direct: false, switch: :is_ready

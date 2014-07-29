@@ -35,24 +35,6 @@ module Quantifiable
       Quantifiable::Collection.new(klass,to_a)
     end
     
-    def subtract(quantifiables)
-      quantifiables = quantifiables.to_collection if quantifiables.respond_to?(:to_collection)
-      quantifiables = [quantifiables] unless quantifiables.respond_to?('each')
-      matchings = match(quantifiables).to_a
-
-      quantifiables.each do |quantifiable|
-        matched = matchings.select { |s| s.can_unite?(quantifiable) }.first
-        return false if matched.nil? || matched.qte < quantifiable.qte
-        if matched.qte == quantifiable.qte
-          matched.destroy
-        else
-          matched.qte -= quantifiable.qte
-          matched.save
-        end
-      end
-      true
-    end
-    
     private
     
     def method_missing(name, *args, &block)
@@ -88,6 +70,35 @@ module Quantifiable
       Quantifiable::Collection.new(self,all.to_a)
     end
     
+    def can_subtract?(quantifiables)
+      quantifiables = quantifiables.to_collection if quantifiables.respond_to?(:to_collection)
+      quantifiables = [quantifiables] unless quantifiables.respond_to?('each')
+      matchings = match(quantifiables).to_a
+
+      quantifiables.each do |quantifiable|
+        matched = matchings.select { |s| s.can_unite?(quantifiable) }.first
+        return false if matched.nil? || matched.qte < quantifiable.qte
+      end
+      true
+    end
+    
+    def subtract(quantifiables)
+      quantifiables = quantifiables.to_collection if quantifiables.respond_to?(:to_collection)
+      quantifiables = [quantifiables] unless quantifiables.respond_to?('each')
+      matchings = match(quantifiables).to_a
+
+      quantifiables.each do |quantifiable|
+        matched = matchings.select { |s| s.can_unite?(quantifiable) }.first
+        return false if matched.nil? || matched.qte < quantifiable.qte
+        if matched.qte == quantifiable.qte
+          matched.destroy
+        else
+          matched.qte -= quantifiable.qte
+          matched.save
+        end
+      end
+      true
+    end
     
     attr_accessor :quantified
     def quantified
