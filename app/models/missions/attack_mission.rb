@@ -24,8 +24,8 @@ class AttackMission < Mission
   
   def end_returning
     movement.destroy! unless movement.nil?
-    garrisons.add_to castle
-    stocks.add_to castle
+    castle.garrisons.add garrisons
+    castle.stocks.add stocks
   end
   
   def battle
@@ -35,7 +35,7 @@ class AttackMission < Mission
       cost[:us].subtract_from(self)
       cost[:them].subtract_from(target)
       # loot
-      target.stocks.up_to_date.give_any(self,garrisons.carry)
+      stocks.add(target.stocks.up_to_date.subtract_any(garrisons.carry))
     end
   end
   

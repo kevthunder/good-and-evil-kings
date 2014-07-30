@@ -25,7 +25,7 @@ class Income < Stock
   
   def apply_interval(from, to, match = nil)
     add = to_add_interval(from, to)
-    tranfer(stockable,add,match,false) if add != 0
+    stockable.stocks.add_qty(add,ressource) if add != 0
   end
   
   def must_be_applied
@@ -151,7 +151,7 @@ class Income < Stock
       Stock.unscoped do
         if incomes.to_a.count > 0 # to_a because it's loaded
           match = nil
-          match = stockable.stocks_raw.where(type: nil).match_stocks(incomes).load unless stockable.nil?
+          match = stockable.stocks_raw.where(type: nil).match(incomes).load unless stockable.nil?
           incomes.each do |income|
             #income.stockable = stockable unless stockable.nil?
             income.apply_interval(from, to, match)

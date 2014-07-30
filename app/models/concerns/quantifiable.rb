@@ -18,7 +18,43 @@ module Quantifiable
       match([quantifiable]).first
     end
     
+    def take_any(number)
+      res = Quantifiable::Collection.new(model);
+      
+      total = self.qte
+      number = [number,total].min
+      each do |quantifiable|
+        qte = quantifiable.qte * number / total
+        number -= qte
+        total -= quantifiable.qte
+        yield(qte,quantifiable) if block_given?
+        res.push(model.new(:qte => qte, model.quantified_key => quantifiable.send(model.quantified_key))) if qte > 0
+      end
+      res
+    end
     
+    def subtract_any(number)
+      take_any(number) do |qte,quantifiable|
+        if quantifiable.qte == qte
+          quantifiable.destroy
+        else
+          quantifiable.qte -= qte
+          quantifiable.save
+        end
+      end
+    end
+    
+    def qte
+      to_a.sum{ |g| g.qte}
+    end
+    
+    def multiply(num)
+      res = Quantifiable::Collection.new(model);
+      each do |quantifiable|
+        res.push(model.new(:qte => quantifiable.qte * num, model.quantified_key => quantifiable.send(model.quantified_key)))
+      end
+      res
+    end
   end
   
   module HasManyExtension
@@ -57,7 +93,7 @@ module Quantifiable
   end
   
   def can_unite?(quantifiable)
-    send(quantified_key) == quantifiable.send(quantified_key)
+      send(self.class.quantified_key) == quantifiable.send(self.class.quantified_key)
   end
   
   module ClassMethods
@@ -98,6 +134,39 @@ module Quantifiable
         end
       end
       true
+    end
+    
+    def add(quantifiables)
+      quantifiables = quantifiables.to_collection if quantifiables.respond_to?(:to_collection)
+      quantifiables = [quantifiables] unless quantifiables.respond_to?('each')
+      matchings = match(quantifiables).to_a
+
+      quantifiables.each do |quantifiable|
+        matched = matchings.select { |s| s.can_unite?(quantifiable) }.first
+        if matched.nil?
+          all.create(qte: quantifiable.qte, ressource_id: quantifiable.ressource_id)
+        else
+          matched.qte += quantifiable.qte
+          matched.save!
+        end
+      end
+    end
+    
+    def transfer(quantifiables)
+      quantifiables = quantifiables.to_collection if quantifiables.respond_to?(:to_collection)
+      quantifiables = [quantifiables] unless quantifiables.respond_to?('each')
+      matchings = match(quantifiables).to_a
+
+      quantifiables.each do |quantifiable|
+        matched = matchings.select { |s| s.can_unite?(quantifiable) }.first
+        if matched.nil?
+          all.add(quantifiable)
+        else
+          matched.qte += quantifiable.qte
+          matched.save!
+          quantifiable.destroy
+        end
+      end
     end
     
     attr_accessor :quantified

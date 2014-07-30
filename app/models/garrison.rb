@@ -22,7 +22,7 @@ class Garrison < ActiveRecord::Base
   apply_mods_to :garrisonable, provider: :soldier_type, direct: false, switch: :is_ready
 
   def can_unite?(garrison)
-    soldier_type_id == garrison.soldier_type_id && kingdom_id == garrison.kingdom_id
+    soldier_type_id == garrison.soldier_type_id && (kingdom_id.nil? || garrison.kingdom_id.nil? || kingdom_id == garrison.kingdom_id)
   end
   
   def add_to(garrison)
@@ -44,7 +44,7 @@ class Garrison < ActiveRecord::Base
   
   def merge
     if ready.nil?
-      match = garrisonable.garrisons.ready.match_garrisons self
+      match = garrisonable.garrisons.ready.match(self)
       matched = match.count > 0
       if matched
         add_to(match.first);
@@ -60,7 +60,7 @@ class Garrison < ActiveRecord::Base
     end
   end
   
-  scope :match_garrisons, (lambda do |garrisons|
+  scope :match, (lambda do |garrisons|
     garrisons = [garrisons] unless garrisons.respond_to?('each')
 
     or_conds = Array.new
@@ -68,12 +68,12 @@ class Garrison < ActiveRecord::Base
     i = 0
     garrisons.each do |garrison|
       or_conds.push "(soldier_type_id = :soldier_type_id#{i}" + 
-        ' AND kingdom_id ' + (garrison.kingdom_id.nil? ? 'IS NULL' : "= :kingdom_id#{i}") + 
-        " AND id <> :not_id#{i}" + 
+        (garrison.kingdom_id.nil? ? '' : " AND (kingdom_id = :kingdom_id#{i} OR kingdom_id IS NULL)") + 
+        (garrison.id.nil? ? '' : " AND id <> :not_id#{i}") + 
       ')'
       replace[:"soldier_type_id#{i}"] = garrison.soldier_type_id
-      replace[:"kingdom_id#{i}"] = garrison.kingdom_id
-      replace[:"not_id#{i}"] = garrison.id
+      replace[:"kingdom_id#{i}"] = garrison.kingdom_id unless garrison.kingdom_id.nil?
+      replace[:"not_id#{i}"] = garrison.id unless garrison.id.nil?
       i += 1
     end
 
@@ -117,8 +117,6 @@ class Garrison < ActiveRecord::Base
       Garrison.calcul_travel_time(pos1, pos2, speed)
     end
 
-    include GarrisonCollection
-    
     def attack_cost(garrisonable)
       att_data = get_battle_data('attack')
       total_att = att_data.sum { |d| d[:power] }
@@ -140,7 +138,7 @@ class Garrison < ActiveRecord::Base
       garrisons = [garrisons] unless garrisons.respond_to?('each')
 
       garrisons = garrisons.to_a
-      match = ready.match_garrisons(garrisons).to_a
+      match = ready.match(garrisons).to_a
 
       garrisons.each do |garrison|
         matched = match.select { |g| g.can_unite?(garrison) }.first

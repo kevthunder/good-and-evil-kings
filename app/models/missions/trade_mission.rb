@@ -1,6 +1,7 @@
 class TradeMission < Mission
   validate :garrisons_must_carry, on: :create
   validate :must_have_some_goods, on: :create
+  validate :must_own_goods, on: :create
 
   after_initialize :after_initialize
   def after_initialize()
@@ -15,7 +16,7 @@ class TradeMission < Mission
   
   def end_going
     movement.destroy! unless movement.nil?
-    stocks.add_to target
+    castle.stocks.add stocks
   end
   
   def start_returning
@@ -24,7 +25,7 @@ class TradeMission < Mission
   
   def end_returning
     movement.destroy! unless movement.nil?
-    garrisons.add_to castle
+    castle.garrisons.add garrisons
   end
   
   class << self
@@ -42,11 +43,19 @@ class TradeMission < Mission
   private
   
   def garrisons_can_carry?
-    castle.garrisons.ready.find_by_type(:trade_cart).carry < stocks.qte
+    castle.garrisons.ready.find_by_type(:trade_cart).carry >= stocks.qte
   end
   
   def garrisons_must_carry
-    errors.add(:stocks, 'not enough trade carts to carry those goods') if garrisons_can_carry? 
+    errors.add(:stocks, 'not enough trade carts to carry those goods') unless garrisons_can_carry? 
+  end
+  
+  def owns_goods?
+    castle.stocks.up_to_date.can_subtract? stocks
+  end
+  
+  def must_own_goods
+    errors.add(:stocks, 'not enough trade carts to carry those goods') unless owns_goods?
   end
   
   def must_have_some_goods
