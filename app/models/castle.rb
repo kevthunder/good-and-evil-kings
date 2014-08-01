@@ -4,16 +4,24 @@ class Castle < ActiveRecord::Base
   has_many :incomes, ->{ extending Quantifiable::HasManyExtension }, as: :stockable, inverse_of: :stockable
   has_many :stocks, -> { extending(Quantifiable::HasManyExtension).where(type: nil) }, as: :stockable, inverse_of: :stockable do
     def add_qty(number, ressource)
-      if ressource.is_a?(String) || ressource.is_a?(Symbol)
-        ressource = Ressource.find_by_name(ressource)
-      elsif ressource.is_a?(Integer)
-        ressource = Ressource.find(ressource)
-      end
+      ressource = Ressource.find(ressource)
       if(ressource.global)
         proxy_association.owner.kingdom.stocks.add_qty(number, ressource, proxy_association.owner.kingdom)
       else
         super(number, ressource, proxy_association.owner)
       end
+    end
+    
+    def add(quantifiables)
+      quantifiables = new_enumerable(quantifiables)
+      proxy_association.owner.kingdom.stocks.add(quantifiables.globals)
+      super(quantifiables.locals)
+    end
+    
+    def transfer(quantifiables)
+      quantifiables = new_enumerable(quantifiables)
+      proxy_association.owner.kingdom.stocks.transfer(quantifiables.globals)
+      super(quantifiables.locals)
     end
     
     def up_to_date
@@ -45,7 +53,7 @@ class Castle < ActiveRecord::Base
     ).where(type: nil)
   end
   
-  def max_stock(stock = nil)
+  def max_stock(ressource = nil)
     super()
   end
   

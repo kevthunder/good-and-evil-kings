@@ -5,7 +5,7 @@ class Mission < ActiveRecord::Base
   belongs_to :castle
   belongs_to :target, polymorphic: true
   has_many :stocks, ->{ extending Quantifiable::HasManyExtension }, as: :stockable
-  has_many :garrisons, ->{ extending Quantifiable::HasManyExtension }, as: :garrisonable
+  has_many :garrisons, ->{ extending Garrison::HasManyExtension }, as: :garrisonable
   has_many :options, as: :target
   has_one :movement, dependent: :destroy
 

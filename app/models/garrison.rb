@@ -4,6 +4,14 @@
 class Garrison < ActiveRecord::Base
   module HasManyExtension
     include Quantifiable::HasManyExtension
+    
+    
+    SoldierType.unscoped.each do |s| 
+      define_method(s.alias.pluralize) do ||
+        return to_collection.select{ |g| g.soldier_type_id == s.id } if proxy_association.owner.new_record?
+        super
+      end
+    end
   end
   
   belongs_to :kingdom
@@ -91,6 +99,12 @@ class Garrison < ActiveRecord::Base
   scope :renderable, (lambda do 
     includes(:soldier_type)
   end)
+  
+  SoldierType.unscoped.each do |s| 
+    scope s.alias.pluralize.to_sym, (lambda do 
+      where(:soldier_type_id => s.id)
+    end)
+  end
 
   class << self
     def speed
@@ -179,9 +193,6 @@ class Garrison < ActiveRecord::Base
       end
     end
     
-    def find_by_type(name)
-      where(:soldier_type_id => SoldierType.find_by_machine_name(name).id)
-    end
   end
 
   #private

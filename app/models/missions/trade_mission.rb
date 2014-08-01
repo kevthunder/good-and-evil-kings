@@ -16,7 +16,7 @@ class TradeMission < Mission
   
   def end_going
     movement.destroy! unless movement.nil?
-    castle.stocks.add stocks
+    target.stocks.add stocks
   end
   
   def start_returning
@@ -36,14 +36,14 @@ class TradeMission < Mission
   
     
   def set_carriers
-    type = SoldierType.find_by_machine_name(:trade_cart)
+    type = SoldierType.find_by_alias(:trade_cart)
     self.garrisons = [Garrison.new(qte: (stocks.qte/type.carry.to_f).ceil, kingdom_id: castle.kingdom_id, soldier_type: type)]
   end
   
   private
   
   def garrisons_can_carry?
-    castle.garrisons.ready.find_by_type(:trade_cart).carry >= stocks.qte
+    castle.garrisons.ready.trade_carts.carry >= stocks.qte
   end
   
   def garrisons_must_carry

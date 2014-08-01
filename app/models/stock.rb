@@ -1,4 +1,15 @@
 class Stock < ActiveRecord::Base
+  class Collection < Quantifiable::Collection
+    
+    def globals
+      model.new_collection(select{ |s| s.ressource.global })
+    end
+    
+    def locals
+      model.new_collection(reject{ |s| s.ressource.global })
+    end
+  end
+  
   belongs_to :ressource
   belongs_to :stockable, polymorphic: true
   
@@ -44,7 +55,19 @@ class Stock < ActiveRecord::Base
     includes(:ressource)
   end)
   
+  scope :globals, (lambda do 
+    joins(:ressource).merge(Ressource.where(:global => true))
+  end)
+  
+  scope :locals, (lambda do 
+    joins(:ressource).merge(Ressource.where(:global => false))
+  end)
+  
   class << self
+    def collection_type
+      Stock::Collection
+    end
+    
     def add_qty(number, ressource, stockable)
       if ressource.is_a?(String) || ressource.is_a?(Symbol)
         ressource_id = Ressource.find_by_name(ressource).id

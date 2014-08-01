@@ -1,10 +1,8 @@
 == Good and evil kings
 
 TODO
-* coins global
-** castle.accessible_stocks : redefine condition & after_add
 * Assistance mission
-** workers
+** tests
 * karma
 * interception missions
 * building upgrade

@@ -1,17 +1,18 @@
 module Quantifiable
   extend ActiveSupport::Concern
   
-  class Collection < Array
+  class Collection
     attr_reader :model
+    attr_reader :arr
     
     def initialize(model, *args)
       @model = model
-      super(*args)
+      @arr = Array.new(*args)
     end
     
     def match(quantifiables)
       return match_single(quantifiables) unless quantifiables.respond_to?('map')
-      select{ |q1| quantifiables.any?{ |q2| q2.can_unite?(q1) } }
+      model.new_collection(select{ |q1| quantifiables.any?{ |q2| q2.can_unite?(q1) } })
     end
     
     def match_single(quantifiable)
@@ -19,7 +20,7 @@ module Quantifiable
     end
     
     def take_any(number)
-      res = Quantifiable::Collection.new(model);
+      res = model.new_collection();
       
       total = self.qte
       number = [number,total].min
@@ -49,12 +50,23 @@ module Quantifiable
     end
     
     def multiply(num)
-      res = Quantifiable::Collection.new(model);
+      res = model.new_collection();
       each do |quantifiable|
         res.push(model.new(:qte => quantifiable.qte * num, model.quantified_key => quantifiable.send(model.quantified_key)))
       end
       res
     end
+    
+    def method_missing(name, *args, &block)
+      if !respond_to?(name) && arr.respond_to?(name)
+        res = arr.send(name, *args, &block)
+        return model.new_collection(res) if res.respond_to?("all?") && res.all?{ |i| i.is_a?(model) }
+        res
+      else
+        super
+      end
+    end
+    
   end
   
   module HasManyExtension
@@ -68,13 +80,13 @@ module Quantifiable
     end
     
     def to_collection
-      Quantifiable::Collection.new(klass,to_a)
+      new_collection(to_a)
     end
     
     private
     
     def method_missing(name, *args, &block)
-      if !respond_to?(name) && Quantifiable::Collection.method_defined?(name)
+      if !respond_to?(name) && collection_type.method_defined?(name)
         to_collection.send(name, *args, &block)
       else
         super
@@ -88,7 +100,7 @@ module Quantifiable
       where quantified_key => quantifiables.map{ |s| s.send(quantified_key) }
     end)
     scope :match_single, (lambda do |quantifiable|
-      match([quantifiable]).first
+      match(new_collection([quantifiable])).first
     end)
   end
   
@@ -102,13 +114,29 @@ module Quantifiable
       sum 'qte'
     end
     
+    def collection_type
+      Quantifiable::Collection
+    end
+    
+    def new_collection(quantifiables = nil)
+      return collection_type.new(self) if quantifiables.nil?
+      return quantifiables if quantifiables.is_a?(collection_type)
+      return quantifiables.to_collection if quantifiables.respond_to?(:to_collection)
+      quantifiables = [quantifiables] unless quantifiables.respond_to?('each') || quantifiables.respond_to?('all')
+      collection_type.new(self,quantifiables)
+    end
+    
+    def new_enumerable(quantifiables)
+      return new_collection(quantifiables) if (!quantifiables.respond_to?('each') && !quantifiables.respond_to?('all')) || (quantifiables.is_a?(Array) && !quantifiables.is_a?(collection_type))
+      quantifiables
+    end
+    
     def to_collection
-      Quantifiable::Collection.new(self,all.to_a)
+      new_collection(all.to_a)
     end
     
     def can_subtract?(quantifiables)
-      quantifiables = quantifiables.to_collection if quantifiables.respond_to?(:to_collection)
-      quantifiables = [quantifiables] unless quantifiables.respond_to?('each')
+      quantifiables = new_collection(quantifiables)
       matchings = match(quantifiables).to_a
 
       quantifiables.each do |quantifiable|
@@ -119,8 +147,7 @@ module Quantifiable
     end
     
     def subtract(quantifiables)
-      quantifiables = quantifiables.to_collection if quantifiables.respond_to?(:to_collection)
-      quantifiables = [quantifiables] unless quantifiables.respond_to?('each')
+      quantifiables = new_collection(quantifiables)
       matchings = match(quantifiables).to_a
 
       quantifiables.each do |quantifiable|
@@ -137,8 +164,7 @@ module Quantifiable
     end
     
     def add(quantifiables)
-      quantifiables = quantifiables.to_collection if quantifiables.respond_to?(:to_collection)
-      quantifiables = [quantifiables] unless quantifiables.respond_to?('each')
+      quantifiables = new_collection(quantifiables)
       matchings = match(quantifiables).to_a
 
       quantifiables.each do |quantifiable|
@@ -153,8 +179,7 @@ module Quantifiable
     end
     
     def transfer(quantifiables)
-      quantifiables = quantifiables.to_collection if quantifiables.respond_to?(:to_collection)
-      quantifiables = [quantifiables] unless quantifiables.respond_to?('each')
+      quantifiables = new_collection(quantifiables)
       matchings = match(quantifiables).to_a
 
       quantifiables.each do |quantifiable|
@@ -182,7 +207,7 @@ module Quantifiable
     private
     
     def method_missing(name, *args, &block)
-      if !respond_to?(name) && Quantifiable::Collection.method_defined?(name)
+      if !respond_to?(name) && collection_type.method_defined?(name)
         to_collection.send(name, *args, &block)
       else
         super
