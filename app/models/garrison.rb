@@ -9,7 +9,7 @@ class Garrison < ActiveRecord::Base
     SoldierType.unscoped.each do |s| 
       define_method(s.alias.pluralize) do ||
         return to_collection.select{ |g| g.soldier_type_id == s.id } if proxy_association.owner.new_record?
-        super
+        super()
       end
     end
   end
@@ -69,7 +69,7 @@ class Garrison < ActiveRecord::Base
   end
   
   scope :match, (lambda do |garrisons|
-    garrisons = [garrisons] unless garrisons.respond_to?('each')
+    garrisons = Garrison.new_collection(garrisons)
 
     or_conds = Array.new
     replace = {}
@@ -147,18 +147,8 @@ class Garrison < ActiveRecord::Base
       { us: GarrisonList.new(att_casualties), them: GarrisonList.new(def_casualties) }
     end
 
-
     def check_disponibility?(garrisons)
-      garrisons = [garrisons] unless garrisons.respond_to?('each')
-
-      garrisons = garrisons.to_a
-      match = ready.match(garrisons).to_a
-
-      garrisons.each do |garrison|
-        matched = match.select { |g| g.can_unite?(garrison) }.first
-        return false if matched.nil? || matched.qte < garrison.qte
-      end
-      true
+      ready.can_subtract?(garrisons)
     end
 
     def calcul_travel_time(pos1, pos2, speed)

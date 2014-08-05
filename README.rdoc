@@ -1,8 +1,6 @@
 == Good and evil kings
 
 TODO
-* Assistance mission
-** tests
 * karma
 * interception missions
 * building upgrade

@@ -46,7 +46,7 @@ class AssistMission < Mission
   
   def reward(remaining = 1)
     ressources = [Ressource.food,Ressource.wood,Ressource.stone]
-    Garrison.new_collection(ressources.map{ |r|
+    Stock.new_collection(ressources.map{ |r|
       def_multi = 10
       reduce = 72000
       base = target.default_income(r.id)*def_multi + target.incomes.find_by_ressource_id(r.id).qte

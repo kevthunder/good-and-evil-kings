@@ -2,11 +2,11 @@ class Stock < ActiveRecord::Base
   class Collection < Quantifiable::Collection
     
     def globals
-      model.new_collection(select{ |s| s.ressource.global })
+      model.new_collection(self.select{ |s| s.ressource.global })
     end
     
     def locals
-      model.new_collection(reject{ |s| s.ressource.global })
+      model.new_collection(self.reject{ |s| s.ressource.global })
     end
   end
   

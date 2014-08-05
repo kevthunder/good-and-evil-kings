@@ -13,7 +13,7 @@ class Castle < ActiveRecord::Base
     end
     
     def add(quantifiables)
-      quantifiables = new_enumerable(quantifiables)
+      quantifiables = Stock.new_enumerable(quantifiables)
       proxy_association.owner.kingdom.stocks.add(quantifiables.globals)
       super(quantifiables.locals)
     end

@@ -16,7 +16,7 @@ module Buyable
   end
 
   def able_to_buy
-    unless can_buy? || !bougth
+    if bougth && !can_buy?
       if self.respond_to? :qte
         errors.add(:qte, "is too big. Cant afford that much.")
       else
@@ -34,7 +34,7 @@ module Buyable
   end
   
   def on_bougth
-    self.ready = calcul_ready if bougth && readyable
+    self.ready = calcul_ready if bougth && readyable?
   end
   
   def is_ready
@@ -57,7 +57,7 @@ module Buyable
     costs = buyable_type.costs.multiply(self.respond_to?(:qte) ? qte : 1)
   end
   
-  def readyable
+  def readyable?
     self.respond_to?(:ready) && !buy_time.nil?
   end
   
@@ -82,7 +82,7 @@ module Buyable
   end
   
   def update_readyable
-    if readyable && ready < Time.now
+    if readyable? && ready < Time.now
       on_ready
     end
   end

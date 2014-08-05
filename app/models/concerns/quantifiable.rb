@@ -16,7 +16,7 @@ module Quantifiable
     end
     
     def match_single(quantifiable)
-      match([quantifiable]).first
+      match(new_collection([quantifiable])).first
     end
     
     def take_any(number)
@@ -57,10 +57,20 @@ module Quantifiable
       res
     end
     
+    alias :respond_to_direct? :respond_to?
+    
+    def respond_to?(name)
+      super || arr.respond_to?(name)
+    end
+    
+    def wrapped_methods
+      [:select,:reject]
+    end
+    
     def method_missing(name, *args, &block)
-      if !respond_to?(name) && arr.respond_to?(name)
+      if !respond_to_direct?(name) && arr.respond_to?(name)
         res = arr.send(name, *args, &block)
-        return model.new_collection(res) if res.respond_to?("all?") && res.all?{ |i| i.is_a?(model) }
+        return model.new_collection(res) if wrapped_methods.include?(name) || (res.respond_to?("all?") && res.all?{ |i| i.is_a?(model) } && res.count > 0)
         res
       else
         super
@@ -109,7 +119,13 @@ module Quantifiable
   end
   
   module ClassMethods
-  
+    def empty_all
+      all.each do |quantifiable|
+        quantifiable.qte = 0
+        quantifiable.save!
+      end
+    end
+    
     def qte
       sum 'qte'
     end
@@ -127,7 +143,7 @@ module Quantifiable
     end
     
     def new_enumerable(quantifiables)
-      return new_collection(quantifiables) if (!quantifiables.respond_to?('each') && !quantifiables.respond_to?('all')) || (quantifiables.is_a?(Array) && !quantifiables.is_a?(collection_type))
+      return new_collection(quantifiables) if !quantifiables.is_a?(collection_type) && ((!quantifiables.respond_to?('each') && !quantifiables.respond_to?('all')) || quantifiables.is_a?(Array))
       quantifiables
     end
     
@@ -165,7 +181,7 @@ module Quantifiable
     
     def add(quantifiables)
       quantifiables = new_collection(quantifiables)
-      matchings = match(quantifiables).to_a
+      matchings = all.match(quantifiables).to_a
 
       quantifiables.each do |quantifiable|
         matched = matchings.select { |s| s.can_unite?(quantifiable) }.first
@@ -180,7 +196,7 @@ module Quantifiable
     
     def transfer(quantifiables)
       quantifiables = new_collection(quantifiables)
-      matchings = match(quantifiables).to_a
+      matchings = all.match(quantifiables).to_a
 
       quantifiables.each do |quantifiable|
         matched = matchings.select { |s| s.can_unite?(quantifiable) }.first
