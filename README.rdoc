@@ -1,10 +1,13 @@
 == Good and evil kings
 
 TODO
-* karma
 * interception missions
+** karma
 * building upgrade
+* defence missions
+** karma
 * create AIs
+* diplomacy
 
 Scaffolds
 * rails g scaffold castles name:string kingdom:references elevations_map:string incomes_date:datetime max_stock:integer pop:integer --skip-migration

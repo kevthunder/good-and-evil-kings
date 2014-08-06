@@ -36,7 +36,22 @@ class AttackMission < Mission
       cost[:them].subtract_from(target)
       # loot
       stocks.add(target.stocks.up_to_date.subtract_any(garrisons.carry))
+      # karma
+      castle.kingdom.change_karma(karma_change)
+      castle.kingdom.save
     end
+  end
+  
+  def karma_change
+    self_reduction = 4
+    spread = 200
+    base = 20
+    kdiff = target.kingdom.karma - castle.kingdom.karma / self_reduction
+    (
+      kdiff > 0
+      ? (1/(kdiff/ spread+1)-2)*base
+      : (1/(kdiff/-spread+1)*base)*-1
+    )
   end
   
   class << self

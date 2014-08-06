@@ -31,6 +31,9 @@ class AssistMission < Mission
     reward = self.reward
     stocks.add reward
     target.stocks.add reward
+    # karma
+    castle.kingdom.change_karma(karma_change)
+    castle.kingdom.save
   end
   
   def start_returning
@@ -58,9 +61,17 @@ class AssistMission < Mission
     })
   end
   
-  def redeem
-    target.stocks.add_qty(reward(remaining).to_i ,:Coins)
-    destroy
+  def karma_change
+    self_reduction = 4
+    spread = 200
+    base = 10
+    kmod = 5
+    kdiff = target.kingdom.karma - castle.kingdom.karma / self_reduction
+    (
+      kdiff > 0
+      ? ((1/(kdiff/ spread+1)-1)*kmod)*-1+base
+      : ((1/(kdiff/-spread+1)-1)*kmod)+base
+    )
   end
   
   def actions

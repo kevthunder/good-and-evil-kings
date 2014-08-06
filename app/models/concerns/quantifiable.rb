@@ -186,7 +186,7 @@ module Quantifiable
       quantifiables.each do |quantifiable|
         matched = matchings.select { |s| s.can_unite?(quantifiable) }.first
         if matched.nil?
-          all.create(qte: quantifiable.qte, ressource_id: quantifiable.ressource_id)
+          all.create(qte: quantifiable.qte, quantified_key => quantifiable.send(quantified_key))
         else
           matched.qte += quantifiable.qte
           matched.save!
