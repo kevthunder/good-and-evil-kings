@@ -6,8 +6,8 @@ class Kingdom < ActiveRecord::Base
     max_karma = 10000
     return karma if power == 0 || (karma > max_karma && power > 0)  || (-karma > max_karma && power < 0)
     self.karma += (
-      power > 0
-      ? Math.sqrt(karma*-1+max_karma)/Math.sqrt(max_karma)*power
+      power > 0 ? 
+        Math.sqrt(karma*-1+max_karma)/Math.sqrt(max_karma)*power
       : Math.sqrt(karma+max_karma)/Math.sqrt(max_karma)*power
     )
   end

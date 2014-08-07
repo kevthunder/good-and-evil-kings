@@ -48,8 +48,8 @@ class AttackMission < Mission
     base = 20
     kdiff = target.kingdom.karma - castle.kingdom.karma / self_reduction
     (
-      kdiff > 0
-      ? (1/(kdiff/ spread+1)-2)*base
+      kdiff > 0 ? 
+        (1/(kdiff/ spread+1)-2)*base
       : (1/(kdiff/-spread+1)*base)*-1
     )
   end

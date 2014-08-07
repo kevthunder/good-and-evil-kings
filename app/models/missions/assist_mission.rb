@@ -68,8 +68,8 @@ class AssistMission < Mission
     kmod = 5
     kdiff = target.kingdom.karma - castle.kingdom.karma / self_reduction
     (
-      kdiff > 0
-      ? ((1/(kdiff/ spread+1)-1)*kmod)*-1+base
+      kdiff > 0 ? 
+        ((1/(kdiff/ spread+1)-1)*kmod)*-1+base
       : ((1/(kdiff/-spread+1)-1)*kmod)+base
     )
   end
