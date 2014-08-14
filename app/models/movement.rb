@@ -16,4 +16,12 @@ class Movement < ActiveRecord::Base
       end_tile.save
     end
   end
+  
+  def prc
+    [1,( DateTime.now - start_time) / (end_time - start_time)].min
+  end
+  
+  def cur_pos
+    at_line_prc(start_tile,end_tile,prc);
+  end
 end

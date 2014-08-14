@@ -69,9 +69,9 @@ class Mission < ActiveRecord::Base
   def create_movement(direction)
     if direction == :going
       start_tile = castle.tile
-      end_tile = target.tile
+      end_tile = target_tile
     else
-      start_tile = target.tile
+      start_tile = target_tile
       end_tile = castle.tile
     end
     self.movement = Movement.new(
@@ -80,6 +80,15 @@ class Mission < ActiveRecord::Base
       start_tile_attributes: {x: start_tile.x, y: start_tile.y},
       end_tile_attributes: {x: end_tile.x, y: end_tile.y}
     )
+  end
+  
+  def target_tile
+    target.tile
+  end
+  
+  def cur_pos
+    return nil if movement.nil?
+    movement.cur_pos
   end
   
   scope :to_update, -> { where('next_event < ?', Time.now) }
@@ -114,8 +123,8 @@ class Mission < ActiveRecord::Base
   end
 
   def calcul_travel_time
-    return garrisons.travel_time_between(castle, target) unless unsaved_garrisons
-    Garrison.calcul_travel_time(castle, target, SoldierType.where(id: garrisons.map { |g| g.soldier_type_id }).minimum('speed'))
+    return garrisons.travel_time_between(castle, target_tile) unless unsaved_garrisons
+    Garrison.calcul_travel_time(castle, target_tile, SoldierType.where(id: garrisons.map { |g| g.soldier_type_id }).minimum('speed'))
   end
 
   def start_behavior

@@ -1,12 +1,15 @@
-class AttackMission < Mission
+class InterceptionMission < Mission
   validate :must_have_one_garrison, on: :create
   validate :garrisons_must_be_available, on: :create
+  validate :must_be_within_reach, on: :create
+  
+  belongs_to :interception_tile, class_name: "Tile", dependent: :destroy
 
   after_initialize :after_initialize
   def after_initialize()
     add_sequence(['going','returning'])
   end
-  
+
   def start_going
     create_movement :going
     garrisons.subtract_from castle
@@ -53,14 +56,23 @@ class AttackMission < Mission
       : (1/(kdiff/-spread+1)*base)*-1
     )
   end
-
-  def interceptable
-    mission_status_code == 'going'
+  
+  def calcul_interception_point
+    return false unless target.respond_to?(:interceptable) && target.interceptable
+    Point::intercept_movement(target.castle,target.cur_pos,target.garrisons.speed,castle,garrisons.speed)
+  end
+  
+  def must_be_within_reach
+    errors.add(:garrisons, ' soldiers are not fast enough to intercept in time') unless calcul_interception_point
+  end
+  
+  def target_tile
+    interception_tile
   end
   
   class << self
     def allow_target(target,kingdom)
-      target.respond_to?(:kingdom) && target.kingdom != kingdom
+      target.respond_to?(:interceptable) && target.interceptable
     end
     
     def needs_field_garrisons
@@ -71,6 +83,8 @@ class AttackMission < Mission
   private
 
   def start
+    ipt = calcul_interception_point
+    interception_tile = Tile.new(x: ipt.x, y: ipt.y)
     self.next_event = Time.now + calcul_travel_time
     super
   end
