@@ -34,8 +34,8 @@ class Point
     # Point::intercept_movement(Point.new(-100,-100),Point.new(0,0),2,Point.new(100,100),2)
     def at_line_prc(pt1,pt2,prc)
       Point.new(
-        x : Math.floor(prc * (pt2.x - pt1.x)) + pt1.x,
-        y : Math.floor(prc * (pt2.y - pt1.y)) + pt1.y
+        (prc * (pt2.x - pt1.x)).to_i + pt1.x,
+        (prc * (pt2.y - pt1.y)).to_i + pt1.y
       )
     end
     

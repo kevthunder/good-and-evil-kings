@@ -3,8 +3,11 @@
 %>
 <div class="<%= classes.join(" ") %>" data_id="<%= movement.id %>" start_time="<%= movement.start_time.to_i %>" start_x="<%= movement.start_tile.x %>" start_y="<%= movement.start_tile.y %>" end_time="<%= movement.end_time.to_i %>" end_x="<%= movement.end_tile.x %>" end_y="<%= movement.end_tile.y %>">
 	
-  <div class="soldiers"><div class="clickPixel"></div></div>
+  <div class="soldiers"><div class="clickPixel"></div>
   <ul class="actions">
-    <%= link_to 'Show', movement %>
-  </ul>
+    <%= link_to 'Show', movement.mission %>
+    <% if user_signed_in? && MissionType.allowing_target(movement.mission,current_user.current_kingdom).count > 0  %>
+      <%= link_to 'Mission', new_mission_mission_path(movement.mission.id) %>
+    <% end %>
+  </ul></div>
 </div>

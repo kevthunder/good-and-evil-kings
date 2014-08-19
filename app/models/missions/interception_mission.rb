@@ -12,7 +12,7 @@ class InterceptionMission < Mission
 
   def start_going
     create_movement :going
-    garrisons.subtract_from castle
+    castle.garrisons.subtract garrisons
   end
   
   def end_going
@@ -35,25 +35,25 @@ class InterceptionMission < Mission
     # kill stuff
     cost = garrisons.attack_cost(target)
     transaction do
-      cost[:us].subtract_from(self)
-      cost[:them].subtract_from(target)
+      self.garrisons.subtract cost[:us]
+      target.garrisons.subtract cost[:them]
       # loot
       stocks.add(target.stocks.up_to_date.subtract_any(garrisons.carry))
       # karma
       castle.kingdom.change_karma(karma_change)
       castle.kingdom.save
+      target.intercepted(cost) if target.respond_to?(:intercepted)
     end
   end
   
   def karma_change
-    self_reduction = 4
-    spread = 200
-    base = 20
-    kdiff = target.kingdom.karma - castle.kingdom.karma / self_reduction
+    self_reduction = 2
+    multiply = 0.5
+    kdiff = castle.kindom.karma+target.target.kindom.karma-target.castle.kindom.karma+(target.target.kindom.karma+target.castle.kindom.karma)/-2
     (
       kdiff > 0 ? 
-        (1/(kdiff/ spread+1)-2)*base
-      : (1/(kdiff/-spread+1)*base)*-1
+        v(kdiff)*multiply
+      : v(-kdiff)*-multiply
     )
   end
   

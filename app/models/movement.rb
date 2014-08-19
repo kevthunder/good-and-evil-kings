@@ -1,6 +1,7 @@
 class Movement < ActiveRecord::Base
   belongs_to :start_tile, class_name: "Tile", dependent: :destroy
   belongs_to :end_tile, class_name: "Tile", dependent: :destroy
+  belongs_to :mission
   
   after_create :bind_tiles
   
@@ -18,10 +19,10 @@ class Movement < ActiveRecord::Base
   end
   
   def prc
-    [1,( DateTime.now - start_time) / (end_time - start_time)].min
+    [1,( DateTime.now.to_i - start_time.to_i) / (end_time.to_i - start_time.to_i)].min
   end
   
   def cur_pos
-    at_line_prc(start_tile,end_tile,prc);
+    Point.at_line_prc(start_tile,end_tile,prc);
   end
 end

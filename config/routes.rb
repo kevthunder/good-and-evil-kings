@@ -16,7 +16,9 @@ GoodAndEvilKings::Application.routes.draw do
 
   resources :mission_statuses
 
-  resources :missions
+  resources :missions do
+    resources :missions, only: [:new, :create]
+  end
   get 'missions/:id/redeem' => 'missions#redeem'
 
   resources :movements

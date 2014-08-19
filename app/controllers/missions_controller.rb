@@ -80,9 +80,22 @@ class MissionsController < ApplicationController
       @mission = Mission.find(params[:id])
     end
     
+    def set_target
+      types = {
+      "castle_id" => Castle,
+      "mission_id" => Mission
+      }
+      current_key = types.keys.find{ |k| params.has_key?(k)}
+      if(current_key)
+        current_type = types[current_key]
+        @target = current_type.find(params[current_key])
+      end
+    end
+    
     def set_mission_types
-      @mission_types = params.has_key?('castle_id')   \
-        ? MissionType.allowing_target(Castle.find(params['castle_id']),current_user.current_kingdom) 
+      target = set_target
+      @mission_types = target   \
+        ? MissionType.allowing_target(target,current_user.current_kingdom) 
         : MissionType.all
     end
 

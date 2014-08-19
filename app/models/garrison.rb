@@ -12,6 +12,12 @@ class Garrison < ActiveRecord::Base
         super()
       end
     end
+    
+    
+    def speed
+      return SoldierType.where(id: to_a.map{ |g| g.soldier_type_id}).minimum('speed') if proxy_association.owner.new_record?
+      super
+    end
   end
   
   belongs_to :kingdom

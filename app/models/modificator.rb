@@ -42,9 +42,11 @@ class Modificator < ActiveRecord::Base
     end
   
     def indirect_link_to(modifiable, applier = nil, create = false) 
-      modifiable.modifications.load if !modifiable.nil? && modifiable.respond_to?(:modifications)
-      all.each do |m|
-        m.indirect_link_to(modifiable, applier)
+      if !modifiable.nil? && modifiable.respond_to?(:modifications)
+        modifiable.modifications.load 
+        all.each do |m|
+          m.indirect_link_to(modifiable, applier)
+        end
       end
     end
     

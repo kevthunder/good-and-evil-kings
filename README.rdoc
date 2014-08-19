@@ -2,7 +2,8 @@
 
 TODO
 * interception missions
-** karma
+** bugs
+** wrong attack type
 * building upgrade
 * defence missions
 ** karma

@@ -9,7 +9,7 @@ class AttackMission < Mission
   
   def start_going
     create_movement :going
-    garrisons.subtract_from castle
+    castle.garrisons.subtract garrisons
   end
   
   def end_going
@@ -32,8 +32,8 @@ class AttackMission < Mission
     # kill stuff
     cost = garrisons.attack_cost(target)
     transaction do
-      cost[:us].subtract_from(self)
-      cost[:them].subtract_from(target)
+      self.garrisons.subtract cost[:us]
+      target.garrisons.subtract cost[:them]
       # loot
       stocks.add(target.stocks.up_to_date.subtract_any(garrisons.carry))
       # karma
@@ -56,6 +56,10 @@ class AttackMission < Mission
 
   def interceptable
     mission_status_code == 'going'
+  end
+  
+  def intercepted(cost)
+    destroy if garrison.qte == 0
   end
   
   class << self
