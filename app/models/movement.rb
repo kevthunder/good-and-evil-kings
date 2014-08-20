@@ -19,7 +19,7 @@ class Movement < ActiveRecord::Base
   end
   
   def prc
-    [1,( DateTime.now.to_i - start_time.to_i) / (end_time.to_i - start_time.to_i)].min
+    [1,( DateTime.now.to_f - start_time.to_f) / (end_time.to_f - start_time.to_f)].min
   end
   
   def cur_pos

@@ -3,7 +3,7 @@ class InterceptionMission < Mission
   validate :garrisons_must_be_available, on: :create
   validate :must_be_within_reach, on: :create
   
-  belongs_to :interception_tile, class_name: "Tile", dependent: :destroy
+  has_one :interception_tile, as: :tiled, class_name: "Tile", dependent: :destroy
 
   after_initialize :after_initialize
   def after_initialize()
@@ -33,12 +33,13 @@ class InterceptionMission < Mission
   
   def battle
     # kill stuff
-    cost = garrisons.attack_cost(target)
+    cost = battle_cost
     transaction do
       self.garrisons.subtract cost[:us]
       target.garrisons.subtract cost[:them]
       # loot
-      stocks.add(target.stocks.up_to_date.subtract_any(garrisons.carry))
+      target.stocks.up_to_date if target.stocks.respond_to?(:up_to_date)
+      stocks.add(target.stocks.subtract_any(garrisons.carry))
       # karma
       castle.kingdom.change_karma(karma_change)
       castle.kingdom.save
@@ -46,20 +47,24 @@ class InterceptionMission < Mission
     end
   end
   
+  def battle_cost
+    garrisons.attack_cost(target,:interception)
+  end
+  
   def karma_change
     self_reduction = 2
     multiply = 0.5
-    kdiff = castle.kindom.karma+target.target.kindom.karma-target.castle.kindom.karma+(target.target.kindom.karma+target.castle.kindom.karma)/-2
+    kdiff = castle.kingdom.karma+target.target.kingdom.karma-target.castle.kingdom.karma+(target.target.kingdom.karma+target.castle.kingdom.karma)/-2
     (
       kdiff > 0 ? 
-        v(kdiff)*multiply
-      : v(-kdiff)*-multiply
+        Math.sqrt(kdiff)*multiply
+      : Math.sqrt(-kdiff)*-multiply
     )
   end
   
   def calcul_interception_point
     return false unless target.respond_to?(:interceptable) && target.interceptable
-    Point::intercept_movement(target.castle,target.cur_pos,target.garrisons.speed,castle,garrisons.speed)
+    Point::intercept_movement(target.cur_pos,target.target,target.garrisons.speed,castle,garrisons.speed)
   end
   
   def must_be_within_reach
@@ -84,7 +89,7 @@ class InterceptionMission < Mission
 
   def start
     ipt = calcul_interception_point
-    interception_tile = Tile.new(x: ipt.x, y: ipt.y)
+    self.interception_tile = Tile.new(x: ipt.x, y: ipt.y)
     self.next_event = Time.now + calcul_travel_time
     super
   end

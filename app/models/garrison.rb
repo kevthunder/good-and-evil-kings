@@ -137,21 +137,46 @@ class Garrison < ActiveRecord::Base
       Garrison.calcul_travel_time(pos1, pos2, speed)
     end
 
-    def attack_cost(garrisonable)
-      att_data = get_battle_data('attack')
+    def attack_cost(garrisonable,type = :attack)
+      types = {
+        attack: {:att => 'attack',:def => 'defence'},
+        interception: {:att => 'interception',:def => 'interception'}
+      }
+      att_data = military.get_battle_data(types[type][:att])
       total_att = att_data.sum { |d| d[:power] }
-      def_data = garrisonable.garrisons.ready.get_battle_data('defence')
+      def_data = garrisonable.garrisons.ready.military.get_battle_data(types[type][:def])
       total_def = def_data.sum { |d| d[:power] }
       cost = [total_att,total_def,[total_att,total_def].sum * 3 / 8].min
-      att_casualties = att_data.map do |d| 
-        Garrison.new(qte: d[:qte] * cost / total_att, soldier_type_id: d[:type]) 
-      end
-      def_casualties = def_data.map do |d| 
-        Garrison.new(qte: d[:qte] * cost / total_def, soldier_type_id: d[:type]) 
-      end
+      
+      att_casualties = side_cost(cost,att_data,total_att,total_def)
+      def_casualties = side_cost(cost,def_data,total_def,total_att)
+      
       #ratio = att.map{ |d| d[:power].to_f/t_power * t_qte/d[:qte].to_f }
-      { us: GarrisonList.new(att_casualties), them: GarrisonList.new(def_casualties) }
+      { us: Garrison.new_collection(att_casualties), them: Garrison.new_collection(def_casualties) }
     end
+    
+    def side_cost(cost,my_data,my_total,their_total)
+      ratio = my_total / their_total
+      
+      my_ratio =  if ratio < 1
+                    1
+                  elsif ratio < 2
+                    (ratio-1)**3/-4.0+1.0
+                  else
+                    (ratio+1.0)/(ratio-1.0)/4.0
+                  end
+      
+      remaining = my_data.sum { |d| d[:qte] }
+      deads = (remaining * cost / my_total.to_f * my_ratio).ceil
+      
+      my_data.map do |d| 
+        this_deads = d[:qte] * deads / remaining
+        deads -= this_deads
+        remaining -= d[:qte]
+        Garrison.new(qte: this_deads, soldier_type_id: d[:type]) 
+      end
+    end
+    private :side_cost
 
     def check_disponibility?(garrisons)
       ready.can_subtract?(garrisons)

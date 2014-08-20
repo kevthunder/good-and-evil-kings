@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140731231117) do
+ActiveRecord::Schema.define(version: 20140819215237) do
 
   create_table "actions", force: true do |t|
     t.datetime "time"
@@ -238,6 +238,7 @@ ActiveRecord::Schema.define(version: 20140731231117) do
     t.datetime "updated_at"
     t.integer  "tiled_id"
     t.string   "tiled_type"
+    t.boolean  "render"
   end
 
   add_index "tiles", ["tiled_id", "tiled_type"], name: "index_tiles_on_tiled_id_and_tiled_type"

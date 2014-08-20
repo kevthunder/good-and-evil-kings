@@ -30,7 +30,7 @@ class AttackMission < Mission
   
   def battle
     # kill stuff
-    cost = garrisons.attack_cost(target)
+    cost = battle_cost
     transaction do
       self.garrisons.subtract cost[:us]
       target.garrisons.subtract cost[:them]
@@ -40,6 +40,10 @@ class AttackMission < Mission
       castle.kingdom.change_karma(karma_change)
       castle.kingdom.save
     end
+  end
+  
+  def battle_cost
+    garrisons.attack_cost(target)
   end
   
   def karma_change
@@ -59,7 +63,7 @@ class AttackMission < Mission
   end
   
   def intercepted(cost)
-    destroy if garrison.qte == 0
+    destroy if garrisons.qte == 0
   end
   
   class << self
@@ -70,6 +74,12 @@ class AttackMission < Mission
     def needs_field_garrisons
       true
     end
+  end
+  
+  def reset_movement
+    self.next_event = Time.now + calcul_travel_time
+    movement.destroy!
+    create_movement((mission_status_code == 'going') ? :going : :returning)
   end
   
   private

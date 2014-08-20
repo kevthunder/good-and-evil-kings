@@ -8,7 +8,7 @@ class TilesController < ApplicationController
   def index
     @sectionSize = 100
     @startZone = Zone.new(-300,-300,1000,1000);
-    @tiles = Tile.includes(:tiled).inBounds(@startZone).group_by { |tile| Point.new(tile.x/@sectionSize, tile.y/@sectionSize) }
+    @tiles = Tile.includes(:tiled).rendered.inBounds(@startZone).group_by { |tile| Point.new(tile.x/@sectionSize, tile.y/@sectionSize) }
     
     (@startZone.x1/@sectionSize..(@startZone.x2-1)/@sectionSize).each do |x|
       (@startZone.y1/@sectionSize..(@startZone.y2-1)/@sectionSize).each do |y|
@@ -29,7 +29,7 @@ class TilesController < ApplicationController
     end
     bounds = Zone.tilesToBounds(sections,@sectionSize);
     
-    @tiles = Tile.includes(:tiled).inBounds(bounds).group_by { |tile| Point.new(tile.x/@sectionSize, tile.y/@sectionSize) }
+    @tiles = Tile.includes(:tiled).rendered.inBounds(bounds).group_by { |tile| Point.new(tile.x/@sectionSize, tile.y/@sectionSize) }
     
     unless @ajax
       render "index"
