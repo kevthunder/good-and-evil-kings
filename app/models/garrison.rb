@@ -158,6 +158,7 @@ class Garrison < ActiveRecord::Base
     def side_cost(cost,my_data,my_total,their_total)
       ratio = my_total / their_total
       
+      # http://www.meta-calculator.com/online/ulsb8hvniq3c
       my_ratio =  if ratio < 1
                     1
                   elsif ratio < 2
