@@ -1,8 +1,6 @@
 == Good and evil kings
 
 TODO
-* interception missions
-** error next event
 * building upgrade
 * defence missions
 ** karma

@@ -117,8 +117,7 @@ class Mission < ActiveRecord::Base
   end
   
   def calcul_travel_time
-    return garrisons.travel_time_between(castle, target_tile) unless unsaved_garrisons
-    Garrison.calcul_travel_time(castle, target_tile, SoldierType.where(id: garrisons.map { |g| g.soldier_type_id }).minimum('speed'))
+    garrisons.travel_time_between(castle, target_tile)
   end
   
   private

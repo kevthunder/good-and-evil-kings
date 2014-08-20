@@ -2,6 +2,8 @@ class Tile < ActiveRecord::Base
   validates :x, presence: true
   validates :y, presence: true
   belongs_to :tiled, polymorphic: true
+  after_initialize :default_values
+
     
   def distance(point)
     Math.hypot(point.x - x, point.y - y)
@@ -32,5 +34,13 @@ class Tile < ActiveRecord::Base
   scope :within_square_dist, (lambda do |point,dist|
     inBounds(Zone.new(point.x - dist, point.y - dist, point.x + dist, point.y + dist))
   end)
+  
+  private
+  
+    def default_values
+      if new_record?
+        self.render = true if self.render.nil?
+      end
+    end
   
 end

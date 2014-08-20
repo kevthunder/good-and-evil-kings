@@ -67,6 +67,10 @@ class InterceptionMission < Mission
     Point::intercept_movement(target.cur_pos,target.target,target.garrisons.speed,castle,garrisons.speed)
   end
   
+  def calcul_travel_time
+    target.garrisons.travel_time_between(target.cur_pos, interception_tile)
+  end
+  
   def must_be_within_reach
     errors.add(:garrisons, ' soldiers are not fast enough to intercept in time') unless calcul_interception_point
   end
@@ -89,7 +93,7 @@ class InterceptionMission < Mission
 
   def start
     ipt = calcul_interception_point
-    self.interception_tile = Tile.new(x: ipt.x, y: ipt.y)
+    self.interception_tile = Tile.new(x: ipt.x, y: ipt.y, render: false)
     self.next_event = Time.now + calcul_travel_time
     super
   end
