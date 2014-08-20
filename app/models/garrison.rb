@@ -143,20 +143,19 @@ class Garrison < ActiveRecord::Base
         interception: {:att => 'interception',:def => 'interception'}
       }
       att_data = military.get_battle_data(types[type][:att])
-      total_att = att_data.sum { |d| d[:power] }
+      att_power = att_data.sum { |d| d[:power] }
       def_data = garrisonable.garrisons.ready.military.get_battle_data(types[type][:def])
-      total_def = def_data.sum { |d| d[:power] }
-      cost = [total_att,total_def,[total_att,total_def].sum * 3 / 8].min
+      def_power = def_data.sum { |d| d[:power] }
+      cost = [att_power,def_power,[att_power,def_power].sum * 3 / 8].min
       
-      att_casualties = side_cost(cost,att_data,total_att,total_def)
-      def_casualties = side_cost(cost,def_data,total_def,total_att)
+      att_casualties = side_cost(cost,att_data,att_power,def_power)
+      def_casualties = side_cost(cost,def_data,def_power,att_power)
       
-      #ratio = att.map{ |d| d[:power].to_f/t_power * t_qte/d[:qte].to_f }
       { us: Garrison.new_collection(att_casualties), them: Garrison.new_collection(def_casualties) }
     end
     
-    def side_cost(cost,my_data,my_total,their_total)
-      ratio = my_total / their_total
+    def side_cost(cost,my_data,my_power,their_power)
+      ratio = my_power / their_power
       
       # http://www.meta-calculator.com/online/ulsb8hvniq3c
       my_ratio =  if ratio < 1
@@ -168,7 +167,7 @@ class Garrison < ActiveRecord::Base
                   end
       
       remaining = my_data.sum { |d| d[:qte] }
-      deads = (remaining * cost / my_total.to_f * my_ratio).ceil
+      deads = (remaining * cost / my_power.to_f * my_ratio).ceil
       
       my_data.map do |d| 
         this_deads = d[:qte] * deads / remaining
