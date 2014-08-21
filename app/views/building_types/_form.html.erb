@@ -31,6 +31,10 @@
     <%= f.label :size_y %><br>
     <%= f.number_field :size_y %>
   </div>
+  <div class="field">
+    <%= f.label :predecessor_id %><br>
+    <%= f.collection_select(:predecessor_id, BuildingType.all, :id, :name, :include_blank => "None") %>
+  </div>
   
   <%= render 'stocks/nested_form', :form => f, :stocks_prop => :costs, :add_label => "Add cost" %>
   <%= render 'modificators/nested_form', :form => f %>

@@ -1,5 +1,6 @@
 class Castle < ActiveRecord::Base
   belongs_to :kingdom
+  has_one :owner, through: :kingdom, source: :user
   has_one :tile, as: :tiled, dependent: :destroy, validate: :true
   has_many :incomes, ->{ extending Quantifiable::HasManyExtension }, as: :stockable, inverse_of: :stockable
   has_many :stocks, -> { extending(Quantifiable::HasManyExtension).where(type: nil) }, as: :stockable, inverse_of: :stockable do

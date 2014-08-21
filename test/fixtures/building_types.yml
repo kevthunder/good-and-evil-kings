@@ -6,6 +6,7 @@ one:
   build_time: 1
   size_x: 1
   size_y: 1
+  predecessor_id: 
 
 two:
   name: MyString
@@ -13,3 +14,4 @@ two:
   build_time: 1
   size_x: 1
   size_y: 1
+  predecessor_id: 

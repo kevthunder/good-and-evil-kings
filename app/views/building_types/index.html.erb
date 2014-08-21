@@ -8,6 +8,7 @@
       <th>Build time</th>
       <th>Size x</th>
       <th>Size y</th>
+      <th>Predecessor</th>
       <th></th>
       <th></th>
       <th></th>
@@ -22,6 +23,7 @@
         <td><%= building_type.build_time %></td>
         <td><%= building_type.size_x %></td>
         <td><%= building_type.size_y %></td>
+        <td><%= building_type.predecessor %></td>
         <td><%= link_to 'Show', building_type %></td>
         <td><%= link_to 'Edit', edit_building_type_path(building_type) %></td>
         <td><%= link_to 'Destroy', building_type, method: :delete, data: { confirm: 'Are you sure?' } %></td>

@@ -1,5 +1,5 @@
 class BuildingsController < ApplicationController
-  before_action :set_building, only: [:show, :edit, :update, :destroy]
+  before_action :set_building, only: [:show, :edit, :update, :destroy, :upgrade, :upgrade_now]
   before_action :set_my_castles, only: [:new, :create, :edit, :update]
   before_filter :authenticate_user!
 
@@ -19,10 +19,6 @@ class BuildingsController < ApplicationController
     @building = Building.new
   end
 
-  # GET /buildings/1/edit
-  def edit
-  end
-
   # POST /buildings
   # POST /buildings.json
   def create
@@ -40,6 +36,10 @@ class BuildingsController < ApplicationController
     end
   end
 
+  # GET /buildings/1/edit
+  def edit
+  end
+
   # PATCH/PUT /buildings/1
   # PATCH/PUT /buildings/1.json
   def update
@@ -53,6 +53,24 @@ class BuildingsController < ApplicationController
       end
     end
   end
+
+  # GET /buildings/1/upgrade
+  def upgrade
+  end
+
+  # POST /buildings/1/upgrade
+  def upgrade_now
+    respond_to do |format|
+      if @building.update(params.require(:building).permit(:building_type_id))
+        format.html { redirect_to @building, notice: 'Building was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: 'upgrade' }
+        format.json { render json: @building.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
 
   # DELETE /buildings/1
   # DELETE /buildings/1.json

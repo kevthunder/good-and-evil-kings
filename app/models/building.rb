@@ -1,7 +1,11 @@
 class Building < ActiveRecord::Base
   belongs_to :building_type
   belongs_to :castle
+  has_many :upgrades, through: :building_type
   validate :dont_overlapse, :in_bounds, :on_flat_land
+  validate :must_upgrade, on: :update, :if => :building_type_id_changed?
+  validate :must_be_basic, on: :create
+  has_one :owner, through: :castle
   
   include Buyable
   self.buyer = :castle
@@ -15,7 +19,7 @@ class Building < ActiveRecord::Base
   end
   
   def overlapse?
-    Building.overlapsing(self).count > 0
+    Building.where.not(id: id).overlapsing(self).count > 0
   end
   
   def in_bounds
@@ -31,9 +35,24 @@ class Building < ActiveRecord::Base
     errors.add(:base, "Must be place on flat land") unless castle.elevations.flat_zone?(elev_zone)
   end
   
+  def must_be_basic
+    errors.add(:building_type_id, "This is an upgrade, it cant be build directly") unless building_type.predecessor_id.nil?
+  end
+  
+  def must_upgrade
+    errors.add(:building_type_id, " can't be upgraded to") unless building_type.predecessor_id == building_type_id_was
+  end
   
   def bounds
     Point.new(16,16)
+  end
+  
+  def can_upgrade?
+    upgrades.count > 0
+  end
+  
+  def owned_by?(user)
+    !user.nil? && owner.id == user.id
   end
   
   scope :overlapsing, (lambda do |building|

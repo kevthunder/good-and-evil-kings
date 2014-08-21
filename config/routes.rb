@@ -13,6 +13,8 @@ GoodAndEvilKings::Application.routes.draw do
   resources :building_types
 
   resources :buildings
+  get 'buildings/:id/upgrade' => 'buildings#upgrade', as: 'upgrade_building'
+  post 'buildings/:id/upgrade' => 'buildings#upgrade_now'
 
   resources :mission_statuses
 

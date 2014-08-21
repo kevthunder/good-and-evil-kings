@@ -6,4 +6,11 @@
 %>
 <%= tag("div", {class: 'building', style: "top: #{top}px; left: #{left}px"}, true) %>
   <div class="display"></div>
+  <div class="clickZone"></div>
+  <ul class="actions">
+    <li><%= link_to 'Show', building %></li>
+    <% if building.owned_by?(current_user) && building.can_upgrade? %>
+      <li><%= link_to 'Upgrade', upgrade_building_path(building) %></li>
+    <% end %>
+  </ul>
 </div>

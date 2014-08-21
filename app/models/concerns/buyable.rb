@@ -8,9 +8,9 @@ module Buyable
       scope :ready, -> { where(ready: nil) }
       scope :not_ready, -> { where.not(ready: nil) }
     end
-    validate :able_to_buy, on: :create
-    before_create :on_bougth
-    after_create :buy
+    validate :able_to_buy
+    before_save :on_bougth
+    after_save :buy
   
     attr_accessor :bougth
   end

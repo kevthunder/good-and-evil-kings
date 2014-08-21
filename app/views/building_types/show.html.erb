@@ -25,5 +25,10 @@
   <%= @building_type.size_y %>
 </p>
 
+<p>
+  <strong>Predecessor:</strong>
+  <%= @building_type.predecessor %>
+</p>
+
 <%= link_to 'Edit', edit_building_type_path(@building_type) %> |
 <%= link_to 'Back', building_types_path %>

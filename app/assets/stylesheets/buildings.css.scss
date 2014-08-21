@@ -15,5 +15,32 @@
       height:200px;
       bottom:0px;
     }
+    &:hover {
+      .actions{
+        display:block;
+      }
+    }
+    .actions{
+      z-index:100;
+      left:50px;
+      position:absolute;
+      display:none;
+      margin:0px;
+      padding:2px;
+      background-color:#cccccc;
+      li{
+        margin:0px;
+        padding:0px;
+        list-style:none;
+      }
+    }
+    .clickZone{
+      z-index:50;
+      position:absolute;
+      width:100px;
+      height:50px;
+      top:25px;
+      left:50px;
+    }
   }
 }
