@@ -85,6 +85,7 @@ class AttackMission < Mission
   private
 
   def start
+    garrisons.set_kingdom(castle.kingdom)
     self.next_event = Time.now + calcul_travel_time
     super
   end

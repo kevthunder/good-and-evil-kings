@@ -1,12 +1,12 @@
-class AssistMission < Mission
-  validate :must_have_one_worker, on: :create
+class DefenceMission < Mission
+  validate :must_have_one_garrison, on: :create
   validate :garrisons_must_be_available, on: :create
   
   include TimedMission
   
   after_initialize :after_initialize
   def after_initialize()
-    add_sequence(['going','working','returning'])
+    add_sequence(['going','guarding','returning'])
   end
   
   def start
@@ -24,17 +24,17 @@ class AssistMission < Mission
     movement.destroy! unless movement.nil?
   end
   
-  def start_working
+  def start_guarding
     self.next_event = Time.now + length
+    
+    target.garrisons.add garrisons
   end
   
-  def end_working
-    reward = self.reward
-    stocks.add reward
-    target.stocks.add reward
+  def end_guarding
+    target.garrisons.subtract_up_to!(garrisons)
     # karma
-    castle.kingdom.change_karma(karma_change)
-    castle.kingdom.save
+    # castle.kingdom.change_karma(karma_change)
+    # castle.kingdom.save
   end
   
   def start_returning
@@ -44,22 +44,6 @@ class AssistMission < Mission
   def end_returning
     movement.destroy! unless movement.nil?
     castle.garrisons.add garrisons
-    castle.stocks.add stocks
-  end
-  
-  
-  def reward(remaining = 1)
-    ressources = [Ressource.food,Ressource.wood,Ressource.stone]
-    Stock.new_collection(ressources.map{ |r|
-      def_multi = 10
-      reduce = 72000
-      base = target.default_income(r.id)*def_multi + target.incomes.find_by_ressource_id(r.id).qte
-      qte = base * length * garrisons.workers.qte * mission_length.reward / reduce
-      Stock.new(
-        qte: qte, 
-        ressource:r
-      )
-    })
   end
   
   def karma_change
@@ -74,10 +58,6 @@ class AssistMission < Mission
         (-1/(kdiff/spread-1) -1)*kmod +base
       : (-1/(kdiff/spread+1) +1)*kmod +base
     )
-  end
-  
-  def must_have_one_worker
-    errors.add(:garrisons, 'You must send at lest one worker') if garrisons.workers.qte < 1
   end
   
   class << self

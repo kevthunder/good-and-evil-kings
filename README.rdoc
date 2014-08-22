@@ -2,7 +2,7 @@
 
 TODO
 * defence missions
-** karma
+** karma on battle
 * update orders
 * create AIs
 * diplomacy

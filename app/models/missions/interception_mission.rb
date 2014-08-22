@@ -68,7 +68,11 @@ class InterceptionMission < Mission
   end
   
   def calcul_travel_time
-    target.garrisons.travel_time_between(target.cur_pos, interception_tile)
+    if mission_status_code.nil? || mission_status_code == 'going'
+      target.garrisons.travel_time_between(target.cur_pos, interception_tile)
+    else
+      super
+    end
   end
   
   def must_be_within_reach

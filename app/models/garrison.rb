@@ -13,6 +13,10 @@ class Garrison < ActiveRecord::Base
       end
     end
     
+    def set_kingdom(kingdom_id)
+      return to_collection.map{ |g| g.kingdom_id = kingdom_id }.count if proxy_association.owner.new_record?
+      super
+    end
     
     def speed
       return SoldierType.where(id: to_a.map{ |g| g.soldier_type_id}).minimum('speed') if proxy_association.owner.new_record?
@@ -78,7 +82,7 @@ class Garrison < ActiveRecord::Base
     end
   end
   
-  scope :match, (lambda do |garrisons|
+  scope :_match, (lambda do |garrisons|
     garrisons = Garrison.new_collection(garrisons)
 
     or_conds = Array.new
@@ -216,6 +220,11 @@ class Garrison < ActiveRecord::Base
       each do |garrison|
         garrison.destroy
       end
+    end
+    
+    
+    def set_kingdom(kingdom_id)
+      update_all(kingdom_id: kingdom_id)
     end
     
   end
