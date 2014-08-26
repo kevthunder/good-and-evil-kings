@@ -12,6 +12,8 @@ class Mission < ActiveRecord::Base
   accepts_nested_attributes_for :stocks, :garrisons, :options, allow_destroy: true
 
   before_create :start_behavior
+  
+  include BelongsToResolver
 
   def next
     self.next_event = nil
@@ -91,13 +93,17 @@ class Mission < ActiveRecord::Base
     movement.cur_pos
   end
   
-  scope :to_update, -> { where('next_event < ?', Time.now) }
+  scope :to_update, -> { where('next_event < ?', Time.now).order(:next_event) }
 
   
   class << self
     def update
+      to_update = self.to_update.to_a;
       to_update.each do |mission|
-        mission.update_event
+        if !mission.destroyed?
+          mission.resolve_belongs_to_with(to_update);
+          mission.update_event
+        end
       end
     end
     

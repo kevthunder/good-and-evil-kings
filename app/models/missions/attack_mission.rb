@@ -39,6 +39,7 @@ class AttackMission < Mission
       # karma
       castle.kingdom.change_karma(karma_change)
       castle.kingdom.save
+      target.attacked if target.respond_to?(:attacked)
     end
   end
   

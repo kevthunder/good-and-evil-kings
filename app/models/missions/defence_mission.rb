@@ -30,11 +30,14 @@ class DefenceMission < Mission
     target.garrisons.add garrisons
   end
   
+  def attacked
+    # karma
+    castle.kingdom.change_karma(karma_change)
+    castle.kingdom.save
+  end
+  
   def end_guarding
     target.garrisons.subtract_up_to!(garrisons)
-    # karma
-    # castle.kingdom.change_karma(karma_change)
-    # castle.kingdom.save
   end
   
   def start_returning
@@ -47,12 +50,13 @@ class DefenceMission < Mission
   end
   
   def karma_change
-    # http://www.meta-calculator.com/online/vjblkwcz9o2h
+    # http://www.meta-calculator.com/online/dufjcy5psemz
     self_reduction = 4
+    reduction = 200
     spread = 200
-    base = 5
-    kmod = 5
-    kdiff = target.kingdom.karma - castle.kingdom.karma / self_reduction
+    base = 1
+    kmod = 9
+    kdiff = target.kingdom.karma - castle.kingdom.karma / self_reduction + reduction
     (
       kdiff < 0 ? 
         (-1/(kdiff/spread-1) -1)*kmod +base

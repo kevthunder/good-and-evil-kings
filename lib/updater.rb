@@ -7,8 +7,15 @@ class Updater
       end
     end
     
+    def updated
+      # load all models
+      Rails.application.eager_load!
+      
+      @@updated
+    end
+    
     def update
-      @@updated.each do |obj|
+      updated.each do |obj|
         obj.update
       end
     end

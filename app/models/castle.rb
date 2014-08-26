@@ -33,6 +33,7 @@ class Castle < ActiveRecord::Base
   has_many :stocks_raw, ->{ extending Quantifiable::HasManyExtension }, class_name: :Stock, as: :stockable
   has_many :garrisons, ->{ extending Garrison::HasManyExtension }, as: :garrisonable
   has_many :buildings
+  has_many :stationned_defence_missions, ->{ where(mission_status_code: "guarding") }, class_name: :DefenceMission, as: :target
   serialize :elevations_map, Array
   
   include Modifiable
@@ -52,6 +53,12 @@ class Castle < ActiveRecord::Base
       kindom_id: self.kingdom_id,
       kindom_type: "Kingdom"}
     ).where(type: nil)
+  end
+  
+  def attacked 
+    stationned_defence_missions.each do |mission|
+      mission.attacked if mission.respond_to?(:attacked)
+    end
   end
   
   def max_stock(ressource = nil)

@@ -24,7 +24,13 @@ module TimedMission
   end
   
   def length 
-    mission_length.seconds.second
+    mission_length = self.mission_length
+    raise "No length is attached to this Mission (ID: "+id.to_s+")" if !allow_nil_length? && mission_length.nil? 
+    mission_length.seconds.second 
+  end
+  
+  def allow_nil_length?
+    false
   end
   
   def remaining 

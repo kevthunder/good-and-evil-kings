@@ -18,10 +18,10 @@ class InterceptionMission < Mission
   def end_going
     movement.destroy! unless movement.nil?
     battle
-    self.next_event = Time.now + calcul_travel_time
   end
   
   def start_returning
+    self.next_event = Time.now + calcul_travel_time
     create_movement :returning
   end
   
@@ -32,18 +32,20 @@ class InterceptionMission < Mission
   end
   
   def battle
-    # kill stuff
-    cost = battle_cost
-    transaction do
-      self.garrisons.subtract cost[:us]
-      target.garrisons.subtract cost[:them]
-      # loot
-      target.stocks.up_to_date if target.stocks.respond_to?(:up_to_date)
-      stocks.add(target.stocks.subtract_any(garrisons.carry))
-      # karma
-      castle.kingdom.change_karma(karma_change)
-      castle.kingdom.save
-      target.intercepted(cost) if target.respond_to?(:intercepted)
+    unless target.nil?
+      # kill stuff
+      cost = battle_cost
+      transaction do
+        self.garrisons.subtract cost[:us]
+        target.garrisons.subtract cost[:them]
+        # loot
+        target.stocks.up_to_date if target.stocks.respond_to?(:up_to_date)
+        stocks.add(target.stocks.subtract_any(garrisons.carry))
+        # karma
+        castle.kingdom.change_karma(karma_change)
+        castle.kingdom.save
+        target.intercepted(cost) if target.respond_to?(:intercepted)
+      end
     end
   end
   
