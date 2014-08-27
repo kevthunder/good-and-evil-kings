@@ -52,7 +52,7 @@ class Building < ActiveRecord::Base
   end
   
   def owned_by?(user)
-    !user.nil? && owner.id == user.id
+    !user.nil? && !owner.nil? && owner.id == user.id
   end
   
   scope :overlapsing, (lambda do |building|

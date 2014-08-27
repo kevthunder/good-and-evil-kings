@@ -40,6 +40,8 @@ class AttackMission < Mission
       castle.kingdom.change_karma(karma_change)
       castle.kingdom.save
       target.attacked if target.respond_to?(:attacked)
+      
+      destroy if garrisons.qte == 0
     end
   end
   

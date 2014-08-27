@@ -7,9 +7,9 @@ class Castle < ActiveRecord::Base
     def add_qty(number, ressource)
       ressource = Ressource.find(ressource)
       if(ressource.global)
-        proxy_association.owner.kingdom.stocks.add_qty(number, ressource, proxy_association.owner.kingdom)
+        proxy_association.owner.kingdom.stocks.add_qty(number, ressource)
       else
-        super(number, ressource, proxy_association.owner)
+        super(number, ressource)
       end
     end
     

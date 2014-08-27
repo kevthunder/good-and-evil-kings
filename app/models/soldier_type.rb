@@ -13,4 +13,10 @@ class SoldierType < ActiveRecord::Base
     stocks = stocks.match(costs).to_collection
     costs.map{ |c| s = stocks.match(c); s.qte / c.qte }.min
   end
+  
+  class << self
+    def find_by_alias(alias_name)
+      where("alias" => alias_name).first
+    end
+  end
 end

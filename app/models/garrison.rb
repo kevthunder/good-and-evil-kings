@@ -14,6 +14,7 @@ class Garrison < ActiveRecord::Base
     end
     
     def set_kingdom(kingdom_id)
+      kingdom_id = kingdom_id.id if kingdom_id.respond_to?(:id)
       return to_collection.map{ |g| g.kingdom_id = kingdom_id }.count if proxy_association.owner.new_record?
       super
     end
@@ -224,6 +225,7 @@ class Garrison < ActiveRecord::Base
     
     
     def set_kingdom(kingdom_id)
+      kingdom_id = kingdom_id.id if kingdom_id.respond_to?(:id)
       update_all(kingdom_id: kingdom_id)
     end
     

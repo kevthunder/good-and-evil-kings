@@ -68,25 +68,6 @@ class Stock < ActiveRecord::Base
       Stock::Collection
     end
     
-    def add_qty(number, ressource, stockable)
-      if ressource.is_a?(String) || ressource.is_a?(Symbol)
-        ressource_id = Ressource.find_by_name(ressource).id
-      elsif ressource.respond_to?(:id)
-        ressource_id = ressource.id
-      else
-        ressource_id = ressource
-      end
-      
-      if ressource_id
-        existing = find_by_ressource_id(ressource_id)
-        if existing 
-          existing.qte += number;
-          existing.save
-        else
-          stockable.stocks.create qte: number, ressource_id: ressource_id
-        end
-      end
-    end
     
     Ressource.all.each do |r| 
       define_method(r.alias) do ||

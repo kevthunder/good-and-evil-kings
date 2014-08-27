@@ -79,7 +79,50 @@ module Quantifiable
     
   end
   
+  module HasManyOrClass
+    def add(quantifiables)
+      each_match(quantifiables) do |matcheds,quantifiable|
+        matched = matcheds.first
+        if matched.nil?
+          self << quantifiable.dup
+        else
+          matched.qte += quantifiable.qte
+          matched.save!
+        end
+      end
+    end
+    
+    def transfer(quantifiables)
+      each_match(quantifiables) do |matcheds,quantifiable|
+        matched = matcheds.first
+        if matched.nil?
+          self << quantifiable
+        else
+          matched.qte += quantifiable.qte
+          matched.save!
+          quantifiable.destroy
+        end
+      end
+    end
+    
+    def add_qty(number, quantified)
+      quantified_id = quantified_id_from(quantified)
+      
+      if quantified_id
+        existing = send("find_by_"+quantified_key, quantified_id)
+        if existing 
+          existing.qte += number;
+          existing.save
+        else
+          create qte: number, quantified_key => quantified_id
+        end
+      end
+    end
+  end
+  
   module HasManyExtension
+    include Quantifiable::HasManyOrClass
+    
     def qte
       return to_a.sum{ |g| g.qte} if proxy_association.owner.new_record?
       super
@@ -123,6 +166,8 @@ module Quantifiable
   end
   
   module ClassMethods
+    include Quantifiable::HasManyOrClass
+  
     def each_match(quantifiables)
         res = match(quantifiables)
         quantifiables = new_collection(quantifiables)
@@ -186,6 +231,7 @@ module Quantifiable
     end
     
     def take_up_to(quantifiables)
+      res = new_collection()
       each_match(quantifiables) do |matcheds,quantifiable|
         matched = matcheds.first
         qte = 0
@@ -230,29 +276,19 @@ module Quantifiable
       end
     end
     
-    def add(quantifiables)
-      each_match(quantifiables) do |matcheds,quantifiable|
-        matched = matcheds.first
-        if matched.nil?
-          all.create(qte: quantifiable.qte, quantified_key => quantifiable.send(quantified_key))
-        else
-          matched.qte += quantifiable.qte
-          matched.save!
+    def quantified_id_from(source)
+      if source.is_a?(String) || source.is_a?(Symbol)
+        if quantified.respond_to?(:find_by_alias)
+          f = quantified.find_by_alias(source)
+          return f.id unless f.nil?
+        end
+        if quantified.respond_to?(:find_by_name)
+          f = quantified.find_by_name(source)
+          return f.id unless f.nil?
         end
       end
-    end
-    
-    def transfer(quantifiables)
-      each_match(quantifiables) do |matcheds,quantifiable|
-        matched = matcheds.first
-        if matched.nil?
-          all << quantifiable
-        else
-          matched.qte += quantifiable.qte
-          matched.save!
-          quantifiable.destroy
-        end
-      end
+      return source.id if source.respond_to?(:id)
+      return source if source.is_a?(Integer)
     end
     
     attr_accessor :quantified
