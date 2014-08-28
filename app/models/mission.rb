@@ -63,12 +63,6 @@ class Mission < ActiveRecord::Base
   def actions_list
     Hash[*actions.map{ |a| [a, a.humanize] }.flatten]
   end
-  
-  def update_event
-    if !next_event.nil? && next_event < Time.now
-      self.next
-    end
-  end
 
   def create_movement(direction)
     if direction == :going
@@ -93,6 +87,12 @@ class Mission < ActiveRecord::Base
   def cur_pos
     return nil if movement.nil?
     movement.cur_pos
+  end
+  
+  def update_event
+    if !next_event.nil? && next_event < Time.now
+      self.next
+    end
   end
   
   scope :to_update, -> { where('next_event < ?', Time.now).order(:next_event) }
