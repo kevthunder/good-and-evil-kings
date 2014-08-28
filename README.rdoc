@@ -1,7 +1,6 @@
 == Good and evil kings
 
 TODO
-* update orders
 * create AIs
 * diplomacy
 

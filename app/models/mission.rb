@@ -1,5 +1,4 @@
 class Mission < ActiveRecord::Base
-  Updater.add_updated self
   belongs_to :mission_type, primary_key: 'class_name', foreign_key: 'type'
   belongs_to :mission_status, primary_key: 'code', foreign_key: 'mission_status_code'
   belongs_to :castle
@@ -13,7 +12,8 @@ class Mission < ActiveRecord::Base
 
   before_create :start_behavior
   
-  include BelongsToResolver
+  include Updated
+  updated_column :next_event, :next
 
   def next
     self.next_event = nil
@@ -88,26 +88,8 @@ class Mission < ActiveRecord::Base
     return nil if movement.nil?
     movement.cur_pos
   end
-  
-  def update_event
-    if !next_event.nil? && next_event < Time.now
-      self.next
-    end
-  end
-  
-  scope :to_update, -> { where('next_event < ?', Time.now).order(:next_event) }
-
-  
+ 
   class << self
-    def update
-      to_update = self.to_update.to_a;
-      to_update.each do |mission|
-        if !mission.destroyed?
-          mission.resolve_belongs_to_with(to_update);
-          mission.update_event
-        end
-      end
-    end
     
     def needs_field(field_name)
       return send("needs_field_" + field_name.to_s) if respond_to?("needs_field_" + field_name.to_s)

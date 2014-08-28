@@ -1,5 +1,7 @@
 class Income < Stock
-  Updater.add_updated self
+  
+  include Updated
+  updated_column :breakpoint_time, :do_break
   
   before_save :must_be_applied
   
@@ -95,23 +97,13 @@ class Income < Stock
   end
   
   def do_break
-    do_zero_break
-    do_full_break
+    Stock.unscoped do
+      do_zero_break
+      do_full_break
+    end
   end
   
-  
-  scope :to_update, -> { where('breakpoint_time < ?', Time.now) }
-  
   class << self
-  
-    def update
-      to_update.each do |income|
-        Stock.unscoped do
-          income.do_break
-        end
-      end
-    end
-    
     def apply(stockable = nil)
       each_stockable(stockable) do |stockable,incomes|
         if incomes.apply_interval(stockable.incomes_date,DateTime.now, stockable)

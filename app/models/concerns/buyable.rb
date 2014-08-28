@@ -3,8 +3,9 @@ module Buyable
 
   included do
     if self.attribute_method?(:ready)
-      Updater.add_updated self
-      scope :to_update, -> { where('ready < ?', Time.now) }
+      include Updated
+      updated_column :ready, :on_ready
+    
       scope :ready, -> { where(ready: nil) }
       scope :not_ready, -> { where.not(ready: nil) }
     end
@@ -49,8 +50,10 @@ module Buyable
   end
   
   def on_ready
-    self.ready = nil
-    save!
+    if readyable?
+      self.ready = nil
+      save!
+    end
   end
   
   def cost
@@ -81,21 +84,8 @@ module Buyable
     end
   end
   
-  def update_readyable
-    if readyable? && ready < Time.now
-      on_ready
-    end
-  end
-  
   module ClassMethods
-    def update
-      if method_defined? :on_ready
-        to_update.each do |garrison|
-          garrison.on_ready
-        end
-      end
-    end
-    
+
     attr_accessor :buyable_type
     attr_accessor :buyer
     

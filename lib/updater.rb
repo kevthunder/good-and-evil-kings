@@ -6,7 +6,7 @@ class Updater
     end
     
     def trigger
-      unless target.respond_to( :destroyed? )  && target.destroyed?
+      unless target.respond_to?( :destroyed? )  && target.destroyed?
         target.send(call_method)
       end
     end
@@ -39,6 +39,10 @@ class Updater
     end
     
     def update
+      objects = all_update_callbacks.map{ |c| c.target }.uniq
+      objects.each do |o|
+        o.set_context_objects(objects) if o.respond_to?(:set_context_objects)
+      end
       all_update_callbacks.sort_by{ |c| c.order }.each do |c|
         c.trigger
       end
