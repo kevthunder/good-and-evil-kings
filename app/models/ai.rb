@@ -21,5 +21,11 @@ class Ai < ActiveRecord::Base
   end
   
   class << self
+    def create_scattered(point,max_side_size)
+      ai = avalable_for_size(max_side_size)
+    end
+    def avalable_for_size(max_side_size)
+    
+    end
   end
 end
