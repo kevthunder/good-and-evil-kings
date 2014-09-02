@@ -26,4 +26,23 @@ class Kingdom < ActiveRecord::Base
     ais_outer.group("kingdoms.id").having("count(ais.id) < kingdoms.max_ais")
   end)
   
+  def generate_name!
+    self.name = generate_name
+  end
+  def generate_name
+    
+  end
+  
+  class << self
+    
+    def available_or_create_for_size(side_size)
+      available = where(max_ais: side_size).not_ai_maxed.first
+      if available.nil?
+        available = new(max_ais: side_size)
+        available.generate_name!
+      end
+      available
+    end
+  end
+  
 end
