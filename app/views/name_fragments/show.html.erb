@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @name_fragment.name %>
+</p>
+
+<p>
+  <strong>Pos:</strong>
+  <%= @name_fragment.pos %>
+</p>
+
+<p>
+  <strong>Group:</strong>
+  <%= @name_fragment.group %>
+</p>
+
+<%= link_to 'Edit', edit_name_fragment_path(@name_fragment) %> |
+<%= link_to 'Back', name_fragments_path %>

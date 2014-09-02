@@ -1,0 +1,29 @@
+<%= form_for(@name_fragment) do |f| %>
+  <% if @name_fragment.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@name_fragment.errors.count, "error") %> prohibited this name_fragment from being saved:</h2>
+
+      <ul>
+      <% @name_fragment.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :pos %><br>
+    <%= f.text_field :pos %>
+  </div>
+  <div class="field">
+    <%= f.label :group %><br>
+    <%= f.text_field :group %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

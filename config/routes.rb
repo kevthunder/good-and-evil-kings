@@ -1,5 +1,7 @@
 GoodAndEvilKings::Application.routes.draw do
 
+  resources :name_fragments
+
   resources :ai_actions
 
   resources :ais

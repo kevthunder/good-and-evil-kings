@@ -1,0 +1,31 @@
+<h1>Listing name_fragments</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Pos</th>
+      <th>Group</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @name_fragments.each do |name_fragment| %>
+      <tr>
+        <td><%= name_fragment.name %></td>
+        <td><%= name_fragment.pos %></td>
+        <td><%= name_fragment.group %></td>
+        <td><%= link_to 'Show', name_fragment %></td>
+        <td><%= link_to 'Edit', edit_name_fragment_path(name_fragment) %></td>
+        <td><%= link_to 'Destroy', name_fragment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Name fragment', new_name_fragment_path %>
