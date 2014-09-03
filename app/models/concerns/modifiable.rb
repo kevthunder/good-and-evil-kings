@@ -21,7 +21,9 @@ module Modifiable
   end
   
   def update_all_prop_mod(save = true) 
-    (self.class.prop_mod_list + modificators.group(:prop).pluck(:prop).to_a).uniq{ |p| p.to_s }.each do |prop|
+    modificators = self.class.prop_mod_list
+    modificators += self.modificators.group(:prop).pluck(:prop).to_a unless new_record?
+    modificators.uniq{ |p| p.to_s }.each do |prop|
       update_prop_mod(prop,save)
     end
   end
@@ -46,9 +48,11 @@ module Modifiable
   
   def get_prop_mod(prop)
     val = default_prop_mod(prop);
-    mods = modificators.where(prop: prop).order(:multiply)
-    mods.each_with_applier do |mod,applier|
-      val = mod.apply(val,self,applier)
+    unless new_record?
+      mods = modificators.where(prop: prop).order(:multiply)
+      mods.each_with_applier do |mod,applier|
+        val = mod.apply(val,self,applier)
+      end
     end
     val
   end

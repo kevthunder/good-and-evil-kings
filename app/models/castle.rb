@@ -45,6 +45,11 @@ class Castle < ActiveRecord::Base
   
   include Randomizable
   
+  def tile=(val)
+    return super(Tile.new(x:val.x,y:val.y)) if !val.is_a?(Tile) && val.respond_to?(:x) && val.respond_to?(:y)
+    super(val)
+  end
+  
   def accessible_stocks
     incomes.apply(self)
     Stock.where(
@@ -144,4 +149,24 @@ class Castle < ActiveRecord::Base
   accepts_nested_attributes_for :stocks, :garrisons, allow_destroy: true
 
   default_scope { includes(:kingdom) }
+  
+  
+  def generate_name!
+    self.name = Castle.generate_name
+  end
+  
+  class << self
+  
+    def new_auto_named(vals)
+      vals[:name] = generate_name
+      new(vals)
+    end
+    
+    def generate_name
+      NameFragment.generate_until(:castle) { |name|
+        Castle.where(name: name).count == 0
+      }.humanize
+    end
+    
+  end
 end

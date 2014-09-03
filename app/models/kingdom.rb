@@ -27,22 +27,40 @@ class Kingdom < ActiveRecord::Base
   end)
   
   def generate_name!
-    self.name = generate_name
+    self.name = Kingdom.generate_name
   end
-  def generate_name
-    
+  
+  def new_inital_neighbours
+    sizes = [1,2,4,6,10]
+    first_castle = castles.first
+    sizes.map{ |size| Ai.new_scattered(first_castle,size) }
+  end
+  
+  def create_inital_neighbours
+    new_inital_neighbours.each{ |n| n.save! }
   end
   
   class << self
     
+    def new_auto_named(vals)
+      vals[:name] = generate_name
+      new(vals)
+    end
+    
     def available_or_create_for_size(side_size)
       available = where(max_ais: side_size).not_ai_maxed.first
       if available.nil?
-        available = new(max_ais: side_size)
-        available.generate_name!
+        available = new_auto_named(max_ais: side_size)
       end
       available
     end
+    
+    def generate_name
+      NameFragment.generate_until(:kingdom) { |name|
+        Kingdom.where(name: name).count == 0
+      }.humanize
+    end
+    
   end
   
 end

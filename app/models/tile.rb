@@ -3,7 +3,7 @@ class Tile < ActiveRecord::Base
   validates :y, presence: true
   belongs_to :tiled, polymorphic: true
   after_initialize :default_values
-
+    
     
   def distance(point)
     Math.hypot(point.x - x, point.y - y)
@@ -35,8 +35,24 @@ class Tile < ActiveRecord::Base
     inBounds(Zone.new(point.x - dist, point.y - dist, point.x + dist, point.y + dist))
   end)
   
-  private
   
+  class << self
+    def find_empty_spot(zone,min_spacing)
+      existing_zone = zone.expand(min_spacing)
+      existing_tiles = inBounds(existing_zone).to_a
+      
+      max_tries = 200
+      i = 0
+      loop do 
+        pos = zone.random_point
+        return pos if existing_tiles.none?{ |tile| pos.distance(tile) < min_spacing }
+        return nil if i > max_tries
+      end
+    end
+  end
+  
+  private
+    
     def default_values
       if new_record?
         self.render = true if self.render.nil?

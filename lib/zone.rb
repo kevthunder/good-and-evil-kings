@@ -4,7 +4,16 @@ class Zone
   end  
     
   attr_accessor :x1, :y1, :x2, :y2 
-    
+  
+  def random_point
+    Point.new(rand(x1..x2),rand(y1..y2))
+  end
+  
+  def expand(width,height = nil)
+    height = width if height.nil?
+    self.class.new(x1+width,y1+height,x2+width,y2+height)
+  end
+  
   def hypot()  
     Math.hypot(x1 - x2, y1 - y2)  
   end  
@@ -22,6 +31,13 @@ class Zone
     @x1*1000000 + @y1*10000 + @x2*100 + @y2
   end
   class << self
+    def new_centered_on(point,width,height = nil)
+      height = width if height.nil?
+      x = point.x - width/2
+      y = point.y - height/2
+      new(x,y,x+width,y+height)
+    end
+  
     def tilesToBounds(tiles,tileSize)
       tmpTiles = tiles.dup
       bounds = []
