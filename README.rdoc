@@ -2,7 +2,6 @@
 
 TODO
 * create AIs
-** Auto naming
 * diplomacy
 
 Scaffolds
