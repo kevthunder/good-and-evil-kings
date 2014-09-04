@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140902222640) do
+ActiveRecord::Schema.define(version: 20140903233600) do
 
   create_table "actions", force: true do |t|
     t.datetime "time"
@@ -77,6 +77,18 @@ ActiveRecord::Schema.define(version: 20140902222640) do
   end
 
   add_index "castles", ["kingdom_id"], name: "index_castles_on_kingdom_id"
+
+  create_table "diplomacies", force: true do |t|
+    t.integer  "karma"
+    t.integer  "from_kingdom_id"
+    t.integer  "to_kingdom_id"
+    t.datetime "last_interaction"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "diplomacies", ["from_kingdom_id"], name: "index_diplomacies_on_from_kingdom_id"
+  add_index "diplomacies", ["to_kingdom_id"], name: "index_diplomacies_on_to_kingdom_id"
 
   create_table "garrisons", force: true do |t|
     t.integer  "qte"

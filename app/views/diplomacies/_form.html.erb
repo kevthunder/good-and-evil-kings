@@ -1,0 +1,33 @@
+<%= form_for(@diplomacy) do |f| %>
+  <% if @diplomacy.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@diplomacy.errors.count, "error") %> prohibited this diplomacy from being saved:</h2>
+
+      <ul>
+      <% @diplomacy.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :karma %><br>
+    <%= f.number_field :karma %>
+  </div>
+  <div class="field">
+    <%= f.label :from_kingdom_id %><br>
+    <%= f.text_field :from_kingdom_id %>
+  </div>
+  <div class="field">
+    <%= f.label :to_kingdom_id %><br>
+    <%= f.text_field :to_kingdom_id %>
+  </div>
+  <div class="field">
+    <%= f.label :last_interaction %><br>
+    <%= f.datetime_select :last_interaction %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

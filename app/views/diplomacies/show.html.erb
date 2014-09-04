@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Karma:</strong>
+  <%= @diplomacy.karma %>
+</p>
+
+<p>
+  <strong>From kingdom:</strong>
+  <%= @diplomacy.from_kingdom %>
+</p>
+
+<p>
+  <strong>To kingdom:</strong>
+  <%= @diplomacy.to_kingdom %>
+</p>
+
+<p>
+  <strong>Last interaction:</strong>
+  <%= @diplomacy.last_interaction %>
+</p>
+
+<%= link_to 'Edit', edit_diplomacy_path(@diplomacy) %> |
+<%= link_to 'Back', diplomacies_path %>

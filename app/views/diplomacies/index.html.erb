@@ -1,0 +1,33 @@
+<h1>Listing diplomacies</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Karma</th>
+      <th>From kingdom</th>
+      <th>To kingdom</th>
+      <th>Last interaction</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @diplomacies.each do |diplomacy| %>
+      <tr>
+        <td><%= diplomacy.karma %></td>
+        <td><%= diplomacy.from_kingdom %></td>
+        <td><%= diplomacy.to_kingdom %></td>
+        <td><%= diplomacy.last_interaction %></td>
+        <td><%= link_to 'Show', diplomacy %></td>
+        <td><%= link_to 'Edit', edit_diplomacy_path(diplomacy) %></td>
+        <td><%= link_to 'Destroy', diplomacy, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Diplomacy', new_diplomacy_path %>

@@ -1,0 +1,2 @@
+module DiplomaciesHelper
+end

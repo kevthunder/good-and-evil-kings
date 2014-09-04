@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  karma: 1
+  from_kingdom_id: 
+  to_kingdom_id: 
+  last_interaction: 2014-09-03 19:36:01
+
+two:
+  karma: 1
+  from_kingdom_id: 
+  to_kingdom_id: 
+  last_interaction: 2014-09-03 19:36:01

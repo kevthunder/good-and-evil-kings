@@ -20,3 +20,4 @@ Scaffolds
 * rails g scaffold ai castle:references next_action:datetime --skip-migration
 * rails g scaffold ai_action type:string weight:integer --skip-migration
 * rails g scaffold name_fragment name:string pos:string group:string --skip-migration
+* rails g scaffold diplomacy karma:integer from_kingdom:references to_kingdom:references last_interaction:datetime --skip-migration
