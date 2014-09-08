@@ -1,8 +1,8 @@
 == Good and evil kings
 
 TODO
-* diplomacy
 * more buildings
+* limit recrutement
 
 Scaffolds
 * rails g scaffold castles name:string kingdom:references elevations_map:string incomes_date:datetime max_stock:integer pop:integer --skip-migration

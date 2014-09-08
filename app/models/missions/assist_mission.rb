@@ -35,6 +35,7 @@ class AssistMission < Mission
     # karma
     castle.kingdom.change_karma(karma_change)
     castle.kingdom.save
+    castle.kingdom.change_diplomacy(target.kingdom_id,10)
   end
   
   def start_returning

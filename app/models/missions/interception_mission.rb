@@ -44,6 +44,8 @@ class InterceptionMission < Mission
         # karma
         castle.kingdom.change_karma(karma_change)
         castle.kingdom.save
+        castle.kingdom.change_diplomacy(target.castle.kingdom_id,-10)
+        
         target.intercepted(cost) if target.respond_to?(:intercepted)
       end
     end

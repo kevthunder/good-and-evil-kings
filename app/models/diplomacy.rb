@@ -37,7 +37,7 @@ class Diplomacy < ActiveRecord::Base
     end
     def new_for(from,to)
       max_by_kindom = 20
-      existing = Kingdom.unscoped.from_kingdom(from)
+      existing = Diplomacy.unscoped.from_kingdom(from)
       if existing.count > max_by_kindom
         existing.order_by_strength.last.destroy
       end

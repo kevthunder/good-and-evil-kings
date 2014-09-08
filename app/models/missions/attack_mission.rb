@@ -39,8 +39,9 @@ class AttackMission < Mission
       # karma
       castle.kingdom.change_karma(karma_change)
       castle.kingdom.save
-      target.attacked if target.respond_to?(:attacked)
+      castle.kingdom.change_diplomacy(target.kingdom_id,-10,-4)
       
+      target.attacked(this,cost) if target.respond_to?(:attacked)
       destroy if garrisons.qte == 0
     end
   end
