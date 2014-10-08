@@ -15,6 +15,9 @@
       height:200px;
       bottom:0px;
     }
+    &.farm .display {
+      background: image-url("farm_small.png") no-repeat bottom; 
+    }
     &:hover {
       .actions{
         display:block;

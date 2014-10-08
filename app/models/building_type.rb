@@ -11,6 +11,10 @@ class BuildingType < ActiveRecord::Base
   
   include Randomizable
   
+  def alias
+    name.parameterize('_')
+  end
+  
   def self.model_name
     return super if self == BuildingType
     BuildingType.model_name

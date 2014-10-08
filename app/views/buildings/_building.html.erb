@@ -4,7 +4,7 @@
   top = ElevationDisplay.top(building.x,building.y,elevation,size,2)
   left = ElevationDisplay.left(building.x,building.y,elevation,size,2)
 %>
-<%= tag("div", {class: 'building', style: "top: #{top}px; left: #{left}px"}, true) %>
+<%= tag("div", {class: ['building',building.building_type.alias], style: "top: #{top}px; left: #{left}px"}, true) %>
   <div class="display"></div>
   <div class="clickZone"></div>
   <ul class="actions">
