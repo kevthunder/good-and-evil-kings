@@ -97,6 +97,12 @@ class Castle < ActiveRecord::Base
     recruitable_qty - garrisons.not_ready.count
   end
   
+  def on_stock_change(stock)
+    incomes.match(stock).each do |income|
+      income.on_matching_updated(stock)
+    end
+  end
+  
   def on_stock_empty(income)
     garrisons.get_upkeep_equiv(income).subtract_from(self)
   end

@@ -14,6 +14,7 @@ class Stock < ActiveRecord::Base
   belongs_to :stockable, polymorphic: true
   
   before_save :limit_qte
+  after_save :notify_stockable
   
   include Quantifiable
   self.quantified = Ressource
@@ -32,6 +33,10 @@ class Stock < ActiveRecord::Base
       self.qte = [qte,min].max unless min.nil?
     end
     qte
+  end
+  
+  def notify_stockable
+    stockable.on_stock_change(self) if stockable.respond_to?(:on_stock_change) && qte_changed?
   end
   
   def self.model_name

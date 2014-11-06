@@ -5,6 +5,8 @@ class Income < Stock
   
   before_save :must_be_applied
   
+  alias_method :matched_max, :max
+  
   def max
     nil
   end
@@ -35,7 +37,12 @@ class Income < Stock
   end
   
   def matching
-    match_in(Income.get_appliable_stocks(stockable))
+    match_in(stockable.stocks)
+  end
+  
+  def on_matching_updated(stock)
+    do_break
+    check_breakpoints
   end
   
   def matching_qte
@@ -51,29 +58,24 @@ class Income < Stock
   end
   
   def check_breakpoints
-    if calcul_full_break
-    elsif calcul_zero_break
-    else
-      breakpoint_time = nil
-    end
+    breakpoint_time = full_break_time || zero_break_time || nil
   end
   
   def full_break?
-    qte > 0
+    !matching_max.nil? && qte > 0
   end
   
-  def calcul_full_break
-    return false unless full_break?
-    
-    #breakpoint_time = Time.at((last_change.to_f + (max - matching_qte) * sec_per_change).ceil);
-    
-    breakpoint_time = nil
-    
-    true
+  def full_broke?
+    full_break? && matching_qte >= matching_max
+  end
+  
+  def full_break_time
+    return nil unless full_break?
+    Time.at((last_change.to_f + (matching_max - matching_qte) * sec_per_change).ceil);
   end
   
   def do_full_break
-    return false unless zero_break?
+    return false unless full_broke?
     
     stockable.send(:on_stock_full,self) if stockable.respond_to?(:on_stock_full)
     true
@@ -83,16 +85,19 @@ class Income < Stock
     qte < 0
   end
   
-  def calcul_zero_break
-    return false unless zero_break?
-    breakpoint_time = Time.at((last_change.to_f + matching_qte * sec_per_change).ceil);
-    stockable.send(:on_stock_empty,self) if stockable.respond_to?(:on_stock_empty)
-    true
+  def zero_broke?
+    zero_break? && matching_qte <= 0
+  end
+  
+  def zero_break_time
+    return nil unless zero_break?
+    Time.at((last_change.to_f + matching_qte * sec_per_change).ceil);
   end
   
   def do_zero_break
-    return false unless zero_break?
+    return false unless zero_broke?
     
+    stockable.send(:on_stock_empty,self) if stockable.respond_to?(:on_stock_empty)
     true
   end
   
