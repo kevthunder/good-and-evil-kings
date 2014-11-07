@@ -5,7 +5,7 @@ class Income < Stock
   
   before_save :must_be_applied
   
-  alias_method :matched_max, :max
+  alias_method :matching_max, :max
   
   def max
     nil
@@ -29,7 +29,13 @@ class Income < Stock
   
   def apply_interval(from, to, match = nil)
     add = to_add_interval(from, to)
-    stockable.stocks.add_qty(add,ressource) if add != 0
+    if add != 0
+      if matching.nil?
+        stockable.stocks.add_qty(add,ressource)
+      else
+        matching.qte += add
+      end
+    end
   end
   
   def must_be_applied
@@ -37,10 +43,11 @@ class Income < Stock
   end
   
   def matching
-    match_in(stockable.stocks)
+    @matching ||= match_in(stockable.stocks)
   end
   
   def on_matching_updated(stock)
+    @matching = stock
     do_break
     check_breakpoints
   end
@@ -59,6 +66,7 @@ class Income < Stock
   
   def check_breakpoints
     breakpoint_time = full_break_time || zero_break_time || nil
+    save if breakpoint_time != self.breakpoint_time_was
   end
   
   def full_break?
@@ -91,6 +99,7 @@ class Income < Stock
   
   def zero_break_time
     return nil unless zero_break?
+    
     Time.at((last_change.to_f + matching_qte * sec_per_change).ceil);
   end
   

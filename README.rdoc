@@ -1,7 +1,6 @@
 == Good and evil kings
 
 TODO
-* Income#on_matching_updated
 * more buildings
 * limit recrutement
 

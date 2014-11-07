@@ -196,7 +196,7 @@ class Garrison < ActiveRecord::Base
     end
     
     def get_upkeep_equiv(income)
-      return GarrisonList.new() unless income.qte < 0
+      return new_collection() unless income.qte < 0
       consumers = joins(soldier_type: :modificators).ready.where(
         'modificators.prop = :prop AND modificators.num < 0', 
         { :prop => 'income:'+income.ressource_id.to_s }
@@ -214,7 +214,7 @@ class Garrison < ActiveRecord::Base
         end
         Garrison.new(qte: qte, soldier_type_id: consumer.soldier_type_id) 
       end
-      GarrisonList.new(taken);
+      new_collection(taken);
     end
     
     def kill
