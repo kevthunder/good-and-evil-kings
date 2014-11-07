@@ -27,6 +27,14 @@
       background: image-url("house_small.png") no-repeat bottom; 
       height:130px;
     }
+    &.warehouse .display {
+      background: image-url("warehouse_small.png") no-repeat bottom; 
+      height:130px;
+    }
+    &.wood_camp .display {
+      background: image-url("woodcamp_small.png") no-repeat bottom; 
+      height:130px;
+    }
     &:hover {
       .actions{
         display:block;
