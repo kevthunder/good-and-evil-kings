@@ -34,6 +34,7 @@ class Income < Stock
         stockable.stocks.add_qty(add,ressource)
       else
         matching.qte += add
+        matching.save
       end
     end
   end
