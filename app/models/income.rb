@@ -48,9 +48,11 @@ class Income < Stock
   end
   
   def on_matching_updated(stock)
-    @matching = stock
-    do_break
-    check_breakpoints
+    unless self.class.notices_ignored
+      @matching = stock
+      do_break
+      check_breakpoints
+    end
   end
   
   def matching_qte
@@ -119,12 +121,23 @@ class Income < Stock
   end
   
   class << self
+    attr_accessor :notices_ignored
+    def ignore_notices()
+      tmp = self.notices_ignored
+      self.notices_ignored = true
+      yield
+      self.notices_ignored = tmp
+    end
+  
+  
     def apply(stockable = nil)
-      each_stockable(stockable) do |stockable,incomes|
-        if incomes.apply_interval(stockable.incomes_date,DateTime.now, stockable)
-          Stock.unscoped do
-            stockable.incomes_date = DateTime.now
-            stockable.save!
+      ignore_notices do 
+        each_stockable(stockable) do |stockable,incomes|
+          if incomes.apply_interval(stockable.incomes_date,DateTime.now, stockable)
+            Stock.unscoped do
+              stockable.incomes_date = DateTime.now
+              stockable.save!
+            end
           end
         end
       end
