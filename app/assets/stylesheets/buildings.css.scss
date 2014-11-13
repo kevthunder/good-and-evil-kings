@@ -35,6 +35,10 @@
       background: image-url("woodcamp_small.png") no-repeat bottom; 
       height:130px;
     }
+    &.mine .display {
+      background: image-url("mine_small.png") no-repeat bottom; 
+      height:130px;
+    }
     &:hover {
       .actions{
         display:block;
