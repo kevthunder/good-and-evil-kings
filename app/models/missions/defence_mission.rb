@@ -43,6 +43,7 @@ class DefenceMission < Mission
   end
   
   def start_returning
+    self.next_event = Time.now + calcul_travel_time
     create_movement :returning
   end
   
