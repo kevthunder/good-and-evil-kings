@@ -4,6 +4,7 @@ class Diplomacy < ActiveRecord::Base
   
   def change(power)
     max_karma = 10000
+    self.karma = 0 if self.karma.nil?
     return karma if power == 0 || (karma > max_karma && power > 0)  || (-karma > max_karma && power < 0)
     self.karma += (
       power > 0 ? 
@@ -11,6 +12,7 @@ class Diplomacy < ActiveRecord::Base
       : Math.sqrt(karma+max_karma)/Math.sqrt(max_karma)*power
     )
     last_interaction = Time.now
+    self.karma
   end
   
   scope :from_kingdom, (lambda do |kingdom|
