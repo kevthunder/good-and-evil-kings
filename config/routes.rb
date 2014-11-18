@@ -2,25 +2,26 @@ GoodAndEvilKings::Application.routes.draw do
 
   resources :diplomacies
 
-  resources :name_fragments
-
-  resources :ai_actions
-
   resources :ais
-
-  resources :mission_lengths
 
   resources :options
 
   resources :modificators
-
-  resources :building_types
-
+  
+  namespace :admin do
+    resources :ai_actions
+    resources :building_types
+    resources :mission_types
+    resources :mission_lengths
+    resources :mission_statuses
+    resources :name_fragments
+    resources :ressources
+    resources :soldier_types
+  end
   resources :buildings
   get 'buildings/:id/upgrade' => 'buildings#upgrade', as: 'upgrade_building'
   post 'buildings/:id/upgrade' => 'buildings#upgrade_now'
 
-  resources :mission_statuses
 
   resources :missions do
     resources :missions, only: [:new, :create]
@@ -29,15 +30,10 @@ GoodAndEvilKings::Application.routes.draw do
 
   resources :movements
 
-  resources :mission_types
-
   resources :garrisons
-
-  resources :soldier_types
 
   resources :stocks
 
-  resources :ressources
 
   resources :kingdoms
 

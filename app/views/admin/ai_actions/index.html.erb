@@ -16,9 +16,9 @@
       <tr>
         <td><%= ai_action.type %></td>
         <td><%= ai_action.weight %></td>
-        <td><%= link_to 'Show', ai_action %></td>
-        <td><%= link_to 'Edit', edit_ai_action_path(ai_action) %></td>
-        <td><%= link_to 'Destroy', ai_action, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', [:admin, ai_action] %></td>
+        <td><%= link_to 'Edit', edit_admin_ai_action_path(ai_action) %></td>
+        <td><%= link_to 'Destroy', [:admin, ai_action], method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -26,4 +26,4 @@
 
 <br>
 
-<%= link_to 'New Ai action', new_ai_action_path %>
+<%= link_to 'New Ai action', new_admin_ai_action_path %>

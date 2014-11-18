@@ -20,9 +20,9 @@
         <td><%= mission_length.seconds %></td>
         <td><%= mission_length.reward %></td>
         <td><%= mission_length.target %></td>
-        <td><%= link_to 'Show', mission_length %></td>
-        <td><%= link_to 'Edit', edit_mission_length_path(mission_length) %></td>
-        <td><%= link_to 'Destroy', mission_length, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', [:admin, mission_length] %></td>
+        <td><%= link_to 'Edit', edit_admin_mission_length_path(mission_length) %></td>
+        <td><%= link_to 'Destroy', [:admin, mission_length], method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -30,4 +30,4 @@
 
 <br>
 
-<%= link_to 'New Mission length', new_mission_length_path %>
+<%= link_to 'New Mission length', new_admin_mission_length_path %>

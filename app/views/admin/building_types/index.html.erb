@@ -24,9 +24,9 @@
         <td><%= building_type.size_x %></td>
         <td><%= building_type.size_y %></td>
         <td><%= building_type.predecessor %></td>
-        <td><%= link_to 'Show', building_type %></td>
-        <td><%= link_to 'Edit', edit_building_type_path(building_type) %></td>
-        <td><%= link_to 'Destroy', building_type, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', [:admin, building_type] %></td>
+        <td><%= link_to 'Edit', edit_admin_building_type_path(building_type) %></td>
+        <td><%= link_to 'Destroy', [:admin, building_type], method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -34,4 +34,4 @@
 
 <br>
 
-<%= link_to 'New Building type', new_building_type_path %>
+<%= link_to 'New Building type', new_admin_building_type_path %>

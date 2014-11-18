@@ -18,9 +18,9 @@
         <td><%= name_fragment.name %></td>
         <td><%= name_fragment.pos %></td>
         <td><%= name_fragment.group %></td>
-        <td><%= link_to 'Show', name_fragment %></td>
-        <td><%= link_to 'Edit', edit_name_fragment_path(name_fragment) %></td>
-        <td><%= link_to 'Destroy', name_fragment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', [:admin, name_fragment] %></td>
+        <td><%= link_to 'Edit', edit_admin_name_fragment_path(name_fragment) %></td>
+        <td><%= link_to 'Destroy', [:admin, name_fragment], method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -28,4 +28,4 @@
 
 <br>
 
-<%= link_to 'New Name fragment', new_name_fragment_path %>
+<%= link_to 'New Name fragment', new_admin_name_fragment_path %>

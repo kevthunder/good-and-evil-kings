@@ -16,9 +16,9 @@
       <tr>
         <td><%= mission_status.name %></td>
         <td><%= mission_status.code %></td>
-        <td><%= link_to 'Show', mission_status %></td>
-        <td><%= link_to 'Edit', edit_mission_status_path(mission_status) %></td>
-        <td><%= link_to 'Destroy', mission_status, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', [:admin, mission_status] %></td>
+        <td><%= link_to 'Edit', edit_admin_mission_status_path(mission_status) %></td>
+        <td><%= link_to 'Destroy', [:admin, mission_status], method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -26,4 +26,4 @@
 
 <br>
 
-<%= link_to 'New Mission status', new_mission_status_path %>
+<%= link_to 'New Mission status', new_admin_mission_status_path %>

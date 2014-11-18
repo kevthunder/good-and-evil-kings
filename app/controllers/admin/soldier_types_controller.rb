@@ -1,4 +1,4 @@
-module admin
+module Admin
   class SoldierTypesController < ApplicationController
     before_action :set_soldier_type, only: [:show, :edit, :update, :destroy]
 
@@ -29,7 +29,7 @@ module admin
 
       respond_to do |format|
         if @soldier_type.save
-          format.html { redirect_to @soldier_type, notice: 'Soldier type was successfully created.' }
+          format.html { redirect_to [:admin, @soldier_type], notice: 'Soldier type was successfully created.' }
           format.json { render action: 'show', status: :created, location: @soldier_type }
         else
           format.html { render action: 'new' }
@@ -43,7 +43,7 @@ module admin
     def update
       respond_to do |format|
         if @soldier_type.update(soldier_type_params)
-          format.html { redirect_to @soldier_type, notice: 'Soldier type was successfully updated.' }
+          format.html { redirect_to [:admin, @soldier_type], notice: 'Soldier type was successfully updated.' }
           format.json { head :no_content }
         else
           format.html { render action: 'edit' }

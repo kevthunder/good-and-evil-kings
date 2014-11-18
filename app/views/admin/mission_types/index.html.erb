@@ -16,9 +16,9 @@
       <tr>
         <td><%= mission_type.name %></td>
         <td><%= mission_type.class_name %></td>
-        <td><%= link_to 'Show', mission_type %></td>
-        <td><%= link_to 'Edit', edit_mission_type_path(mission_type) %></td>
-        <td><%= link_to 'Destroy', mission_type, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', [:admin, mission_type] %></td>
+        <td><%= link_to 'Edit', edit_admin_mission_type_path(mission_type) %></td>
+        <td><%= link_to 'Destroy', [:admin, mission_type], method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -26,4 +26,4 @@
 
 <br>
 
-<%= link_to 'New Mission type', new_mission_type_path %>
+<%= link_to 'New Mission type', new_admin_mission_type_path %>

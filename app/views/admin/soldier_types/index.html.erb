@@ -30,9 +30,9 @@
         <td><%= soldier_type.carry %></td>
         <td><%= soldier_type.recrute_time %></td>
         <td><%= soldier_type.military %></td>
-        <td><%= link_to 'Show', soldier_type %></td>
-        <td><%= link_to 'Edit', edit_soldier_type_path(soldier_type) %></td>
-        <td><%= link_to 'Destroy', soldier_type, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', [:admin, soldier_type] %></td>
+        <td><%= link_to 'Edit', edit_admin_soldier_type_path(soldier_type) %></td>
+        <td><%= link_to 'Destroy', [:admin, soldier_type], method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -40,4 +40,4 @@
 
 <br>
 
-<%= link_to 'New Soldier type', new_soldier_type_path %>
+<%= link_to 'New Soldier type', new_admin_soldier_type_path %>

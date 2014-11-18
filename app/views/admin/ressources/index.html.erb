@@ -16,9 +16,9 @@
       <tr>
         <td><%= ressource.name %></td>
         <td><%= ressource.global %></td>
-        <td><%= link_to 'Show', ressource %></td>
-        <td><%= link_to 'Edit', edit_ressource_path(ressource) %></td>
-        <td><%= link_to 'Destroy', ressource, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', [:admin, ressource] %></td>
+        <td><%= link_to 'Edit', edit_admin_ressource_path(ressource) %></td>
+        <td><%= link_to 'Destroy', [:admin, ressource], method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -26,4 +26,4 @@
 
 <br>
 
-<%= link_to 'New Ressource', new_ressource_path %>
+<%= link_to 'New Ressource', new_admin_ressource_path %>
