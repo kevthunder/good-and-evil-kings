@@ -4,11 +4,12 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
   has_many :kingdoms
+  has_many :castles, through: :kingdoms
          
-  def castles 
-    Castle.joins(:kingdom).where(:kingdoms => {:user_id => id});
-  end
   def current_kingdom 
     kingdoms.first
+  end
+  def current_castle
+    current_kingdom.current_castle
   end
 end

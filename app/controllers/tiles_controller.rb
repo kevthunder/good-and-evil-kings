@@ -6,12 +6,13 @@ class TilesController < ApplicationController
   # GET /tiles
   # GET /tiles.json
   def index
-    @sectionSize = 100
-    @startZone = Zone.new(-300,-300,1000,1000);
-    @tiles = Tile.includes(:tiled).rendered.inBounds(@startZone).group_by { |tile| Point.new(tile.x/@sectionSize, tile.y/@sectionSize) }
+    @start_pos = current_user.nil? ? point.new(0,0) : current_user.current_castle
+    @section_size = 100
+    @start_zone = Zone.new(@start_pos.x - 700,@start_pos.y - 700,@start_pos.x + 700,@start_pos.y + 700)
+    @tiles = Tile.includes(:tiled).rendered.inBounds(@start_zone).group_by { |tile| Point.new(tile.x/@section_size, tile.y/@section_size) }
     
-    (@startZone.x1/@sectionSize..(@startZone.x2-1)/@sectionSize).each do |x|
-      (@startZone.y1/@sectionSize..(@startZone.y2-1)/@sectionSize).each do |y|
+    (@start_zone.x1/@section_size..(@start_zone.x2-1)/@section_size).each do |x|
+      (@start_zone.y1/@section_size..(@start_zone.y2-1)/@section_size).each do |y|
          pt = Point.new(x, y)
          unless @tiles.has_key?(pt)
             @tiles[pt] = {}
@@ -22,14 +23,14 @@ class TilesController < ApplicationController
   end
   
   def partial
-    @sectionSize = 100
+    @section_size = 100
     sections = Point.unserialize(params.permit(:sections)[:sections])
     unless sections.length > 0 
       render :status => :bad_request, :text => "No tile section selected"
     end
-    bounds = Zone.tilesToBounds(sections,@sectionSize);
+    bounds = Zone.tilesToBounds(sections,@section_size)
     
-    @tiles = Tile.includes(:tiled).rendered.inBounds(bounds).group_by { |tile| Point.new(tile.x/@sectionSize, tile.y/@sectionSize) }
+    @tiles = Tile.includes(:tiled).rendered.inBounds(bounds).group_by { |tile| Point.new(tile.x/@section_size, tile.y/@section_size) }
     
     unless @ajax
       render "index"

@@ -6,6 +6,10 @@ class Kingdom < ActiveRecord::Base
   has_many :diplomacies, foreign_key: :from_kingdom_id
   has_many :received_diplomacies, class_name: :Diplomacy, foreign_key: :to_kingdom_id
   
+  def current_castle
+    castles.first
+  end
+  
   def change_karma(power)
     max_karma = 10000
     return karma if power == 0 || (karma > max_karma && power > 0)  || (-karma > max_karma && power < 0)
@@ -15,7 +19,6 @@ class Kingdom < ActiveRecord::Base
       : Math.sqrt(karma+max_karma)/Math.sqrt(max_karma)*power
     )
   end
-  
   
   def change_diplomacy(kingdom,received,given = nil)
     given = received if given.nil?
