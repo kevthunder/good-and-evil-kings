@@ -11,12 +11,11 @@
         width: 100,
         height: 100,
         remove_buffer : 10,
-        start_col: 0,
-        start_row: 0,
+        start_col: Math.round(($(".worldView").attr("center_x")-$(".worldView").width()/2)/100),
+        start_row: Math.round(($(".worldView").attr("center_y")-$(".worldView").height()/2)/100),
         margin: 200,
         on_aggregate: function(data){
-              var infinitedrag = this;
-              //console.log($.infinitedrag.serializeTiles(data));
+          var infinitedrag = this;
           $.ajax({
                  url: ROOT_PATH+"tiles/partial",
                  type: "POST",

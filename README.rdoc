@@ -1,7 +1,6 @@
 == Good and evil kings
 
 TODO
-* set worldView center
 * interfaces
 * more buildings
 
