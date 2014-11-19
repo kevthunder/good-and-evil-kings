@@ -1,5 +1,5 @@
 module Admin
-  class SoldierTypesController < ApplicationController
+  class SoldierTypesController < AdminController
     before_action :set_soldier_type, only: [:show, :edit, :update, :destroy]
 
     # GET /soldier_types

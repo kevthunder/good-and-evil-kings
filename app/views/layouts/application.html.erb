@@ -32,6 +32,7 @@
 	</ul>
 </nav>
 
+<% if admin_access?  %>
 <nav class="admin">
 	<ul>
 		<li><%= link_to "Building types", admin_building_types_path %></li>
@@ -41,6 +42,7 @@
 		<li><%= link_to "Soldier types", admin_soldier_types_path %></li>
 	</ul>
 </nav>
+<% end %>
 
 </body>
 </html>

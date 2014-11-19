@@ -1,5 +1,5 @@
 module Admin
-  class MissionTypesController < ApplicationController
+  class MissionTypesController < AdminController
     before_action :set_mission_type, only: [:show, :edit, :update, :destroy]
 
     # GET /mission_types

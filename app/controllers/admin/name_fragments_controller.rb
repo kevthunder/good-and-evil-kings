@@ -1,5 +1,5 @@
 module Admin
-  class NameFragmentsController < ApplicationController
+  class NameFragmentsController < AdminController
     before_action :set_name_fragment, only: [:show, :edit, :update, :destroy]
 
     # GET /name_fragments

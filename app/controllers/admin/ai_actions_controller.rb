@@ -1,5 +1,5 @@
 module Admin
-  class AiActionsController < ApplicationController
+  class AiActionsController < AdminController
     before_action :set_ai_action, only: [:show, :edit, :update, :destroy]
 
     # GET /ai_actions

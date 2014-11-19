@@ -1,5 +1,5 @@
 module Admin
-  class MissionLengthsController < ApplicationController
+  class MissionLengthsController < AdminController
     before_action :set_mission_length, only: [:show, :edit, :update, :destroy]
 
     # GET /mission_lengths

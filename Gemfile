@@ -46,6 +46,6 @@ gem 'debugger', group: [:development, :test]
 gem 'seed_dump', group: :development
 
 gem 'devise'
-#gem 'cancan'
+#gem 'cancancan', '~> 1.9'
 gem 'jquery-ui-rails'
 gem 'nested_form'

@@ -1,5 +1,5 @@
 module Admin
-  class BuildingTypesController < ApplicationController
+  class BuildingTypesController < AdminController
     before_action :set_building_type, only: [:show, :edit, :update, :destroy]
 
     # GET /building_types

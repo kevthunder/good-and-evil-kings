@@ -1,5 +1,5 @@
 module Admin
-  class MissionStatusesController < ApplicationController
+  class MissionStatusesController < AdminController
     before_action :set_mission_status, only: [:show, :edit, :update, :destroy]
 
     # GET /mission_statuses

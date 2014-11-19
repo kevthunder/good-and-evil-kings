@@ -1,5 +1,5 @@
 module Admin
-  class RessourcesController < ApplicationController
+  class RessourcesController < AdminController
     before_action :set_ressource, only: [:show, :edit, :update, :destroy]
 
     # GET /ressources
