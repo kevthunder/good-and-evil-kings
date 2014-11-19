@@ -2,6 +2,9 @@
 
 TODO
 * interfaces
+  * my castles
+  * diplomacy
+  * mission
 * more buildings
 
 Scaffolds
