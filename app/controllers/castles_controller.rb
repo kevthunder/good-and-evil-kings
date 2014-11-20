@@ -1,16 +1,17 @@
 class CastlesController < ApplicationController
-  before_action :set_castle, only: [:edit, :update, :destroy]
+  before_action :set_castle, only: [:show, :edit, :update, :destroy]
+  before_filter :authenticate_user!, except: [:show]
+  before_filter :must_be_mine!, only: [:edit, :update, :destroy]
 
   # GET /castles
   # GET /castles.json
   def index
-    @castles = Castle.all
+    @castles = current_user.current_kingdom.castles.includes(:tile)
   end
   
   # GET /castles/1
   # GET /castles/1.json
   def show
-    @castle = Castle.includes(:buildings).find(params[:id])
   end
 
   # GET /castles/new
@@ -66,6 +67,10 @@ class CastlesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_castle
       @castle = Castle.find(params[:id])
+    end
+    
+    def must_be_mine!
+      raise AccessDenied unless @castle.owned_by?(current_user)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

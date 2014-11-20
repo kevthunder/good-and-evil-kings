@@ -6,7 +6,7 @@ class TilesController < ApplicationController
   # GET /tiles
   # GET /tiles.json
   def index
-    @start_pos = current_user.nil? ? point.new(0,0) : current_user.current_castle
+    @start_pos = current_user.nil? ? Point.new(0,0) : current_user.current_castle
     @section_size = 100
     @start_zone = Zone.new(@start_pos.x - 700,@start_pos.y - 700,@start_pos.x + 700,@start_pos.y + 700)
     @tiles = Tile.includes(:tiled).rendered.inBounds(@start_zone).group_by { |tile| Point.new(tile.x/@section_size, tile.y/@section_size) }

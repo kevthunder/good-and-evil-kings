@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141119000649) do
+ActiveRecord::Schema.define(version: 20141120010908) do
 
   create_table "actions", force: true do |t|
     t.datetime "time"
@@ -151,9 +151,11 @@ ActiveRecord::Schema.define(version: 20141119000649) do
     t.datetime "next_event"
     t.string   "type"
     t.string   "mission_status_code"
+    t.integer  "kingdom_id"
   end
 
   add_index "missions", ["castle_id"], name: "index_missions_on_castle_id"
+  add_index "missions", ["kingdom_id"], name: "index_missions_on_kingdom_id"
   add_index "missions", ["mission_status_code"], name: "index_missions_on_mission_status_code"
   add_index "missions", ["target_id", "target_type"], name: "index_missions_on_target_id_and_target_type"
 

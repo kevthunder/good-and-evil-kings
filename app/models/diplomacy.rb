@@ -15,6 +15,17 @@ class Diplomacy < ActiveRecord::Base
     self.karma
   end
   
+  def viewable_by?(user)
+    !user.nil? && from_kingdom.user_id == user.id
+  end
+  
+  scope :allies, (lambda do
+    where("karma > ?", 500)
+  end)
+  scope :foes, (lambda do
+    where("karma < ?", 500)
+  end)
+  
   scope :from_kingdom, (lambda do |kingdom|
       id = Kingdom.id_from(kingdom)
       raise "Nothing to find" if id.nil?

@@ -1,6 +1,6 @@
 GoodAndEvilKings::Application.routes.draw do
 
-  resources :diplomacies
+  resources :diplomacies, only: [:index, :show]
 
   resources :ais
 

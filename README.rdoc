@@ -1,9 +1,8 @@
 == Good and evil kings
 
 TODO
+* add kingdom to missions
 * interfaces
-  * my castles
-  * diplomacy
   * mission
 * more buildings
 

@@ -3,6 +3,7 @@ class MissionsController < ApplicationController
   before_action :set_my_castles, only: [:new, :create, :edit, :update]
   before_action :set_mission_types, only: [:new, :create, :edit, :update]
   before_filter :authenticate_user!
+  # before_filter :must_be_mine!, only: [:edit, :update, :destroy]
 
   # GET /missions
   # GET /missions.json

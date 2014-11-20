@@ -30,9 +30,17 @@ class Castle < ActiveRecord::Base
       proxy_association.owner.incomes.apply(proxy_association.owner)
       self
     end
+    
+    def viewable_by?(user)
+      proxy_association.owner.owned_by?(user)
+    end
   end
   has_many :stocks_raw, ->{ extending Quantifiable::HasManyExtension }, class_name: :Stock, as: :stockable
-  has_many :garrisons, ->{ extending Garrison::HasManyExtension }, as: :garrisonable
+  has_many(:garrisons, ->{ extending Garrison::HasManyExtension }, as: :garrisonable) do
+    def viewable_by?(user)
+      proxy_association.owner.owned_by?(user)
+    end
+  end
   has_many :buildings
   has_many :stationned_defence_missions, ->{ where(mission_status_code: "guarding") }, class_name: :DefenceMission, as: :target
   serialize :elevations_map, Array

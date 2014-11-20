@@ -1,12 +1,10 @@
-<h1>Listing castles</h1>
+<h1>My castles</h1>
 
 <table>
   <thead>
     <tr>
       <th>Name</th>
-      <th>Kingdom</th>
-      <th>Incomes date</th>
-      <th>Max stock</th>
+      <th>Position</th>
       <th>Pop</th>
       <th></th>
       <th></th>
@@ -21,9 +19,7 @@
     <% @castles.each do |castle| %>
       <tr>
         <td><%= castle.name %></td>
-        <td><%= castle.kingdom.name %></td>
-        <td><%= castle.incomes_date %></td>
-        <td><%= castle.max_stock %></td>
+        <td><%= castle.x %>; <%= castle.y %></td>
         <td><%= castle.pop %></td>
         <td><%= link_to 'Show', castle %></td>
         <td><%= link_to 'Edit', edit_castle_path(castle) %></td>

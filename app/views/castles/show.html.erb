@@ -10,26 +10,30 @@
   <%= @castle.kingdom %>
 </p>
 
+<% if @castle.stocks.viewable_by?(current_user) %>
 <div class="stocks">
   <%= render @castle.stocks.up_to_date.renderable %>
 </div>
-
 <div class="incomes">
   <%= render partial: 'stocks/income', collection: @castle.incomes.renderable %>
 </div>
+<% end %>
 
+<% if @castle.garrisons.viewable_by?(current_user) %>
 <div class="garrisons">
   <%= render @castle.garrisons.renderable %>
 </div>
+<% end %>
+
 <ul class="actions">
-  <li><%= link_to 'Edit', edit_castle_path(@castle) %></li>
-  <li><%= link_to 'Back', castles_path %></li>
   <% if user_signed_in? %>
     <li><%= link_to 'Mission', new_castle_mission_path(@castle.id) %></li>
   <% end %>
   <% if @castle.owned_by?(current_user) %>
     <li><%= link_to 'Recrute', new_castle_garrison_path(@castle.id) %></li>
+    <li><%= link_to 'Edit', edit_castle_path(@castle) %></li>
   <% end %>
+  <li><%= link_to 'Back', castles_path %></li>
 </ul>
 
 <div class="graphics">
