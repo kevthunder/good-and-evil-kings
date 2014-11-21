@@ -37,9 +37,9 @@ class AttackMission < Mission
       # loot
       stocks.add(target.stocks.up_to_date.subtract_any(garrisons.carry))
       # karma
-      castle.kingdom.change_karma(karma_change)
-      castle.kingdom.save
-      castle.kingdom.change_diplomacy(target.kingdom_id,-10,-4)
+      kingdom.change_karma(karma_change)
+      kingdom.save
+      kingdom.change_diplomacy(target.kingdom_id,-10,-4)
       
       target.attacked(self,cost) if target.respond_to?(:attacked)
       destroy if garrisons.qte == 0
@@ -54,7 +54,7 @@ class AttackMission < Mission
     self_reduction = 4
     spread = 200
     base = 20
-    kdiff = target.kingdom.karma - castle.kingdom.karma / self_reduction
+    kdiff = target.kingdom.karma - kingdom.karma / self_reduction
     (
       kdiff > 0 ? 
         (1/(kdiff/ spread+1)-2)*base
@@ -89,7 +89,7 @@ class AttackMission < Mission
   private
 
   def start
-    garrisons.set_kingdom(castle.kingdom)
+    garrisons.set_kingdom(kingdom)
     self.next_event = Time.now + calcul_travel_time
     super
   end

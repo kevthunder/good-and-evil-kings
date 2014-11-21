@@ -3,6 +3,7 @@ class Mission < ActiveRecord::Base
   belongs_to :mission_status, primary_key: 'code', foreign_key: 'mission_status_code'
   belongs_to :castle
   belongs_to :target, polymorphic: true
+  belongs_to :kingdom
   has_many :stocks, ->{ extending Quantifiable::HasManyExtension }, as: :stockable
   has_many :garrisons, ->{ extending Garrison::HasManyExtension }, as: :garrisonable
   has_many :options, as: :target
@@ -11,6 +12,7 @@ class Mission < ActiveRecord::Base
   accepts_nested_attributes_for :stocks, :garrisons, :options, allow_destroy: true
 
   before_create :start_behavior
+  validates_presence_of :kingdom_id
   
   include Updated
   updated_column :next_event, :next

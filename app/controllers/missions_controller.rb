@@ -39,7 +39,7 @@ class MissionsController < ApplicationController
   # POST /missions.json
   def create
     @mission = Mission.new(mission_params)
-
+    @mission.kingdom = current_user.current_kingdom
     respond_to do |format|
       if @mission.save
         format.html { redirect_to @mission, notice: 'Mission was successfully created.' }

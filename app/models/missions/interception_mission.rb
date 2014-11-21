@@ -42,9 +42,9 @@ class InterceptionMission < Mission
         target.stocks.up_to_date if target.stocks.respond_to?(:up_to_date)
         stocks.add(target.stocks.subtract_any(garrisons.carry))
         # karma
-        castle.kingdom.change_karma(karma_change)
-        castle.kingdom.save
-        castle.kingdom.change_diplomacy(target.castle.kingdom_id,-10)
+        kingdom.change_karma(karma_change)
+        kingdom.save
+        kingdom.change_diplomacy(target.kingdom_id,-10)
         
         target.intercepted(cost) if target.respond_to?(:intercepted)
       end
@@ -58,7 +58,7 @@ class InterceptionMission < Mission
   def karma_change
     self_reduction = 2
     multiply = 0.5
-    kdiff = castle.kingdom.karma+target.target.kingdom.karma-target.castle.kingdom.karma+(target.target.kingdom.karma+target.castle.kingdom.karma)/-2
+    kdiff = kingdom.karma+target.target.kingdom.karma-target.kingdom.karma+(target.target.kingdom.karma+target.kingdom.karma)/-2
     (
       kdiff > 0 ? 
         Math.sqrt(kdiff)*multiply

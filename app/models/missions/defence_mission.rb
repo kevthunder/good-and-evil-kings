@@ -10,7 +10,7 @@ class DefenceMission < Mission
   end
   
   def start
-    garrisons.set_kingdom(castle.kingdom_id)
+    garrisons.set_kingdom(kingdom_id)
     self.next_event = Time.now + calcul_travel_time
     super
   end
@@ -32,10 +32,10 @@ class DefenceMission < Mission
   
   def attacked(mission,cost)
     # karma
-    castle.kingdom.change_karma(karma_change)
-    castle.kingdom.save
-    castle.kingdom.change_received_diplomacy(target.kingdom_id,8)
-    castle.kingdom.change_given_diplomacy(mission.castle.kingdom_id,-8)
+    kingdom.change_karma(karma_change)
+    kingdom.save
+    kingdom.change_received_diplomacy(target.kingdom_id,8)
+    kingdom.change_given_diplomacy(mission.kingdom_id,-8)
   end
   
   def end_guarding
@@ -59,7 +59,7 @@ class DefenceMission < Mission
     spread = 200
     base = 1
     kmod = 9
-    kdiff = target.kingdom.karma - castle.kingdom.karma / self_reduction + reduction
+    kdiff = target.kingdom.karma - kingdom.karma / self_reduction + reduction
     (
       kdiff < 0 ? 
         (-1/(kdiff/spread-1) -1)*kmod +base

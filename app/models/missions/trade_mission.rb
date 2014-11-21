@@ -41,7 +41,7 @@ class TradeMission < Mission
     
   def set_carriers
     type = SoldierType.find_by_alias(:trade_cart)
-    self.garrisons = [Garrison.new(qte: (stocks.qte/type.carry.to_f).ceil, kingdom_id: castle.kingdom_id, soldier_type: type)]
+    self.garrisons = [Garrison.new(qte: (stocks.qte/type.carry.to_f).ceil, kingdom_id: kingdom_id, soldier_type: type)]
   end
   
   private
@@ -68,7 +68,7 @@ class TradeMission < Mission
 
   
   def start
-    garrisons.set_kingdom(castle.kingdom)
+    garrisons.set_kingdom(kingdom)
     set_carriers
     self.next_event = Time.now + calcul_travel_time
     super

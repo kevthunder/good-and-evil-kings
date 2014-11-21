@@ -10,7 +10,7 @@ class AssistMission < Mission
   end
   
   def start
-    garrisons.set_kingdom(castle.kingdom)
+    garrisons.set_kingdom(kingdom)
     self.next_event = Time.now + calcul_travel_time
     super
   end
@@ -33,9 +33,9 @@ class AssistMission < Mission
     stocks.add reward
     target.stocks.add reward
     # karma
-    castle.kingdom.change_karma(karma_change)
-    castle.kingdom.save
-    castle.kingdom.change_diplomacy(target.kingdom_id,10)
+    kingdom.change_karma(karma_change)
+    kingdom.save
+    kingdom.change_diplomacy(target.kingdom_id,10)
   end
   
   def start_returning
@@ -69,7 +69,7 @@ class AssistMission < Mission
     spread = 200
     base = 5
     kmod = 5
-    kdiff = target.kingdom.karma - castle.kingdom.karma / self_reduction
+    kdiff = target.kingdom.karma - kingdom.karma / self_reduction
     (
       kdiff < 0 ? 
         (-1/(kdiff/spread-1) -1)*kmod +base

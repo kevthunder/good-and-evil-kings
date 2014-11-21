@@ -1,7 +1,6 @@
 == Good and evil kings
 
 TODO
-* add kingdom to missions
 * interfaces
   * mission
 * more buildings
