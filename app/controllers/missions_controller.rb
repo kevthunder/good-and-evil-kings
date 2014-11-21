@@ -8,7 +8,7 @@ class MissionsController < ApplicationController
   # GET /missions
   # GET /missions.json
   def index
-    @missions = Mission.includes(:castle, :mission_type).joins(:castle => :kingdom).where(:kingdoms => {:user_id => current_user.id});
+    @missions = Mission.viewable_by(current_user).includes(:castle, :mission_type, :target);
   end
 
   # GET /missions/1

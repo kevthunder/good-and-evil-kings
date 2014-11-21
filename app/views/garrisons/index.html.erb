@@ -1,12 +1,11 @@
-<h1>Listing garrisons</h1>
+<h1>Garrisons for <%= @garrisonable.respond_to?(:name) ? @garrisonable.name : "#{@garrisonable.class.name.humanize} id: #{@garrisonable.id}"%></h1>
 
 <table>
   <thead>
     <tr>
       <th>Qte</th>
-      <th>Kingdom</th>
       <th>Soldier type</th>
-      <th>Garrisonable</th>
+      <th>Kingdom</th>
       <th></th>
       <th></th>
       <th></th>
@@ -17,9 +16,8 @@
     <% @garrisons.each do |garrison| %>
       <tr>
         <td><%= garrison.qte %></td>
-        <td><%= garrison.kingdom %></td>
-        <td><%= garrison.soldier_type %></td>
-        <td><%= garrison.garrisonable %></td>
+        <td><%= garrison.soldier_type.name %></td>
+        <td><%= garrison.kingdom.name %></td>
         <td><%= link_to 'Show', garrison %></td>
         <td><%= link_to 'Edit', edit_garrison_path(garrison) %></td>
         <td><%= link_to 'Destroy', garrison, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -27,7 +25,7 @@
     <% end %>
   </tbody>
 </table>
-
 <br>
-
 <%= link_to 'New Garrison', new_garrison_path %>
+<br>
+<%= link_to 'back', @garrisonable %></td>

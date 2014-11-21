@@ -6,7 +6,8 @@ class GarrisonsController < ApplicationController
   # GET /garrisons
   # GET /garrisons.json
   def index
-    @garrisons = Garrison.all
+    @garrisonable = Object.const_get(params.require(:type).classify).find(params.require(:id))
+    @garrisons = Garrison.includes(:kingdom,:soldier_type).where(garrisonable:@garrisonable)
   end
 
   # GET /garrisons/1

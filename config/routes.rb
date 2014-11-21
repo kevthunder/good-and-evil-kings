@@ -30,7 +30,8 @@ GoodAndEvilKings::Application.routes.draw do
 
   resources :movements
 
-  resources :garrisons
+  resources :garrisons, except: [:index]
+  get ':type/:id/garrisons' => 'garrisons#index', as: 'garrisons_for'
 
   resources :stocks
 

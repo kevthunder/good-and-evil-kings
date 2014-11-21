@@ -90,9 +90,12 @@ class Mission < ActiveRecord::Base
     return nil if movement.nil?
     movement.cur_pos
   end
- 
+
+  scope :viewable_by, (lambda do |user|
+    joins(:kingdom).where(kingdoms: { user_id: user.id })
+  end)
+  
   class << self
-    
     def needs_field(field_name)
       return send("needs_field_" + field_name.to_s) if respond_to?("needs_field_" + field_name.to_s)
       false

@@ -18,8 +18,13 @@
     <% @missions.each do |mission| %>
       <tr>
         <td><%= mission.type %></td>
-        <td><%= mission.castle %></td>
-        <td><%= mission.target %></td>
+        <td><%= mission.castle.name %> (<%= mission.castle.x %>;<%= mission.castle.y %>)</td>
+        <td>
+        <% unless mission.target.nil? %>
+          <%= mission.target.name if mission.target.respond_to?(:name) %>
+          <%= "(#{mission.target.x},#{mission.target.y})" if mission.target.respond_to?(:x) %>
+        <% end %>
+        </td>
         <td><%= mission.next_event %></td>
         <td><%= mission.mission_status_code %></td>
         <td><%= link_to 'Show', mission %></td>

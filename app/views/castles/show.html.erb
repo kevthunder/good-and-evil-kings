@@ -32,6 +32,7 @@
   <% if @castle.owned_by?(current_user) %>
     <li><%= link_to 'Recrute', new_castle_garrison_path(@castle.id) %></li>
     <li><%= link_to 'Edit', edit_castle_path(@castle) %></li>
+    <li><%= link_to 'Garrisons', garrisons_for_path('castles',@castle.id) %></li>
   <% end %>
   <li><%= link_to 'Back', castles_path %></li>
 </ul>
