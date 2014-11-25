@@ -1,4 +1,4 @@
-<%= nested_form_for(@soldier_type) do |f| %>
+<%= nested_form_for([:admin,@soldier_type]) do |f| %>
   <% if @soldier_type.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@soldier_type.errors.count, "error") %> prohibited this soldier_type from being saved:</h2>

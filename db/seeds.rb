@@ -1,31 +1,173 @@
+#################### Ressources ####################
+ressources = Hash[Ressource.create!([
+  {name: "Food", global: nil},
+  {name: "Wood", global: nil},
+  {name: "Stone", global: nil},
+  {name: "Coins", global: true},
+  {name: "Noble coins", global: true}
+]).map{ |r| [r.alias.to_sym, r] }]
+
+#################### Ai Actions ####################
+AiAction.create!([
+  {type: "BuildAction", weight: 100},
+  {type: "RecruteAction", weight: 100},
+  {type: "AttackAction", weight: 100}
+])
+#################### Building Types ####################
+building_types = Hash[BuildingType.create!([
+  {name: "Casern", type: "CasernBuilding", build_time: nil, size_x: 2, size_y: 2},
+  {name: "Farm", type: "", build_time: nil, size_x: 2, size_y: 2, 
+    costs: [
+      {qte: 200, ressource: ressources[:wood]},
+      {qte: 200, ressource: ressources[:stone]}
+    ].map{|d| Stock.new(d)},
+    modificators: [
+      {prop: "income:#{ressources[:food].id}", num: 20.0, multiply: false}
+    ].map{|d| Modificator.new(d)}
+  },
+  {name: "House", type: "", build_time: nil, size_x: 2, size_y: 2,
+    costs: [
+      {qte: 200, ressource: ressources[:wood]},
+      {qte: 20, ressource: ressources[:stone]}
+    ].map{|d| Stock.new(d)},
+    modificators: [
+      {prop: "pop", num: 5.0, multiply: false}
+    ].map{|d| Modificator.new(d)}
+  },
+  {name: "Warehouse", type: "", build_time: nil, size_x: 2, size_y: 2,
+    costs: [
+      {qte: 150, ressource: ressources[:wood]},
+      {qte: 150, ressource: ressources[:stone]}
+    ].map{|d| Stock.new(d)},
+    modificators: [
+      {prop: "max_stock", num: 1000.0, multiply: false}
+    ].map{|d| Modificator.new(d)}
+  },
+  {name: "Wood camp", type: "", build_time: nil, size_x: 2, size_y: 2,
+    costs: [
+      {qte: 100, ressource: ressources[:wood]},
+      {qte: 200, ressource: ressources[:stone]}
+    ].map{|d| Stock.new(d)},
+    modificators: [
+      {prop: "income:#{ressources[:wood].id}", num: 10.0, multiply: false}
+    ].map{|d| Modificator.new(d)}
+  },
+  {name: "Mine", type: "", build_time: nil, size_x: 2, size_y: 2,
+    costs: [
+      {qte: 200, ressource: ressources[:wood]},
+      {qte: 100, ressource: ressources[:stone]}
+    ].map{|d| Stock.new(d)},
+    modificators: [
+      {prop: "income:#{ressources[:stone].id}", num: 10.0, multiply: false}
+    ].map{|d| Modificator.new(d)}
+  },
+]).map{ |r| [r.alias.to_sym, r] }]
+
+#################### Building Types (Level 2) ####################
+BuildingType.create!([
+  {name: "Farm 2", type: "", build_time: nil, size_x: 2, size_y: 2, predecessor: building_types[:farm],
+    costs: [
+      {qte: 150, ressource: ressources[:wood]},
+      {qte: 150, ressource: ressources[:stone]}
+    ].map{|d| Stock.new(d)},
+    modificators: [
+      {prop: "income:#{ressources[:food].id}", num: 30.0, multiply: false}
+    ].map{|d| Modificator.new(d)}
+  }
+])
+
+#################### Soldier Types ####################
+SoldierType.create!([
+  {name: "Footman", speed: 5, attack: 10, defence: 3, interception: 5, carry: 10, recrute_time: 600, military: true, alias: "footman",
+    costs: [
+      {qte: 20, ressource: ressources[:coins]},
+      {qte: 10, ressource: ressources[:stone]}
+    ].map{|d| Stock.new(d)},
+    modificators: [
+      {prop: "income:#{ressources[:food].id}", num: -1.0, multiply: false}
+    ].map{|d| Modificator.new(d)}
+  },
+  {name: "Light Cavalry", speed: 10, attack: 5, defence: 3, interception: 10, carry: 20, recrute_time: 600, military: true, alias: "light_cavalry",
+    costs: [
+      {qte: 25, ressource: ressources[:coins]},
+      {qte: 10, ressource: ressources[:wood]},
+      {qte: 10, ressource: ressources[:stone]}
+    ].map{|d| Stock.new(d)},
+    modificators: [
+      {prop: "income:#{ressources[:food].id}", num: -1.0, multiply: false}
+    ].map{|d| Modificator.new(d)}
+  },
+  {name: "Archer", speed: 7, attack: 3, defence: 10, interception: 5, carry: 15, recrute_time: 600, military: true, alias: "archer",
+    costs: [
+      {qte: 15, ressource: ressources[:coins]},
+      {qte: 10, ressource: ressources[:wood]}
+    ].map{|d| Stock.new(d)},
+    modificators: [
+      {prop: "income:#{ressources[:food].id}", num: -1.0, multiply: false}
+    ].map{|d| Modificator.new(d)}
+  },
+  {name: "Trade cart", speed: 8, attack: nil, defence: nil, interception: nil, carry: 50, recrute_time: 800, military: false, alias: "trade_cart",
+    costs: [
+      {qte: 10, ressource: ressources[:coins]},
+      {qte: 10, ressource: ressources[:wood]},
+      {qte: 10, ressource: ressources[:stone]}
+    ].map{|d| Stock.new(d)}
+  },
+  {name: "Worker", speed: 8, attack: nil, defence: nil, interception: nil, carry: 20, recrute_time: 400, military: false, alias: "worker",
+    costs: [
+      {qte: 20, ressource: ressources[:food]},
+    ].map{|d| Stock.new(d)}
+  }
+])
+
+#################### Mission Status ####################
 MissionStatus.create!([
   {name: "Going", code: "going"},
   {name: "Occupying", code: "occupying"},
-  {name: "Returning", code: "returning"}
+  {name: "Returning", code: "returning"},
+  {name: "Working", code: "working"},
+  {name: "Ready", code: "ready"}
 ])
+
+#################### Mission Types ####################
 MissionType.create!([
   {name: "Attack", class_name: "AttackMission"},
   {name: "Trade", class_name: "TradeMission"},
-  {name: "Movement", class_name: "MovementMission"}
-])
-Ressource.create!([
-  {name: "Food"},
-  {name: "Wood"},
-  {name: "Stone"},
-  {name: "Coins"},
-  {name: "Noble coins"}
-])
-SoldierType.create!([
-  {name: "Footman", speed: 5, attack: 10, defence: 3, interception: 5, carry: 10},
-  {name: "Light Cavalry", speed: 10, attack: 5, defence: 3, interception: 10, carry: 20},
-  {name: "Archer", speed: 7, attack: 3, defence: 10, interception: 5, carry: 15}
-])
-AiAction.create!([
-  {type: "BuildAction", weight: "100"},
-  {type: "RecruteAction", weight: "100"},
-  {type: "AttackAction", weight: "100"}
+  {name: "Movement", class_name: "MovementMission"},
+  {name: "Collect Taxes", class_name: "TaxMission",
+    mission_lengths: [
+      {label: "15 min", seconds: 900,   reward: 1.0},
+      {label: "30 min", seconds: 1800,  reward: 0.9},
+      {label: "1 h",    seconds: 3600,  reward: 0.8},
+      {label: "2 h",    seconds: 7200,  reward: 0.7},
+      {label: "6 h",    seconds: 21600, reward: 0.6},
+      {label: "12 h",   seconds: 43200, reward: 0.5},
+      {label: "23 h",   seconds: 82800, reward: 0.4},
+    ].map{|d| MissionLength.new(d)}
+  },
+  {name: "Assist Mission", class_name: "AssistMission",
+    mission_lengths: [
+      {label: "15 min", seconds: 900,   reward: 1.0},
+      {label: "30 min", seconds: 1800,  reward: 0.9},
+      {label: "1 h",    seconds: 3600,  reward: 0.8},
+      {label: "2 h",    seconds: 7200,  reward: 0.7},
+      {label: "6 h",    seconds: 21600, reward: 0.6},
+      {label: "12 h",   seconds: 43200, reward: 0.5},
+      {label: "23 h",   seconds: 82800, reward: 0.4},
+    ].map{|d| MissionLength.new(d)}
+  },
+  {name: "Interception", class_name: "InterceptionMission"},
+  {name: "Defence", class_name: "DefenceMission",
+    mission_lengths: [
+      {label: "30 min", seconds: 1800,   reward: nil},
+      {label: "2 h",    seconds: 7200,   reward: nil},
+      {label: "12 h",   seconds: 43200,  reward: nil},
+      {label: "46 h",   seconds: 165600, reward: nil},
+    ].map{|d| MissionLength.new(d)}
+  }
 ])
 
+#################### Name Fragments ####################
 NameFragment.create!([
   {name: "kingdom", pos: "noun", group: "kingdom"},
   {name: "dominion", pos: "noun", group: "kingdom"},
@@ -279,5 +421,5 @@ NameFragment.create!([
   {name: "stone", pos: "adj", group: "castle"},
   {name: "bronze", pos: "adj", group: "castle"},
   {name: "copper", pos: "adj", group: "castle"},
-  {name: "gold", pos: "adj", group: "castle"},
+  {name: "gold", pos: "adj", group: "castle"}
 ])

@@ -2,11 +2,11 @@ GoodAndEvilKings::Application.routes.draw do
 
   resources :diplomacies, only: [:index, :show]
 
-  resources :ais
+  # resources :ais
 
-  resources :options
+  # resources :options
 
-  resources :modificators
+  # resources :modificators
   
   namespace :admin do
     resources :ai_actions
@@ -18,7 +18,7 @@ GoodAndEvilKings::Application.routes.draw do
     resources :ressources
     resources :soldier_types
   end
-  resources :buildings
+  resources :buildings, except: [:index]
   get 'buildings/:id/upgrade' => 'buildings#upgrade', as: 'upgrade_building'
   post 'buildings/:id/upgrade' => 'buildings#upgrade_now'
 
@@ -28,15 +28,23 @@ GoodAndEvilKings::Application.routes.draw do
   end
   get 'missions/:id/redeem' => 'missions#redeem'
 
-  resources :movements
+  # resources :movements
 
   resources :garrisons, except: [:index]
   get ':type/:id/garrisons' => 'garrisons#index', as: 'garrisons_for'
 
-  resources :stocks
-
+  resources :stocks, except: [:index]
 
   resources :kingdoms
+  
+  get 'tiles/list' => 'tiles#list'
+  post 'tiles/partial' => 'tiles#partial'
+  resources :tiles
+  resources :castles do
+    resources :missions, only: [:new, :create]
+    resources :garrisons, only: [:new, :create]
+  end
+
 
   devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.
@@ -54,14 +62,6 @@ GoodAndEvilKings::Application.routes.draw do
   # Example resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
   
-  get 'tiles/list' => 'tiles#list'
-  post 'tiles/partial' => 'tiles#partial'
-  resources :tiles
-  resources :castles do
-    resources :missions, only: [:new, :create]
-    resources :garrisons, only: [:new, :create]
-  end
-
   # Example resource route with options:
   #   resources :products do
   #     member do

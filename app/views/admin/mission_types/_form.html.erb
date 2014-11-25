@@ -1,4 +1,4 @@
-<%= nested_form_for(@mission_type) do |f| %>
+<%= nested_form_for([:admin,@mission_type]) do |f| %>
   <% if @mission_type.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@mission_type.errors.count, "error") %> prohibited this mission_type from being saved:</h2>
@@ -21,7 +21,7 @@
   </div>
   
   <%= render 'options/nested_form', :form => f %>
-  <%= render 'mission_lengths/nested_form', :form => f %>
+  <%= render 'admin/mission_lengths/nested_form', :form => f %>
   
   <div class="actions">
     <%= f.submit %>
