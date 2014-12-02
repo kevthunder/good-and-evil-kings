@@ -79,10 +79,6 @@ class Castle < ActiveRecord::Base
     super()
   end
   
-  def max_recrute(ressource = nil)
-    10
-  end
-  
   
   def default_income(id)
     10
@@ -103,7 +99,7 @@ class Castle < ActiveRecord::Base
   end
   
   def recruitable_qty
-    5
+    10
   end
   
   def remaining_recruitable_qty

@@ -1,5 +1,9 @@
 GoodAndEvilKings::Application.routes.draw do
 
+  resources :message_categories
+
+  resources :messages
+
   resources :diplomacies, only: [:index, :show]
 
   # resources :ais

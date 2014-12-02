@@ -14,6 +14,8 @@ class BuildAction < AiAction
       building.y = rand(0..7)*2
       i += 1
     end
+    return nil unless i < max_tries
+    
     building.bougth = true
     
     building.save

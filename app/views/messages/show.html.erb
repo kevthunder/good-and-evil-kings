@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @message.title %>
+</p>
+
+<p>
+  <strong>Text:</strong>
+  <%= @message.text %>
+</p>
+
+<p>
+  <strong>Destination:</strong>
+  <%= @message.destination %>
+</p>
+
+<p>
+  <strong>Sender:</strong>
+  <%= @message.sender %>
+</p>
+
+<p>
+  <strong>Data:</strong>
+  <%= @message.data %>
+</p>
+
+<p>
+  <strong>Template:</strong>
+  <%= @message.template %>
+</p>
+
+<%= link_to 'Edit', edit_message_path(@message) %> |
+<%= link_to 'Back', messages_path %>

@@ -1,0 +1,27 @@
+<h1>Listing message_categories</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @message_categories.each do |message_category| %>
+      <tr>
+        <td><%= message_category.title %></td>
+        <td><%= link_to 'Show', message_category %></td>
+        <td><%= link_to 'Edit', edit_message_category_path(message_category) %></td>
+        <td><%= link_to 'Destroy', message_category, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Message category', new_message_category_path %>

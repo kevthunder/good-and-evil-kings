@@ -28,7 +28,7 @@ class Garrison < ActiveRecord::Base
       Garrison.calcul_travel_time(pos1, pos2, speed)
     end
   end
-  validate :check_max_recrute
+  validate :check_recruitable_qty
   
   belongs_to :kingdom
   belongs_to :soldier_type
@@ -55,14 +55,14 @@ class Garrison < ActiveRecord::Base
     destroy!
   end
   
-  def check_max_recrute()
-    if bougth && !enough_recrute_space?
+  def check_recruitable_qty()
+    if bougth && !enough_recruitable_qty?
       errors.add(:qte, " cant recrute this much simultaneously.")
     end
   end
   
-  def enough_recrute_space?
-    garrisonable.max_recrute >= qte + garrisonable.garrisons.not_ready.qte
+  def enough_recruitable_qty?
+    remaining_recruitable_qty >= qte
   end
   
   

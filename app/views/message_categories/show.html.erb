@@ -1,0 +1,9 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @message_category.title %>
+</p>
+
+<%= link_to 'Edit', edit_message_category_path(@message_category) %> |
+<%= link_to 'Back', message_categories_path %>
