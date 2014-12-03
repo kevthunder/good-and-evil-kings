@@ -80,5 +80,8 @@ class Stock < ActiveRecord::Base
       end
     end
     
+    def to_h
+      Hash[joins(:ressource).pluck("ressources.name",:qte).map{ |pair| [pair[0].parameterize('_').to_sym,pair[1]] }]
+    end
   end
 end

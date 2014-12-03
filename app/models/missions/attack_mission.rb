@@ -41,6 +41,7 @@ class AttackMission < Mission
       kingdom.save
       kingdom.change_diplomacy(target.kingdom_id,-10,-4)
       
+      
       target.attacked(self,cost) if target.respond_to?(:attacked)
       destroy if garrisons.qte == 0
     end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141120010908) do
+ActiveRecord::Schema.define(version: 20141202225247) do
 
   create_table "actions", force: true do |t|
     t.datetime "time"
@@ -115,6 +115,38 @@ ActiveRecord::Schema.define(version: 20141120010908) do
   end
 
   add_index "kingdoms", ["user_id"], name: "index_kingdoms_on_user_id"
+
+  create_table "message_categories", force: true do |t|
+    t.string   "title"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "messages", force: true do |t|
+    t.string   "title"
+    t.text     "text"
+    t.integer  "destination_id"
+    t.string   "destination_type"
+    t.integer  "sender_id"
+    t.string   "sender_type"
+    t.text     "data"
+    t.string   "template"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "messages", ["destination_id", "destination_type"], name: "index_messages_on_destination_id_and_destination_type"
+  add_index "messages", ["sender_id", "sender_type"], name: "index_messages_on_sender_id_and_sender_type"
+
+  create_table "messages_messages_categories", force: true do |t|
+    t.integer  "message_category_id"
+    t.integer  "message_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "messages_messages_categories", ["message_category_id"], name: "index_messages_messages_categories_on_message_category_id"
+  add_index "messages_messages_categories", ["message_id"], name: "index_messages_messages_categories_on_message_id"
 
   create_table "mission_lengths", force: true do |t|
     t.string   "label"

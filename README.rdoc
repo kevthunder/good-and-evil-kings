@@ -1,6 +1,8 @@
 == Good and evil kings
 
 TODO
+* messages
+  * Battle Class
 * interfaces
   * mission
 * more buildings
@@ -23,5 +25,5 @@ Scaffolds
 * rails g scaffold name_fragment name:string pos:string group:string --skip-migration
 * rails g scaffold diplomacy karma:integer from_kingdom:references to_kingdom:references last_interaction:datetime --skip-migration
 * rails g scaffold message title:string text:text destination:references{polymorphic} sender:references{polymorphic} data:text template:string
-* rails g scaffold message_categories title:string
+* rails g scaffold message_category title:string
 * rails g model messages_messages_categories message_category:references message:references

@@ -1,10 +1,12 @@
 class MessagesController < ApplicationController
   before_action :set_message, only: [:show, :edit, :update, :destroy]
+  
+  before_filter :authenticate_user!
 
   # GET /messages
   # GET /messages.json
   def index
-    @messages = Message.all
+    @messages = Message.viewable_by(current_user)
   end
 
   # GET /messages/1

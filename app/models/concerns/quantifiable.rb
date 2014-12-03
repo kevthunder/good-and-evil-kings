@@ -77,6 +77,10 @@ module Quantifiable
       end
     end
     
+    def dup
+      model.new_collection(arr.map{ |q| q.dup })
+    end
+    
   end
   
   module HasManyOrClass
