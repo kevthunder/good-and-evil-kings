@@ -2,7 +2,7 @@ class BattleSide
   def initialize(battle,side,key)
     @battle, @side, @key = battle, side, key
   end
-  attr_accessor :battle, :side, :key, :karma_change
+  attr_accessor :battle, :side, :key, :karma_change, :received_diplomacy_change
   
   
   attr_writer :power
@@ -27,13 +27,13 @@ class BattleSide
   end
   
   attr_writer :start_garrisons
-  def start_garrisons end
+  def start_garrisons
     return @start_garrisons unless @start_garrisons.nil?
     battle.calcul_cost
     @start_garrisons
   end
   
-  def end_garrisons end
+  def end_garrisons
     return @end_garrisons unless @end_garrisons.nil?
     @end_garrisons = start_garrisons.subtract(cost)
   end
@@ -49,6 +49,7 @@ class BattleSide
       cost: cost.to_h,
       loot: loot.to_h,
       karma_change: karma_change
+      received_diplomacy_change: received_diplomacy_change
     }
   end
   
@@ -73,10 +74,10 @@ class Battle
   end
   
   def calcul_winner
-    if defender.power / attacker.power.to_f  > 3 / 4.to_f
+    if defender.power / attacker.power.to_f  < 3 / 4.to_f
       @winner = attacker
       @loser = defender
-    elsif attacker.power / defender.power.to_f  > 3 / 4.to_f
+    elsif attacker.power / defender.power.to_f  < 3 / 4.to_f
       @winner = defender
       @loser = attacker
     else
@@ -93,16 +94,37 @@ class Battle
     }
   end
   
+  def apply
+    Garrison.transaction do
+      attacker.side.garrisons.subtract attacker.cost unless attacker.cost.none?
+      defender.side.garrisons.subtract defender.cost unless defender.cost.none?
+      
+      attacker.side.stocks.add attacker.loot unless attacker.loot.none?
+      defender.side.stocks.add defender.loot unless defender.loot.none?
+      
+      attacker.side.kingdom.change_karma!(attacker.karma_change) if attacker.karma_change
+      defender.side.kingdom.change_karma!(defender.karma_change) if defender.karma_change
+      
+      attacker.side.kingdom.change_received_diplomacy(defender.side.kingdom,attacker.received_diplomacy_change) if attacker.received_diplomacy_change
+      defender.side.kingdom.change_received_diplomacy(attacker.side.kingdom,defender.received_diplomacy_change) if defender.received_diplomacy_change
+    end
+  end
+  
+  def diplomacy_changes(received_attacker,received_defender)
+    attacker.received_diplomacy_change = received_attacker
+    defender.received_diplomacy_change = received_defender
+  end
+  
   def calcul_cost
     types = {
       attack: {:att => 'attack',:def => 'defence'},
       interception: {:att => 'interception',:def => 'interception'}
     }
-    att_start_garrisons = attacker.garrisons.ready.military
+    att_start_garrisons = attacker.side.garrisons.ready.military
     attacker.start_garrisons = att_start_garrisons.to_collection.dup
     att_data = att_start_garrisons.get_battle_data(types[type][:att])
     attacker.power = att_data.sum { |d| d[:power] }
-    def_start_garrisons = defender.garrisons.ready.military
+    def_start_garrisons = defender.side.garrisons.ready.military
     defender.start_garrisons = def_start_garrisons.to_collection.dup
     def_data = def_start_garrisons.get_battle_data(types[type][:def])
     defender.power = def_data.sum { |d| d[:power] }

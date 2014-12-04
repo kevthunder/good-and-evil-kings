@@ -8,6 +8,15 @@ class Stock < ActiveRecord::Base
     def locals
       model.new_collection(self.reject{ |s| s.ressource.global })
     end
+    
+    def to_h
+      hash = {}
+      each do |g| 
+        key = g.ressource.alias.to_sym
+        hash[key] = (hash[key] || 0) + g.qte 
+      end
+      hash
+    end
   end
   
   belongs_to :ressource

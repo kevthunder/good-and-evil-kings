@@ -10,9 +10,20 @@ module Quantifiable
       @arr = Array.new(*args)
     end
     
+    def each_match(quantifiables)
+        res = match(quantifiables)
+        quantifiables = model.new_collection(quantifiables)
+        matchings = res
+        quantifiables.each do |quantifiable|
+          matcheds = matchings.select { |s| s.can_unite?(quantifiable) }
+          yield(matcheds,quantifiable)
+        end
+        res
+    end
+    
     def match(quantifiables)
       return match_single(quantifiables) unless quantifiables.respond_to?('map')
-      model.new_collection(select{ |q1| quantifiables.any?{ |q2| q2.can_unite?(q1) } })
+      model.new_collection(self.select{ |q1| quantifiables.any?{ |q2| q2.can_unite?(q1) } })
     end
     
     def match_single(quantifiable)
@@ -37,12 +48,37 @@ module Quantifiable
     def subtract_any(number)
       take_any(number) do |qte,quantifiable|
         if quantifiable.qte == qte
+          delete(quantifiable)
+        else
+          quantifiable.qte -= qte
+        end
+      end
+    end
+    
+    def subtract_any!(number)
+      take_any(number) do |qte,quantifiable|
+        if quantifiable.qte == qte
           quantifiable.destroy
         else
           quantifiable.qte -= qte
           quantifiable.save
         end
       end
+    end
+    
+    def subtract(quantifiables)
+      res = dup
+      res.each_match(quantifiables) do |matcheds,quantifiable|
+        return false if matcheds.qte < quantifiable.qte
+        matcheds.take_any(quantifiable.qte) do |qte,quantifiable|
+          if quantifiable.qte == qte
+            res.delete(quantifiable)
+          else
+            quantifiable.qte -= qte
+          end
+        end
+      end
+      res
     end
     
     def qte
@@ -172,16 +208,6 @@ module Quantifiable
   module ClassMethods
     include Quantifiable::HasManyOrClass
   
-    def each_match(quantifiables)
-        res = match(quantifiables)
-        quantifiables = new_collection(quantifiables)
-        matchings = new_collection(res)
-        quantifiables.each do |quantifiable|
-          matcheds = matchings.select { |s| s.can_unite?(quantifiable) }
-          yield(matcheds,quantifiable)
-        end
-        res
-    end
     def match_single(quantifiable)
       match(new_collection(quantifiable)).first
     end
@@ -229,7 +255,7 @@ module Quantifiable
       ! (transaction do
         each_match(quantifiables) do |matcheds,quantifiable|
           raise(ActiveRecord::Rollback) if matcheds.qte < quantifiable.qte
-          matcheds.subtract_any(quantifiable.qte)
+          matcheds.subtract_any!(quantifiable.qte)
         end
       end).nil?
     end

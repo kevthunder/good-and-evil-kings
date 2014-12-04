@@ -31,16 +31,9 @@ class AttackMission < Mission
   def battle
     # kill stuff
     cost = battle_cost
+    Battle.new(self,target)
     transaction do
-      self.garrisons.subtract cost[:us]
-      target.garrisons.subtract cost[:them]
-      # loot
-      stocks.add(target.stocks.up_to_date.subtract_any(garrisons.carry))
-      # karma
-      kingdom.change_karma(karma_change)
-      kingdom.save
-      kingdom.change_diplomacy(target.kingdom_id,-10,-4)
-      
+      Battle.apply
       
       target.attacked(self,cost) if target.respond_to?(:attacked)
       destroy if garrisons.qte == 0

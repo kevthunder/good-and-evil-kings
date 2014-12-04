@@ -10,6 +10,11 @@ class Kingdom < ActiveRecord::Base
     castles.first
   end
   
+  def change_karma!(power)
+    change_karma(power)
+    save!
+  end
+  
   def change_karma(power)
     max_karma = 10000
     return karma if power == 0 || (karma > max_karma && power > 0)  || (-karma > max_karma && power < 0)

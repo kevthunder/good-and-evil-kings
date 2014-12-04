@@ -2,6 +2,20 @@
 
 # A group Of soldier of the same type
 class Garrison < ActiveRecord::Base
+  class Collection < Quantifiable::Collection
+    def carry
+      inject(0){|sum,g| sum + g.soldier_type.carry }
+    end
+    
+    def to_h
+      hash = {}
+      each do |g| 
+        key = g.soldier_type.alias.to_sym
+        hash[key] = (hash[key] || 0) + g.qte 
+      end
+      hash
+    end
+  end
   module HasManyExtension
     include Quantifiable::HasManyExtension
     
@@ -133,6 +147,10 @@ class Garrison < ActiveRecord::Base
   end
 
   class << self
+    def collection_type
+      Garrison::Collection
+    end
+    
     def speed
       joins(:soldier_type).minimum('soldier_types.speed')
     end
