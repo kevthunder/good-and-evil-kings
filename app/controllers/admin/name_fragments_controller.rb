@@ -57,7 +57,7 @@ module Admin
     def destroy
       @name_fragment.destroy
       respond_to do |format|
-        format.html { redirect_to admin_admin_name_fragments_url }
+        format.html { redirect_to admin_name_fragments_url }
         format.json { head :no_content }
       end
     end

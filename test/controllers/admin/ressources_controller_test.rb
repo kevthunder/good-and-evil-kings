@@ -1,7 +1,10 @@
 require 'test_helper'
 
-class RessourcesControllerTest < ActionController::TestCase
+class Admin::RessourcesControllerTest < ActionController::TestCase
+  include Devise::TestHelpers
+  
   setup do
+    sign_in users(:one)
     @ressource = ressources(:one)
   end
 
@@ -21,7 +24,7 @@ class RessourcesControllerTest < ActionController::TestCase
       post :create, ressource: { global: @ressource.global, name: @ressource.name }
     end
 
-    assert_redirected_to ressource_path(assigns(:ressource))
+    assert_redirected_to admin_ressource_path(assigns(:ressource))
   end
 
   test "should show ressource" do
@@ -36,7 +39,7 @@ class RessourcesControllerTest < ActionController::TestCase
 
   test "should update ressource" do
     patch :update, id: @ressource, ressource: { global: @ressource.global, name: @ressource.name }
-    assert_redirected_to ressource_path(assigns(:ressource))
+    assert_redirected_to admin_ressource_path(assigns(:ressource))
   end
 
   test "should destroy ressource" do
@@ -44,6 +47,6 @@ class RessourcesControllerTest < ActionController::TestCase
       delete :destroy, id: @ressource
     end
 
-    assert_redirected_to ressources_path
+    assert_redirected_to admin_ressources_path
   end
 end

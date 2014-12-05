@@ -1,8 +1,11 @@
 require 'test_helper'
 
 class CastlesControllerTest < ActionController::TestCase
+  include Devise::TestHelpers
+  
   setup do
-    @castle = castles(:one)
+    sign_in users(:two)
+    @castle = castles(:two)
   end
 
   test "should get index" do

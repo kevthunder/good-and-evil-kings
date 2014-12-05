@@ -34,25 +34,21 @@ class InterceptionMission < Mission
   def battle
     unless target.nil?
       # kill stuff
-      cost = battle_cost
+      battle = Battle.new(self,target,:interception)
       transaction do
-        self.garrisons.subtract cost[:us]
-        target.garrisons.subtract cost[:them]
-        # loot
-        target.stocks.up_to_date if target.stocks.respond_to?(:up_to_date)
-        stocks.add(target.stocks.subtract_any(garrisons.carry))
-        # karma
-        kingdom.change_karma(karma_change)
-        kingdom.save
-        kingdom.change_diplomacy(target.kingdom_id,-10)
+        battle.attacker.karma_change = karma_change
+        battle.diplomacy_changes(-10,0)
+        battle.apply
         
-        target.intercepted(cost) if target.respond_to?(:intercepted)
+        Message.create!(destination: kingdom, title: 'Battle fought', data: battle.message_data)
+        Message.create!(destination: target.kingdom, title: 'Battle fought', data: battle.message_data)
+        
+        target.intercepted(battle) if target.respond_to?(:intercepted)
+        destroy if garrisons.qte == 0
       end
     end
-  end
-  
-  def battle_cost
-    garrisons.attack_cost(target,:interception)
+    
+    
   end
   
   def karma_change

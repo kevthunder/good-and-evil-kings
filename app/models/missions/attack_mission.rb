@@ -30,18 +30,18 @@ class AttackMission < Mission
   
   def battle
     # kill stuff
-    cost = battle_cost
-    Battle.new(self,target)
+    battle = Battle.new(self,target)
     transaction do
-      Battle.apply
+      battle.attacker.karma_change = karma_change
+      battle.diplomacy_changes(-10,-4)
+      battle.apply
       
-      target.attacked(self,cost) if target.respond_to?(:attacked)
+      Message.new(destination: kingdom, title: 'Battle fought', data: battle.message_data)
+      Message.new(destination: target.kingdom, title: 'Battle fought', data: battle.message_data)
+      
+      target.attacked(self,battle) if target.respond_to?(:attacked)
       destroy if garrisons.qte == 0
     end
-  end
-  
-  def battle_cost
-    garrisons.attack_cost(target)
   end
   
   def karma_change
@@ -60,7 +60,7 @@ class AttackMission < Mission
     mission_status_code == 'going'
   end
   
-  def intercepted(cost)
+  def intercepted(battle)
     destroy if garrisons.qte == 0
   end
   

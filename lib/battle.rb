@@ -48,7 +48,7 @@ class BattleSide
       start_garrisons: start_garrisons.to_h,
       cost: cost.to_h,
       loot: loot.to_h,
-      karma_change: karma_change
+      karma_change: karma_change,
       received_diplomacy_change: received_diplomacy_change
     }
   end
@@ -88,6 +88,7 @@ class Battle
   
   def message_data
     {
+      type: type,
       winner: winner.key,
       attacker: attacker.message_data,
       defender: defender.message_data

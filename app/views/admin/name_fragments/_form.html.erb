@@ -1,4 +1,4 @@
-<%= form_for(@name_fragment) do |f| %>
+<%= form_for([:admin,@name_fragment]) do |f| %>
   <% if @name_fragment.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@name_fragment.errors.count, "error") %> prohibited this name_fragment from being saved:</h2>

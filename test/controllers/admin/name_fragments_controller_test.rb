@@ -1,7 +1,10 @@
 require 'test_helper'
 
-class NameFragmentsControllerTest < ActionController::TestCase
+class Admin::NameFragmentsControllerTest < ActionController::TestCase
+  include Devise::TestHelpers
+  
   setup do
+    sign_in users(:one)
     @name_fragment = name_fragments(:one)
   end
 
@@ -21,7 +24,7 @@ class NameFragmentsControllerTest < ActionController::TestCase
       post :create, name_fragment: { group: @name_fragment.group, name: @name_fragment.name, pos: @name_fragment.pos }
     end
 
-    assert_redirected_to name_fragment_path(assigns(:name_fragment))
+    assert_redirected_to admin_name_fragment_path(assigns(:name_fragment))
   end
 
   test "should show name_fragment" do
@@ -36,7 +39,7 @@ class NameFragmentsControllerTest < ActionController::TestCase
 
   test "should update name_fragment" do
     patch :update, id: @name_fragment, name_fragment: { group: @name_fragment.group, name: @name_fragment.name, pos: @name_fragment.pos }
-    assert_redirected_to name_fragment_path(assigns(:name_fragment))
+    assert_redirected_to admin_name_fragment_path(assigns(:name_fragment))
   end
 
   test "should destroy name_fragment" do
@@ -44,6 +47,6 @@ class NameFragmentsControllerTest < ActionController::TestCase
       delete :destroy, id: @name_fragment
     end
 
-    assert_redirected_to name_fragments_path
+    assert_redirected_to admin_name_fragments_path
   end
 end

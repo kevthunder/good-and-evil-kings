@@ -1,5 +1,6 @@
 class DiplomaciesController < ApplicationController
   before_action :set_diplomacy, only: [:show]
+  before_filter :authenticate_user!
 
   # GET /diplomacies
   # GET /diplomacies.json

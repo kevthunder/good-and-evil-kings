@@ -2,7 +2,7 @@
 
 one:
   karma: 1
-  from_kingdom_id: 
+  from_kingdom: two
   to_kingdom_id: 
   last_interaction: 2014-09-03 19:36:01
 

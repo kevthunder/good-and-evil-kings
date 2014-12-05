@@ -1,4 +1,4 @@
-<%= form_for(@mission_length) do |f| %>
+<%= form_for([:admin,@mission_length]) do |f| %>
   <% if @mission_length.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@mission_length.errors.count, "error") %> prohibited this mission_length from being saved:</h2>

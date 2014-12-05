@@ -1,4 +1,4 @@
-<%= form_for(@ressource) do |f| %>
+<%= form_for([:admin,@ressource]) do |f| %>
   <% if @ressource.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@ressource.errors.count, "error") %> prohibited this ressource from being saved:</h2>

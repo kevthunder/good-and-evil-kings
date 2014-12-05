@@ -1,7 +1,10 @@
 require 'test_helper'
 
-class AiActionsControllerTest < ActionController::TestCase
+class Admin::AiActionsControllerTest < ActionController::TestCase
+  include Devise::TestHelpers
+
   setup do
+    sign_in users(:one)
     @ai_action = ai_actions(:one)
   end
 
@@ -21,7 +24,7 @@ class AiActionsControllerTest < ActionController::TestCase
       post :create, ai_action: { type: @ai_action.type, weight: @ai_action.weight }
     end
 
-    assert_redirected_to ai_action_path(assigns(:ai_action))
+    assert_redirected_to admin_ai_action_path(assigns(:ai_action))
   end
 
   test "should show ai_action" do
@@ -36,7 +39,7 @@ class AiActionsControllerTest < ActionController::TestCase
 
   test "should update ai_action" do
     patch :update, id: @ai_action, ai_action: { type: @ai_action.type, weight: @ai_action.weight }
-    assert_redirected_to ai_action_path(assigns(:ai_action))
+    assert_redirected_to admin_ai_action_path(assigns(:ai_action))
   end
 
   test "should destroy ai_action" do
@@ -44,6 +47,6 @@ class AiActionsControllerTest < ActionController::TestCase
       delete :destroy, id: @ai_action
     end
 
-    assert_redirected_to ai_actions_path
+    assert_redirected_to admin_ai_actions_path
   end
 end

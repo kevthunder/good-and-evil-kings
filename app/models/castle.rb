@@ -69,9 +69,9 @@ class Castle < ActiveRecord::Base
     ).where(type: nil)
   end
   
-  def attacked(mission,cost)
+  def attacked(mission,battle)
     stationned_defence_missions.each do |mission|
-      mission.attacked(mission,cost) if mission.respond_to?(:attacked)
+      mission.attacked(mission,battle) if mission.respond_to?(:attacked)
     end
   end
   

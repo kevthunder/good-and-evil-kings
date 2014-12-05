@@ -1,7 +1,10 @@
 require 'test_helper'
 
-class MissionTypesControllerTest < ActionController::TestCase
+class Admin::MissionTypesControllerTest < ActionController::TestCase
+  include Devise::TestHelpers
+  
   setup do
+    sign_in users(:one)
     @mission_type = mission_types(:one)
   end
 
@@ -21,7 +24,7 @@ class MissionTypesControllerTest < ActionController::TestCase
       post :create, mission_type: { class_name: @mission_type.class_name, name: @mission_type.name }
     end
 
-    assert_redirected_to mission_type_path(assigns(:mission_type))
+    assert_redirected_to admin_mission_type_path(assigns(:mission_type))
   end
 
   test "should show mission_type" do
@@ -36,7 +39,7 @@ class MissionTypesControllerTest < ActionController::TestCase
 
   test "should update mission_type" do
     patch :update, id: @mission_type, mission_type: { class_name: @mission_type.class_name, name: @mission_type.name }
-    assert_redirected_to mission_type_path(assigns(:mission_type))
+    assert_redirected_to admin_mission_type_path(assigns(:mission_type))
   end
 
   test "should destroy mission_type" do
@@ -44,6 +47,6 @@ class MissionTypesControllerTest < ActionController::TestCase
       delete :destroy, id: @mission_type
     end
 
-    assert_redirected_to mission_types_path
+    assert_redirected_to admin_mission_types_path
   end
 end

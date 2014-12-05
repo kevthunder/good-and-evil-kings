@@ -1,7 +1,10 @@
 require 'test_helper'
 
-class MissionStatusesControllerTest < ActionController::TestCase
+class Admin::MissionStatusesControllerTest < ActionController::TestCase
+  include Devise::TestHelpers
+  
   setup do
+    sign_in users(:one)
     @mission_status = mission_statuses(:one)
   end
 
@@ -21,7 +24,7 @@ class MissionStatusesControllerTest < ActionController::TestCase
       post :create, mission_status: { code: @mission_status.code, name: @mission_status.name }
     end
 
-    assert_redirected_to mission_status_path(assigns(:mission_status))
+    assert_redirected_to admin_mission_status_path(assigns(:mission_status))
   end
 
   test "should show mission_status" do
@@ -36,7 +39,7 @@ class MissionStatusesControllerTest < ActionController::TestCase
 
   test "should update mission_status" do
     patch :update, id: @mission_status, mission_status: { code: @mission_status.code, name: @mission_status.name }
-    assert_redirected_to mission_status_path(assigns(:mission_status))
+    assert_redirected_to admin_mission_status_path(assigns(:mission_status))
   end
 
   test "should destroy mission_status" do
@@ -44,6 +47,6 @@ class MissionStatusesControllerTest < ActionController::TestCase
       delete :destroy, id: @mission_status
     end
 
-    assert_redirected_to mission_statuses_path
+    assert_redirected_to admin_mission_statuses_path
   end
 end

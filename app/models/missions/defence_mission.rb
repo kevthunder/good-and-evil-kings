@@ -30,7 +30,7 @@ class DefenceMission < Mission
     target.garrisons.add garrisons
   end
   
-  def attacked(mission,cost)
+  def attacked(mission,battle)
     # karma
     kingdom.change_karma(karma_change)
     kingdom.save
