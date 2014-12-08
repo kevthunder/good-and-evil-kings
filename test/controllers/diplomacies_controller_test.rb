@@ -4,7 +4,7 @@ class DiplomaciesControllerTest < ActionController::TestCase
   include Devise::TestHelpers
   
   setup do
-    sign_in users(:two)
+    sign_in users(:normal_one)
     @diplomacy = diplomacies(:one)
   end
 

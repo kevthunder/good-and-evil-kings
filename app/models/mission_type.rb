@@ -8,8 +8,18 @@ class MissionType < ActiveRecord::Base
   end
 
   def allow_target(target,kingdom)
+    return false unless any_usable_castle_for_target?(target,kingdom)
     return klass.allow_target(target,kingdom) if klass.respond_to?(:allow_target)
     true
+  end
+  
+  def any_usable_castle_for_target?(target,kingdom)
+    return any_different_castle_from_target?(target,kingdom) unless klass.allow_same_target_and_castle?
+    true
+  end
+  
+  def any_different_castle_from_target?(target,kingdom)
+    target.nil? || target.class.model_name != Castle.model_name || kingdom.castles.where.not(id: target.id).any?
   end
   
   def needs_field(field_name)

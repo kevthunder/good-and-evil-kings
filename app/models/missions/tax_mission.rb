@@ -41,6 +41,10 @@ class TaxMission < Mission
     def needs_field_castle_id
       false
     end
+    
+    def allow_same_target_and_castle?
+      true
+    end
   end
   
 end

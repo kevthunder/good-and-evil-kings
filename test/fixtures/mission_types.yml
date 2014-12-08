@@ -1,9 +1,29 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  name: MyString
-  class_name: MyString
+attack:
+  name: Attack
+  class_name: AttackMission
+  
+trade:
+  name: Trade
+  class_name: TradeMission
 
-two:
-  name: MyString
-  class_name: MyString
+movement:
+  name: Movement
+  class_name: MovementMission
+
+tax:
+  name: Collect Taxes
+  class_name: TaxMission
+
+assist:
+  name: Assist Mission
+  class_name: AssistMission
+
+interception:
+  name: Interception
+  class_name: InterceptionMission
+
+defence:
+  name: Defence
+  class_name: DefenceMission

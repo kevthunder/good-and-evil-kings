@@ -4,7 +4,7 @@ class Admin::MissionLengthsControllerTest < ActionController::TestCase
   include Devise::TestHelpers
   
   setup do
-    sign_in users(:one)
+    sign_in users(:admin_one)
     @mission_length = mission_lengths(:one)
   end
 

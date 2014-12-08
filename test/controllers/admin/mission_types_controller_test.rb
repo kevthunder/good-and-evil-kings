@@ -4,8 +4,8 @@ class Admin::MissionTypesControllerTest < ActionController::TestCase
   include Devise::TestHelpers
   
   setup do
-    sign_in users(:one)
-    @mission_type = mission_types(:one)
+    sign_in users(:admin_one)
+    @mission_type = mission_types(:attack)
   end
 
   test "should get index" do

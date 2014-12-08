@@ -4,7 +4,7 @@ class Admin::AiActionsControllerTest < ActionController::TestCase
   include Devise::TestHelpers
 
   setup do
-    sign_in users(:one)
+    sign_in users(:admin_one)
     @ai_action = ai_actions(:one)
   end
 

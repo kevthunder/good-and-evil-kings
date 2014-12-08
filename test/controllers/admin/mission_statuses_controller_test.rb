@@ -4,7 +4,7 @@ class Admin::MissionStatusesControllerTest < ActionController::TestCase
   include Devise::TestHelpers
   
   setup do
-    sign_in users(:one)
+    sign_in users(:admin_one)
     @mission_status = mission_statuses(:one)
   end
 

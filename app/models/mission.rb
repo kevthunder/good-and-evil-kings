@@ -8,11 +8,11 @@ class Mission < ActiveRecord::Base
   has_many :garrisons, ->{ extending Garrison::HasManyExtension }, as: :garrisonable
   has_many :options, as: :target
   has_one :movement, dependent: :destroy
-
   accepts_nested_attributes_for :stocks, :garrisons, :options, allow_destroy: true
 
   before_create :start_behavior
   validates_presence_of :kingdom_id
+  validate :target_and_castle_must_differ_or_allowed
   
   include Updated
   updated_column :next_event, :next
@@ -109,6 +109,10 @@ class Mission < ActiveRecord::Base
       return send("opt_" + opt.name + "_read_val", opt) if respond_to?("opt_" + opt.name + "_read_val")
       nil
     end
+    
+    def allow_same_target_and_castle?
+      false
+    end
   end
   
   def calcul_travel_time
@@ -129,6 +133,22 @@ class Mission < ActiveRecord::Base
     update_status(start_status) unless start_status.nil?
   end
 
+  def allow_same_target_and_castle?
+    self.class.allow_same_target_and_castle?
+  end
+  
+  def target_and_castle_differs?
+    !target_id.nil? && target_id == castle_id && target_type == Castle.model_name.to_s
+  end
+  
+  def target_and_castle_must_differ_or_allowed
+    target_and_castle_must_differ unless allow_same_target_and_castle?
+  end
+  
+  def target_and_castle_must_differ
+    errors.add(:garrisons, 'must have at least one soldier') if target_and_castle_differs?
+  end
+  
   def must_have_one_garrison
     errors.add(:garrisons, 'must have at least one soldier') if garrisons.empty? || garrisons.all? { |garrison| garrison.marked_for_destruction? }
   end

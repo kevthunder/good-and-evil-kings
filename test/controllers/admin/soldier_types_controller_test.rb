@@ -4,7 +4,7 @@ class Admin::SoldierTypesControllerTest < ActionController::TestCase
   include Devise::TestHelpers
   
   setup do
-    sign_in users(:one)
+    sign_in users(:admin_one)
     @soldier_type = soldier_types(:one)
   end
 

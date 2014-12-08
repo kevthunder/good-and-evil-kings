@@ -2,10 +2,15 @@
 
 one:
   name: MyString
-  user: one
+  user: admin_one
   karma: 1
 
 two:
   name: MyString
-  user: two
+  user: normal_one
+  karma: 1
+
+city_state:
+  name: MyString
+  user: normal_two
   karma: 1
