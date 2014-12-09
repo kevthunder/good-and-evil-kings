@@ -20,7 +20,8 @@ module GoodAndEvilKings
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 	
-	config.eager_load_paths += ["#{Rails.root}/lib"]
+	config.eager_load_paths += ["#{Rails.root}/app/calculators"]
+	config.eager_load_paths += ["#{Rails.root}/app/utils"]
 	config.eager_load_paths += ["#{Rails.root}/app/models/missions"]
 	config.eager_load_paths += ["#{Rails.root}/app/models/building_types"]
 	config.eager_load_paths += ["#{Rails.root}/app/models/ai_actions"]
