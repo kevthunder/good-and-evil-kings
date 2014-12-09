@@ -2,14 +2,12 @@
 
 one:
   qte: 1
-  kingdom_id: 
-  soldier_type_id: 
-  garrisonable_id: 
-  garrisonable_type: Garrisonable
+  kingdom: one
+  soldier_type: one
+  garrisonable: one (Castle)
 
 two:
   qte: 1
-  kingdom_id: 
-  soldier_type_id: 
-  garrisonable_id: 
-  garrisonable_type: Garrisonable
+  kingdom: two 
+  soldier_type: one
+  garrisonable: two (Castle)

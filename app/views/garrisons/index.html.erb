@@ -19,13 +19,14 @@
         <td><%= garrison.soldier_type.name %></td>
         <td><%= garrison.kingdom.name %></td>
         <td><%= link_to 'Show', garrison %></td>
-        <td><%= link_to 'Edit', edit_garrison_path(garrison) %></td>
         <td><%= link_to 'Destroy', garrison, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
+<% if @garrisonable.class.model_name == Castle.model_name  %>
 <br>
-<%= link_to 'New Garrison', new_garrison_path %>
+<%= link_to 'New Garrison', new_castle_garrison_path(@garrisonable.id) %>
+<% end %>
 <br>
 <%= link_to 'back', @garrisonable %></td>

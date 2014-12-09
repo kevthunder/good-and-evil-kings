@@ -76,7 +76,7 @@ class Garrison < ActiveRecord::Base
   end
   
   def enough_recruitable_qty?
-    remaining_recruitable_qty >= qte
+    !garrisonable.respond_to?(:remaining_recruitable_qty) || garrisonable.remaining_recruitable_qty >= qte
   end
   
   

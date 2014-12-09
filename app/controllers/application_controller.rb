@@ -10,6 +10,13 @@ class ApplicationController < ActionController::Base
   before_action :detect_ajax
   layout :global_layout
   
+  
+  helper_method :garrisons_path_for
+  def garrisons_path_for(garrisonable)
+    return garrisons_for_path(garrisonable.garrisonable_type.underscore.pluralize,garrisonable.garrisonable_id) if garrisonable.class.model_name == Garrison.model_name
+    garrisons_for_path(garrisonable.class.model_name.to_s.pluralize,garrisonable.id)
+  end
+  
   private
     def detect_ajax
       @ajax = request.xhr? || request.GET.has_key?(:ajax)
@@ -18,7 +25,7 @@ class ApplicationController < ActionController::Base
       @ajax ? "ajax" : "application"
     end
     def fire_updater
-      # Updater.update
+      Updater.update
     end
     def set_my_castles
       @myCastles = current_user.castles unless current_user.nil?

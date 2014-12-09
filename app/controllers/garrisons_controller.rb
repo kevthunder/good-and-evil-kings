@@ -61,7 +61,7 @@ class GarrisonsController < ApplicationController
   def destroy
     @garrison.destroy
     respond_to do |format|
-      format.html { redirect_to garrisons_url }
+      format.html { redirect_to garrisons_path_for(@garrison) }
       format.json { head :no_content }
     end
   end
