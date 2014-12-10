@@ -27,14 +27,14 @@
 
 <ul class="actions">
   <% if user_signed_in? %>
-    <li><%= link_to 'Mission', new_castle_mission_path(@castle.id) %></li>
+    <%= nav_link 'Mission', new_castle_mission_path(@castle.id) %>
   <% end %>
   <% if @castle.owned_by?(current_user) %>
-    <li><%= link_to 'Recrute', new_castle_garrison_path(@castle.id) %></li>
-    <li><%= link_to 'Edit', edit_castle_path(@castle) %></li>
-    <li><%= link_to 'Garrisons', garrisons_for_path('castles',@castle.id) %></li>
+    <%= nav_link 'Recrute', new_castle_garrison_path(@castle.id) %>
+    <%= nav_link 'Edit', edit_castle_path(@castle) %>
+    <%= nav_link 'Garrisons', garrisons_for_path('castles',@castle.id) %>
   <% end %>
-  <li><%= link_to 'Back', castles_path %></li>
+  <%= nav_link 'Back', castles_path %>
 </ul>
 
 <div class="graphics">

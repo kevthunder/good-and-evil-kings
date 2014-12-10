@@ -1,0 +1,32 @@
+.clearfix
+  &:after
+    visibility: hidden
+    display: block
+    font-size: 0
+    content: " "
+    clear: both
+    height: 0
+  * html &
+    zoom: 1  /* IE6 */
+  *:first-child+html &
+    zoom: 1  /* IE7 */
+
+
+header
+  .mainNav
+    @extend .clearfix
+    ul,li
+      list-style: none
+      margin: 0
+      padding: 0
+    
+    li
+      float: left
+      width: 25%
+      a
+        font-size: 24px
+        text-align: center
+        display: block
+        padding: 20px
+      &.current
+        padding-top 40px

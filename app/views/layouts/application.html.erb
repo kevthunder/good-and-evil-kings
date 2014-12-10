@@ -8,36 +8,45 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-<% if user_signed_in?  %>
-  <div class="logged">
-    <p>Welcome</p>
-    <%= link_to "Logout", destroy_user_session_path, :method => :delete  %>
-  </div>
-<% end %>
+  <header>
+    <% if user_signed_in?  %>
+      <div class="logged">
+        <p><%= current_user.current_kingdom.name %></p>
+      </div>
+    <% end %>
+    <nav class="secondaryNav">
+      <ul>
+        <% if user_signed_in?  %>
+          <li><%= link_to "Logout", destroy_user_session_path, :method => :delete  %></li>
+        <% end %>
+        <%= nav_link "Castles", castles_path %>
+        <%= nav_link "Diplomacies", diplomacies_path %>
+        <%= nav_link "Missions", missions_path %>
+      </ul>
+    </nav>
+    <nav class="mainNav">
+      <ul>
+        <%= nav_link "World Map", tiles_path %>
+        <%= nav_link "My Castle", current_castle_path %>
+        <%= nav_link "Messages", messages_path %>
+        <%= nav_link "Kingdoms", kingdoms_path %>
+      </ul>
+    </nav>
+  </header>
 <p class="notice"><%= notice %></p>
 <p class="alert"><%= alert %></p>
 
 <%= yield %>
 
-<nav>
-	<ul>
-		<li><%= link_to "Map", tiles_path %></li>
-		<li><%= link_to "Castles", castles_path %></li>
-		<li><%= link_to "Messages", messages_path %></li>
-		<li><%= link_to "Diplomacies", diplomacies_path %></li>
-		<li><%= link_to "Missions", missions_path %></li>
-		<li><%= link_to "Kingdoms", kingdoms_path %></li>
-	</ul>
-</nav>
 
 <% if admin_access?  %>
 <nav class="admin">
 	<ul>
-		<li><%= link_to "Building types", admin_building_types_path %></li>
-		<li><%= link_to "Mission types", admin_mission_types_path %></li>
-		<li><%= link_to "Mission Statuses", admin_mission_statuses_path %></li>
-		<li><%= link_to "Ressources", admin_ressources_path %></li>
-		<li><%= link_to "Soldier types", admin_soldier_types_path %></li>
+		<%= nav_link "Building types", admin_building_types_path %>
+		<%= nav_link "Mission types", admin_mission_types_path %>
+		<%= nav_link "Mission Statuses", admin_mission_statuses_path %>
+		<%= nav_link "Ressources", admin_ressources_path %>
+		<%= nav_link "Soldier types", admin_soldier_types_path %>
 	</ul>
 </nav>
 <% end %>

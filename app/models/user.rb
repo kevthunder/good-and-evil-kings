@@ -7,7 +7,8 @@ class User < ActiveRecord::Base
   has_many :castles, through: :kingdoms
          
   def current_kingdom 
-    kingdoms.first
+    return @current_kingdom unless @current_kingdom.nil?
+    @current_kingdom = kingdoms.first
   end
   def current_castle
     current_kingdom.current_castle

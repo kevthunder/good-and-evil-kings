@@ -17,6 +17,11 @@ class ApplicationController < ActionController::Base
     garrisons_for_path(garrisonable.class.model_name.to_s.pluralize,garrisonable.id)
   end
   
+  helper_method :current_castle_path
+  def current_castle_path()
+    return castle_path(current_user.current_castle)
+  end
+  
   private
     def detect_ajax
       @ajax = request.xhr? || request.GET.has_key?(:ajax)
