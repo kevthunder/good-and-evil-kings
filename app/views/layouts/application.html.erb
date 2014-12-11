@@ -7,7 +7,7 @@
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
 </head>
-<body>
+<body class="<%= model_action_class %>">
   <header>
     <% if user_signed_in?  %>
       <div class="logged">
@@ -32,24 +32,29 @@
         <%= nav_link "Kingdoms", kingdoms_path %>
       </ul>
     </nav>
+    <% if notice || alert %>
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
+    <% end %>
   </header>
-<p class="notice"><%= notice %></p>
-<p class="alert"><%= alert %></p>
-
+  
+<div id="content">
 <%= yield %>
+</div>
 
-
-<% if admin_access?  %>
-<nav class="admin">
-	<ul>
-		<%= nav_link "Building types", admin_building_types_path %>
-		<%= nav_link "Mission types", admin_mission_types_path %>
-		<%= nav_link "Mission Statuses", admin_mission_statuses_path %>
-		<%= nav_link "Ressources", admin_ressources_path %>
-		<%= nav_link "Soldier types", admin_soldier_types_path %>
-	</ul>
-</nav>
-<% end %>
+<footer>
+  <% if admin_access?  %>
+  <nav class="admin">
+    <ul>
+      <%= nav_link "Building types", admin_building_types_path %>
+      <%= nav_link "Mission types", admin_mission_types_path %>
+      <%= nav_link "Mission Statuses", admin_mission_statuses_path %>
+      <%= nav_link "Ressources", admin_ressources_path %>
+      <%= nav_link "Soldier types", admin_soldier_types_path %>
+    </ul>
+  </nav>
+  <% end %>
+</footer>
 
 </body>
 </html>

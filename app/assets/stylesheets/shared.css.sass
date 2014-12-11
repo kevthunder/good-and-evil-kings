@@ -1,0 +1,23 @@
+.clearfix
+  &:after
+    visibility: hidden
+    display: block
+    font-size: 0
+    content: " "
+    clear: both
+    height: 0
+  * html &
+    zoom: 1  /* IE6 */
+  *:first-child+html &
+    zoom: 1  /* IE7 */
+
+.reset_list
+  &,li
+    list-style: none
+    margin: 0
+    padding: 0
+.reset_lists
+  ul,li
+    list-style: none
+    margin: 0
+    padding: 0

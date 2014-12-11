@@ -9,8 +9,11 @@
 	background-color:rgba(255,0,0,0.3);
 }
 .worldView{
-	width:800px;
-	height:500px;
+	width:100%;
+  position:absolute;
+  z-index: -1;
+  top:0;
+	bottom:0;
 	background:#eeeeee;
 	margin:auto;
 	overflow:hidden;

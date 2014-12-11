@@ -1,0 +1,26 @@
+<%
+  stocks = stockable.stocks
+  stocks = stocks.up_to_date if stocks.respond_to?(:up_to_date)
+  stocks = stocks.renderable
+  incomes = stockable.incomes.renderable.inject({}){ |hash,income|
+    hash[income.ressource.alias.to_sym] = income
+    hash
+  }
+  data = stocks.inject({}){ |hash,stock|
+    key = stock.ressource.alias.to_sym
+    hash[key] = {stock:stock,income:incomes[key],max:stockable.max_stock(stock.ressource)}
+    hash
+  }
+%>
+<div class="stock_bars">
+  <% data.each do |key,val| %>
+    <div class="stock <%= key %>">
+      <div class="wrap">
+        <span class="label"><%= val[:stock].ressource.name %></span>
+        <span class="qty"><%= val[:stock].qte.to_s %>/<%= val[:max].to_s %></span>
+        <span class="income"><%= (val[:income].qte >= 0 ? '+' : '') + val[:income].qte.to_s %>/h</span>
+        <span class="prc" style="width:<%= (val[:stock].qte/val[:max].to_f*100).to_i.to_s %>%"></span>
+      </div>
+    </div>
+  <% end %>
+</div>

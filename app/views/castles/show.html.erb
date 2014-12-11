@@ -7,16 +7,11 @@
 
 <p>
   <strong>Kingdom:</strong>
-  <%= @castle.kingdom %>
+  <%= @castle.kingdom.name %>
 </p>
 
 <% if @castle.stocks.viewable_by?(current_user) %>
-<div class="stocks">
-  <%= render @castle.stocks.up_to_date.renderable %>
-</div>
-<div class="incomes">
-  <%= render partial: 'stocks/income', collection: @castle.incomes.renderable %>
-</div>
+  <%= render partial: 'stocks/bars', locals: {stockable: @castle} %>
 <% end %>
 
 <% if @castle.garrisons.viewable_by?(current_user) %>

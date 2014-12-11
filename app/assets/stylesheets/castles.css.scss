@@ -1,6 +1,7 @@
 // Place all the styles related to the castles controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+@import 'shared';
 
 .castle{
 	position:absolute;
@@ -61,6 +62,41 @@ $elevations-tile-depth : 25px;
       @include wall-elevation($orientation,3);
       @include wall-elevation($orientation,4);
     }
+}
+
+.castles-show {
+  .stock_bars{
+    @extend .clearfix;
+    border-left: 1px solid #000;
+    .stock{
+      width:33%;
+      float:left;
+      border: 1px solid #000;
+      border-left: 0 none;
+      .wrap{
+        position:relative;
+        padding: 5px;
+      }
+      span{
+        position:relative;
+        z-index: 1;
+      }
+      .prc{
+        position:absolute;
+        display:block;
+        height:100%;
+        background-color:#ccc;
+        top:0;
+        left:0;
+        z-index: 0;
+      }
+    }
+  }
+  .graphics{
+    margin:auto;
+    width:1600px;
+    height:800px;
+  }
 }
 
 .elevations{
