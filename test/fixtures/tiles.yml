@@ -2,13 +2,18 @@
 
 one:
   x: 1
-  'y': 1
+  'y': 14
   tiled : one (Castle)
 
 two:
-  x: 1
+  x: 155
   'y': 1
   tiled : two (Castle)
+
+city_state:
+  x: 1
+  'y': -144
+  tiled : city_state (Castle)
   
   
 m1_start:

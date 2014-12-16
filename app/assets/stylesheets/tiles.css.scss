@@ -2,6 +2,10 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+.mapTools{
+	position: relative;
+	z-index: 1;
+}
 .tileSection{
 	position: absolute;
 	width:100px;
@@ -11,7 +15,6 @@
 .worldView{
 	width:100%;
   position:absolute;
-  z-index: -1;
   top:0;
 	bottom:0;
 	background:#eeeeee;

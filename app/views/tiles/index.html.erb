@@ -5,12 +5,13 @@
 		<% end %>
 	</div>
 </div>
+<div class="mapTools">
+  <%= form_tag(tiles_partial_path+"?ajax=1", method: "post") do %>
+    <%= text_field_tag(:sections) %>
+    <%= submit_tag("Submit") %>
+  <% end %>
 
-<%= form_tag(tiles_partial_path+"?ajax=1", method: "post") do %>
-  <%= text_field_tag(:sections) %>
-  <%= submit_tag("Submit") %>
-<% end %>
+  <br>
 
-<br>
-
-<%= link_to "New Tile", new_tile_path %>
+  <%= link_to "New Tile", new_tile_path %>
+</div>

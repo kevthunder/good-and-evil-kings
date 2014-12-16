@@ -11,7 +11,7 @@
 </p>
 
 <% if @castle.stocks.viewable_by?(current_user) %>
-  <%= render partial: 'stocks/bars', locals: {stockable: @castle} %>
+  <%= render 'stocks/bars', stockable: @castle %>
 <% end %>
 
 <% if @castle.garrisons.viewable_by?(current_user) %>

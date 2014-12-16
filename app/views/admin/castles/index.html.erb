@@ -1,0 +1,34 @@
+<h1>Listing castles</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Position</th>
+      <th>Pop</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <% if user_signed_in? %>
+        <th></th>
+      <% end %>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @castles.each do |castle| %>
+      <tr>
+        <td><%= castle.name %></td>
+        <td><%= castle.x %>; <%= castle.y %></td>
+        <td><%= castle.pop %></td>
+        <td><%= link_to 'Show', [:admin, castle] %></td>
+        <td><%= link_to 'Edit', edit_admin_castle_path(castle) %></td>
+        <td><%= link_to 'Destroy', [:admin, castle], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Castle', new_admin_castle_path %>

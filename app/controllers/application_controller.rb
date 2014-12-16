@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   
   before_action :fire_updater
   before_action :detect_ajax
+  before_action :home_redir_for_anonymous
   layout :global_layout
   
   
@@ -23,11 +24,14 @@ class ApplicationController < ActionController::Base
   end
   
   private
+    def home_redir_for_anonymous
+      redirect_to preview_path if request.fullpath == root_path && !user_signed_in?
+    end
     def detect_ajax
       @ajax = request.xhr? || request.GET.has_key?(:ajax)
     end
     def global_layout
-      @ajax ? "ajax" : "application"
+      @ajax ? "ajax" : (user_signed_in? ? "application" : "preview")
     end
     def fire_updater
       Updater.update

@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @castle.name %>
+</p>
+
+<p>
+  <strong>Kingdom:</strong>
+  <%= @castle.kingdom.name %>
+</p>
+
+<%= render 'stocks/bars', stockable: @castle %>
+
+<div class="garrisons">
+  <%= render partial: 'garrisons/garrison', collection: @castle.garrisons.renderable  %>
+</div>
+
+<ul class="actions">
+  <%= nav_link 'Edit', edit_admin_castle_path(@castle) %>
+  <%= nav_link 'Back', admin_castles_path %>
+</ul>
+
+<div class="graphics">
+  <%= render 'castles/elevations', :size => 200 %>
+  <div class="buildings">
+    <% @castle.buildings.each do |building| %>
+      <%= render 'buildings/building', building: building, size: 200 %>
+    <% end %>
+  </div>
+</div>

@@ -15,24 +15,7 @@
     <%= f.label :name %><br>
     <%= f.text_field :name %>
   </div>
-  <div class="field">
-    <%= f.label :kingdom_id %><br>
-    <%= f.collection_select(:kingdom_id, Kingdom.all, :id, :name) %>
-  </div>
-  
-  <%= f.fields_for :tile, (@castle.tile ? nil : Tile.new) do |f_tile| %>
-	  <div class="field">
-		<%= f_tile.label :x %><br>
-		<%= f_tile.number_field  :x %>
-	  </div>
-	  <div class="field">
-		<%= f_tile.label :y %><br>
-		<%= f_tile.number_field :y %>
-	  </div>
-  <% end %>
 
-  <%= render 'stocks/nested_form', :form => f %>
-  <%= render 'garrisons/nested_form', :form => f %>
   
   <div class="actions">
     <%= f.submit %>

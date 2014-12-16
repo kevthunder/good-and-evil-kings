@@ -1,5 +1,8 @@
 GoodAndEvilKings::Application.routes.draw do
 
+
+  get 'preview' => 'preview#index', as: 'preview'
+
   resources :message_categories
 
   resources :messages
@@ -14,6 +17,7 @@ GoodAndEvilKings::Application.routes.draw do
   
   namespace :admin do
     resources :ai_actions
+    resources :castles
     resources :building_types
     resources :mission_types
     resources :mission_lengths
