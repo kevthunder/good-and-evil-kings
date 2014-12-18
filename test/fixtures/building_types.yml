@@ -1,7 +1,7 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: MyString
+  name: New one
   type: 
   build_time: 1
   size_x: 1
@@ -9,7 +9,7 @@ one:
   predecessor_id: 
 
 two:
-  name: MyString
+  name: New two
   type: 
   build_time: 1
   size_x: 1

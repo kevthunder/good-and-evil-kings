@@ -1,6 +1,7 @@
 == Good and evil kings
 
 TODO
+* Allways the save ai action ?
 * interfaces
   * mission
 * more buildings

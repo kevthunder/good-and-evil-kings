@@ -12,6 +12,15 @@ class ActiveSupport::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
+  
+  setup :load_seeds
+
+  protected 
+
+    def load_seeds
+      Updater.before_every_actions = false
+      load "#{Rails.root}/db/seeds.rb"
+    end
 end
 
 class ActionController::TestCase

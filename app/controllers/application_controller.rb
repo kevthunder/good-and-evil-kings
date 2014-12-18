@@ -34,7 +34,7 @@ class ApplicationController < ActionController::Base
       @ajax ? "ajax" : (user_signed_in? ? "application" : "preview")
     end
     def fire_updater
-      Updater.update
+      Updater.update if Updater.before_every_actions
     end
     def set_my_castles
       @myCastles = current_user.castles unless current_user.nil?

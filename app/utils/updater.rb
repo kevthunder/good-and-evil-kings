@@ -19,6 +19,14 @@ class Updater
   
   @@updated = []
   class << self
+    attr_writer :before_every_actions
+
+    def before_every_actions
+      return true if @before_every_actions.nil?
+      @before_every_actions
+    end
+  
+  
     def add_updated(obj)
       if obj.respond_to?(:get_update_callbacks)
         @@updated.push(obj)

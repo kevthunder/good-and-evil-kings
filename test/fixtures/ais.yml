@@ -1,7 +1,7 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  castle_id: 
+  castle: for_ai_one
   next_action: 2014-07-22 19:33:16
 
 two:

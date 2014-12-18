@@ -10,6 +10,11 @@ two:
   'y': 1
   tiled : two (Castle)
 
+for_ai_one:
+  x: 155
+  'y': 1
+  tiled : for_ai_one (Castle)
+  
 city_state:
   x: 1
   'y': -144

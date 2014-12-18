@@ -16,6 +16,14 @@ two:
   max_stock: 1
   pop: 1
 
+for_ai_one:
+  name: MyString
+  kingdom: two
+  elevations_map: 
+  incomes_date: 2014-07-22 17:10:18
+  max_stock: 1
+  pop: 1
+  
 city_state:
   name: CityState
   kingdom: city_state

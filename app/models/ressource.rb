@@ -14,10 +14,27 @@ class Ressource < ActiveRecord::Base
   end
   
   class << self
-    Ressource.all.each do |r| 
-      define_method(r.alias) do ||
-        r
+  
+    def persistent
+      debugger
+      return @persistent unless @persistent.nil? 
+      @persistent = Ressource.all.inject({}) do |hash,ressource|
+        hash[r.alias] = r
+        hash
       end
     end
+    
+    def method_missing(method_name, *arguments, &block)
+      if !method_name =~ /^@/ && persistent.has_key?(method_name)
+        persistent[method_name]
+      else
+        super
+      end
+    end
+
+    def respond_to_missing?(method_name, include_private = false)
+      (!method_name =~ /^@/ && persistent.has_key?(method_name)) || super
+    end
+    
   end
 end
