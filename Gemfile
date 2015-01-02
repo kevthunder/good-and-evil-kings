@@ -42,7 +42,12 @@ end
 # gem 'capistrano', group: :development
 
 # Use debugger
-gem 'debugger', group: [:development, :test]
+if RUBY_VERSION >= '2.0'
+	gem 'byebug', group: [:development, :test]
+else
+	gem 'debugger', group: [:development, :test]
+end
+
 gem 'seed_dump', group: :development
 
 gem 'devise'

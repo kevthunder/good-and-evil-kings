@@ -5,6 +5,7 @@ class Kingdom < ActiveRecord::Base
   has_many :ais, through: :castles
   has_many :diplomacies, foreign_key: :from_kingdom_id
   has_many :received_diplomacies, class_name: :Diplomacy, foreign_key: :to_kingdom_id
+  validates_presence_of :name
   
   def current_castle
     castles.first

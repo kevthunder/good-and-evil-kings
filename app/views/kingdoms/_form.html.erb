@@ -15,14 +15,7 @@
     <%= f.label :name %><br>
     <%= f.text_field :name %>
   </div>
-  <div class="field">
-    <%= f.label :user_id %><br>
-	<%= f.collection_select(:user_id, User.all, :id, :email, { :include_blank => true }) %>
-  </div>
-  <div class="field">
-    <%= f.label :karma %><br>
-    <%= f.number_field :karma %>
-  </div>
+  
   <div class="actions">
     <%= f.submit %>
   </div>

@@ -5,6 +5,7 @@ class Castle < ActiveRecord::Base
   has_one :tile, as: :tiled, dependent: :destroy, validate: :true
   has_many :incomes, ->{ extending Quantifiable::HasManyExtension }, as: :stockable, inverse_of: :stockable
   has_many :stocks, -> { extending(Quantifiable::HasManyExtension).where(type: nil) }, as: :stockable, inverse_of: :stockable do
+  
     def add_qty(number, ressource)
       ressource = Ressource.find(ressource)
       if(ressource.global)
@@ -44,6 +45,7 @@ class Castle < ActiveRecord::Base
   has_many :buildings
   has_many :stationned_defence_missions, ->{ where(mission_status_code: "guarding") }, class_name: :DefenceMission, as: :target
   serialize :elevations_map, Array
+  validates_presence_of :name
   
   include Modifiable
   prop_mod :max_stock, default: 1000

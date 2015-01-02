@@ -11,6 +11,6 @@ class User < ActiveRecord::Base
     @current_kingdom = kingdoms.first
   end
   def current_castle
-    current_kingdom.current_castle
+    current_kingdom.current_castle unless current_kingdom.nil?
   end
 end
