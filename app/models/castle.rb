@@ -2,6 +2,7 @@ class Castle < ActiveRecord::Base
   belongs_to :kingdom
   has_one :owner, through: :kingdom, source: :user
   has_one :ai
+  has_one :spawn_point, dependent: :nullify
   has_one :tile, as: :tiled, dependent: :destroy, validate: :true
   has_many :incomes, ->{ extending Quantifiable::HasManyExtension }, as: :stockable, inverse_of: :stockable
   has_many :stocks, -> { extending(Quantifiable::HasManyExtension).where(type: nil) }, as: :stockable, inverse_of: :stockable do
@@ -44,6 +45,9 @@ class Castle < ActiveRecord::Base
   end
   has_many :buildings
   has_many :stationned_defence_missions, ->{ where(mission_status_code: "guarding") }, class_name: :DefenceMission, as: :target
+  
+  before_create :spawn_point_to_tile
+  
   serialize :elevations_map, Array
   validates_presence_of :name
   
@@ -172,6 +176,10 @@ class Castle < ActiveRecord::Base
   
   def generate_name!
     self.name = Castle.generate_name
+  end
+  
+  def spawn_point_to_tile
+    self.tile = Tile.new_from_point(spawn_point) if tile.nil? && !spawn_point.nil?
   end
   
   class << self

@@ -33,10 +33,12 @@ class KingdomsController < ApplicationController
     
     @castle = Castle.new(params.require(:castle).permit(:name))
     @castle.kingdom = @kingdom
+    @castle.spawn_point = SpawnPoint.get_available_or_create
     
     respond_to do |format|
       if (@castle.valid? & @kingdom.valid?) && @kingdom.save && @castle.save
-        format.html { redirect_to @kingdom, notice: 'Kingdom was successfully created.' }
+        @kingdom.create_inital_neighbours
+        format.html { redirect_to @castle, notice: 'Kingdom was successfully created.' }
         format.json { render action: 'show', status: :created, location: @kingdom }
       else
         format.html { render action: 'new' }

@@ -4,7 +4,9 @@ class Tile < ActiveRecord::Base
   belongs_to :tiled, polymorphic: true
   after_initialize :default_values
     
-    
+  
+  
+  
   def distance(point)
     Math.hypot(point.x - x, point.y - y)
   end
@@ -37,6 +39,10 @@ class Tile < ActiveRecord::Base
   
   
   class << self
+    def new_from_point(pt,options={})
+      new(options.merge( {x:pt.x, y:pt.y} ))
+    end
+    
     def find_empty_spot(zone,min_spacing)
       existing_zone = zone.expand(min_spacing)
       existing_tiles = inBounds(existing_zone).to_a

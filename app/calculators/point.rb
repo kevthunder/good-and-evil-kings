@@ -17,6 +17,14 @@ class Point
        }
   end
   
+  def *(val)
+    Point.new(x*val,y*val)
+  end
+  
+  def move_random(radius)
+    Point.new(x+rand(-radius..radius),y+rand(-radius..radius))
+  end
+  
   def ==(other)
     self.class === other and
       other.x == @x and
@@ -100,6 +108,24 @@ class Point
       x = (y-p1y)/(p2y-p1y).to_f * (p2x-p1x) + p1x
       
       return pt2.y == pt1.y ? Point.new(y.to_i,x.to_i) : Point.new(x.to_i,y.to_i)
+    end
+    
+    def square_circle_around(pos)
+      return nil if pos < 0
+      return Point.new(0,0) if pos == 0
+      
+      half = ((1+Math::sqrt(pos*4.0-3.0))/2).to_i
+      first_in_half = half*(half-1)+1
+      
+      ring = ((half+1)/2.0).to_i
+      decaled_ring = (half/2.0).to_i
+      
+      direction = half%2*2-1
+      
+      x = [-decaled_ring, pos-first_in_half-half*2+ring+1].max * direction
+      y = [ring, pos-first_in_half-decaled_ring+1].min * direction
+      
+      Point.new(x,y)
     end
   end
 end
