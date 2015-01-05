@@ -26,3 +26,4 @@ Scaffolds
 * rails g scaffold message title:string text:text destination:references{polymorphic} sender:references{polymorphic} data:text template:string
 * rails g scaffold message_category title:string
 * rails g model messages_messages_categories message_category:references message:references
+* rails g model spawn_point delta:integer castle:references

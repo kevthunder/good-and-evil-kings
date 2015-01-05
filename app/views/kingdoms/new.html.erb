@@ -1,5 +1,33 @@
 <h1>New kingdom</h1>
 
-<%= render 'form' %>
+<%= form_for(@kingdom) do |f| %>
+  <% if @kingdom.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@kingdom.errors.count+@castle.errors.count, "error") %> prohibited this kingdom from being saved:</h2>
+
+      <ul>
+      <% @kingdom.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      <% @castle.errors.full_messages.each do |msg| %>
+        <li>Castle <%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name, 'Kingdom Name' %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= label :castle, :name, 'Castle Name' %><br>
+    <%= text_field :castle, :name %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
 
 <%= link_to 'Back', kingdoms_path %>

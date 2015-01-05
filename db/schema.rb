@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141202225247) do
+ActiveRecord::Schema.define(version: 20150103004949) do
 
   create_table "actions", force: true do |t|
     t.datetime "time"
@@ -273,6 +273,15 @@ ActiveRecord::Schema.define(version: 20141202225247) do
     t.boolean  "military"
     t.string   "alias"
   end
+
+  create_table "spawn_points", force: true do |t|
+    t.integer  "delta"
+    t.integer  "castle_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "spawn_points", ["castle_id"], name: "index_spawn_points_on_castle_id"
 
   create_table "stocks", force: true do |t|
     t.integer  "qte"

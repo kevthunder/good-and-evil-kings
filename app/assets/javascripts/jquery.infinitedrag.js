@@ -29,7 +29,7 @@
  * - Initial implementation
  */
 
-//= require jquery.ui.draggable
+//= require jquery-ui/draggable
 
 (function($) {
 	/**
