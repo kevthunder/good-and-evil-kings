@@ -1,7 +1,9 @@
 == Good and evil kings
 
 TODO
-* Allways the save ai action ?
+* Allways the same ai action ?
+* Casern add training spot
+* max number building type
 * interfaces
   * mission
 * more buildings
