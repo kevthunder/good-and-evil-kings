@@ -1,6 +1,7 @@
 class AiAction < ActiveRecord::Base
   include Randomizable
-  
+  extend InheritenceBaseNaming
+
   def executable_for(ai)
     false
   end

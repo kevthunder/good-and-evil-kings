@@ -2,8 +2,8 @@
 
 one:
   delta: 1
-  castle_id_id: 
+  castle: one
 
 two:
-  delta: 1
-  castle_id_id: 
+  delta: 2
+  castle: two

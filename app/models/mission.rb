@@ -17,6 +17,8 @@ class Mission < ActiveRecord::Base
   include Updated
   updated_column :next_event, :next
 
+  extend InheritenceBaseNaming
+  
   def next
     self.next_event = nil
     unless mission_status_code.nil?
@@ -53,10 +55,6 @@ class Mission < ActiveRecord::Base
     end
   end
 
-  def self.model_name
-    return super if self == Mission
-    Mission.model_name
-  end
   
   def actions
     []

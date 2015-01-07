@@ -10,14 +10,10 @@ class BuildingType < ActiveRecord::Base
   accepts_nested_attributes_for :costs, :modificators, allow_destroy: true
   
   include Randomizable
+  extend InheritenceBaseNaming
   
   def alias
     name.parameterize('_')
-  end
-  
-  def self.model_name
-    return super if self == BuildingType
-    BuildingType.model_name
   end
   
   scope :basic, (lambda do 

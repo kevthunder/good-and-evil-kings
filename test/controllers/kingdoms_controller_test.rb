@@ -2,7 +2,8 @@ require 'test_helper'
 
 class KingdomsControllerTest < ActionController::TestCase
   setup do
-    @kingdom = kingdoms(:one)
+    sign_in users(:normal_one)
+    @kingdom = kingdoms(:two)
   end
 
   test "should get index" do
@@ -12,16 +13,21 @@ class KingdomsControllerTest < ActionController::TestCase
   end
 
   test "should get new" do
+    sign_in users(:without_kingdom)
     get :new
     assert_response :success
   end
 
   test "should create kingdom" do
-    assert_difference('Kingdom.count') do
-      post :create, kingdom: { karma: @kingdom.karma, name: @kingdom.name, user_id: @kingdom.user_id }
-    end
-
-    assert_redirected_to kingdom_path(assigns(:kingdom))
+  
+    @castle = castles(:one)
+    sign_in users(:without_kingdom)
+    init = Kingdom.count
+    
+    post :create, kingdom: { name: @kingdom.name }, castle: { name: @castle.name }
+    
+    assert_operator( Kingdom.count, :>, init );
+    assert_redirected_to castle_path(assigns(:kingdom).current_castle)
   end
 
   test "should show kingdom" do

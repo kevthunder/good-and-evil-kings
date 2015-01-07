@@ -28,6 +28,8 @@ class Stock < ActiveRecord::Base
   include Quantifiable
   self.quantified = Ressource
   
+  extend InheritenceBaseNaming
+  
   def max
     stockable.nil? ? nil : (stockable.respond_to?(:max_stock) ? stockable.max_stock(self) : nil)
   end
@@ -47,12 +49,6 @@ class Stock < ActiveRecord::Base
   def notify_stockable
     stockable.on_stock_change(self) if stockable.respond_to?(:on_stock_change) && qte_changed?
   end
-  
-  def self.model_name
-    return super if self == Stock
-    Stock.model_name
-  end
-  
   def match_in(stocks)
     if(!stocks.respond_to?('where') || stocks.loaded?)
       stocks.select { |s| s.can_unite?(self) }.first

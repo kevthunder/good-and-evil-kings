@@ -13,3 +13,6 @@ normal_one:
   
 normal_two: 
   email : test3@test.com
+  
+without_kingdom: 
+  email : test4@test.com
