@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150103004949) do
+ActiveRecord::Schema.define(version: 20150109000450) do
 
   create_table "actions", force: true do |t|
     t.datetime "time"
@@ -48,8 +48,11 @@ ActiveRecord::Schema.define(version: 20150103004949) do
     t.integer  "size_x"
     t.integer  "size_y"
     t.integer  "predecessor_id"
+    t.integer  "base_id"
+    t.integer  "max_instances"
   end
 
+  add_index "building_types", ["base_id"], name: "index_building_types_on_base_id"
   add_index "building_types", ["predecessor_id"], name: "index_building_types_on_predecessor_id"
 
   create_table "buildings", force: true do |t|
