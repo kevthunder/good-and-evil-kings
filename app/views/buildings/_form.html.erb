@@ -23,10 +23,14 @@
     <%= f.label :building_type_id %><br>
     <%= f.collection_select(:building_type_id, BuildingType.basic.all, :id, :name) %>
   </div>
-  <div class="field">
-    <%= f.label :castle_id %><br>
-    <%= f.collection_select(:castle_id, @myCastles, :id, :name) %>
-  </div>
+  <% if params.has_key? 'castle_id' %>
+    <%= f.hidden_field :castle_id, :value => params['castle_id'] %>
+  <% else %>
+    <div class="field">
+      <%= f.label :castle_id %><br>
+      <%= f.collection_select(:castle_id, @myCastles, :id, :name) %>
+    </div>
+  <% end %>
   <div class="actions">
     <%= f.submit %>
   </div>

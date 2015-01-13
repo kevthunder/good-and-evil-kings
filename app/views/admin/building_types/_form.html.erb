@@ -35,6 +35,10 @@
     <%= f.label :predecessor_id %><br>
     <%= f.collection_select(:predecessor_id, BuildingType.all, :id, :name, :include_blank => "None") %>
   </div>
+  <div class="field">
+    <%= f.label :max_instances %><br>
+    <%= f.number_field :max_instances %>
+  </div>
   
   <%= render 'stocks/nested_form', :form => f, :stocks_prop => :costs, :add_label => "Add cost" %>
   <%= render 'modificators/nested_form', :form => f %>

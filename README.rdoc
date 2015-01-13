@@ -1,7 +1,6 @@
 == Good and evil kings
 
 TODO
-* max number building type
 * Casern add training spot
 * Allways the same ai action ?
 * interfaces

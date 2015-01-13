@@ -2,7 +2,7 @@ class Building < ActiveRecord::Base
   belongs_to :building_type
   belongs_to :castle
   has_many :upgrades, through: :building_type
-  validate :dont_overlapse, :in_bounds, :on_flat_land
+  validate :dont_overlapse, :in_bounds, :on_flat_land, :must_respect_max
   validate :must_upgrade, on: :update, :if => :building_type_id_changed?
   validate :must_be_basic, on: :create
   has_one :owner, through: :castle
@@ -35,6 +35,15 @@ class Building < ActiveRecord::Base
     errors.add(:base, "Must be place on flat land") unless castle.elevations.flat_zone?(elev_zone)
   end
   
+  def must_respect_max
+    errors.add(:base, "This castle allready have the maximum buildings of that type") unless respect_max?
+  end
+  
+  def respect_max?
+    return true if building_type.max_instances.nil? || building_type.max_instances.zero?
+    castle.buildings.with_base_type(building_type).where.not(id: id).count < building_type.max_instances
+  end
+  
   def must_be_basic
     errors.add(:building_type_id, "This is an upgrade, it cant be build directly") unless building_type.predecessor_id.nil?
   end
@@ -64,6 +73,11 @@ class Building < ActiveRecord::Base
         y1: building.y,
         y2: building.y + building.building_type.size_y,
       })
+  end)
+  
+  scope :with_base_type, (lambda do |building_type|
+    base_id = building_type.base_id || building_type.id
+    joins(:building_type).where("building_types.base_id = :base_id OR building_types.id = :base_id",{base_id:base_id})
   end)
   
   private

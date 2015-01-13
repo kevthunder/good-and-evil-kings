@@ -51,6 +51,7 @@ GoodAndEvilKings::Application.routes.draw do
   resources :castles do
     resources :missions, only: [:new, :create]
     resources :garrisons, only: [:new, :create]
+    resources :buildings, only: [:new, :create]
   end
 
 

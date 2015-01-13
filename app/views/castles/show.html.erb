@@ -26,6 +26,7 @@
   <% end %>
   <% if @castle.owned_by?(current_user) %>
     <%= nav_link 'Recrute', new_castle_garrison_path(@castle.id) %>
+    <%= nav_link 'Build', new_castle_building_path(@castle.id) %>
     <%= nav_link 'Edit', edit_castle_path(@castle) %>
     <%= nav_link 'Garrisons', garrisons_for_path('castles',@castle.id) %>
   <% end %>
