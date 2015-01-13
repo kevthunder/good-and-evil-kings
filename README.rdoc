@@ -2,7 +2,6 @@
 
 TODO
 * interfaces
-  * show kingdom ressources
   * mission
 * Allways the same ai action ?
 * more buildings

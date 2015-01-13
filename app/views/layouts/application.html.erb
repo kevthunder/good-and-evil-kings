@@ -12,6 +12,7 @@
     <% if user_signed_in?  %>
       <div class="logged">
         <p><%= current_user.current_kingdom.name %></p>
+        <%= render partial: 'stocks/stock', collection: current_user.current_kingdom.stocks.renderable  %>
       </div>
     <% end %>
     <nav class="secondaryNav">
