@@ -45,6 +45,7 @@ class Castle < ActiveRecord::Base
   end
   has_many :buildings
   has_many :stationned_defence_missions, ->{ where(mission_status_code: "guarding") }, class_name: :DefenceMission, as: :target
+  has_many :missions
   
   before_create :spawn_point_to_tile
   

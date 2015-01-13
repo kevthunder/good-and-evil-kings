@@ -93,6 +93,14 @@ class Mission < ActiveRecord::Base
     joins(:kingdom).where(kingdoms: { user_id: user.id })
   end)
   
+  scope :ended, (lambda do
+    where(mission_status_code:nil)
+  end)
+  
+  scope :ongoing, (lambda do
+    where.not(mission_status_code:nil)
+  end)
+  
   class << self
     def needs_field(field_name)
       return send("needs_field_" + field_name.to_s) if respond_to?("needs_field_" + field_name.to_s)

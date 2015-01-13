@@ -2,12 +2,29 @@ class TaxMission < Mission
   include TimedMission
   
   after_initialize :after_initialize
+  validate :must_be_alone_ongoing
+  
+  before_validation do
+    if(new_record?)
+      self.castle = target
+    end
+  end
+  
+  def must_be_alone_ongoing
+    errors.add(:base, "You can't collect tax twice at the same in a castle") unless alone_ongoing?
+  end
+  
+  def alone_ongoing?
+    cond = castle.missions.where(type:'TaxMission').ongoing
+    cond = cond.where.not(id:id) unless id.nil?
+    !cond.any?
+  end
+  
   def after_initialize()
     add_sequence(['collecting','waiting'])
   end
   
   def start
-    self.castle = target
     self.next_event = Time.now + length
     super
   end
