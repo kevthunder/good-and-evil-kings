@@ -1,11 +1,12 @@
 == Good and evil kings
 
 TODO
-* Casern add training spot
-* Allways the same ai action ?
 * interfaces
+  * show kingdom ressources
   * mission
+* Allways the same ai action ?
 * more buildings
+* provider created modificatior does not trigger update
 
 Scaffolds
 * rails g scaffold castles name:string kingdom:references elevations_map:string incomes_date:datetime max_stock:integer pop:integer --skip-migration

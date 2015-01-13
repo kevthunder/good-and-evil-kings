@@ -53,6 +53,7 @@ class Castle < ActiveRecord::Base
   
   include Modifiable
   prop_mod :max_stock, default: 1000
+  prop_mod :recruitable_qty, default: 0
   prop_mod "income:1"
   prop_mod "income:2"
   prop_mod "income:3"
@@ -102,10 +103,6 @@ class Castle < ActiveRecord::Base
       income.qte = val.to_i
       income.save!
     end
-  end
-  
-  def recruitable_qty
-    10
   end
   
   def remaining_recruitable_qty

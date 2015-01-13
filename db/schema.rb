@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150109000450) do
+ActiveRecord::Schema.define(version: 20150113000705) do
 
   create_table "actions", force: true do |t|
     t.datetime "time"
@@ -77,6 +77,7 @@ ActiveRecord::Schema.define(version: 20150109000450) do
     t.datetime "incomes_date"
     t.integer  "max_stock"
     t.integer  "pop"
+    t.integer  "recruitable_qty"
   end
 
   add_index "castles", ["kingdom_id"], name: "index_castles_on_kingdom_id"
