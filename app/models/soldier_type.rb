@@ -8,6 +8,10 @@ class SoldierType < ActiveRecord::Base
   
   alias_attribute :buy_time, :recrute_time
   
+  def upkeep
+    modificators.where(prop: "income:1").first.num.to_int()*-1
+  end
+  
   def qty_buyable_for(stocks)
     costs = self.costs.to_collection
     stocks = stocks.match(costs).to_collection

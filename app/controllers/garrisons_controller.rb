@@ -17,6 +17,7 @@ class GarrisonsController < ApplicationController
 
   # GET /garrisons/new
   def new
+    @soldier_types = SoldierType.all
     @garrison = Garrison.new
   end
 

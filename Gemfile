@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+source 'https://rails-assets.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.2'
@@ -52,5 +53,8 @@ gem 'seed_dump', group: :development
 
 gem 'devise'
 #gem 'cancancan', '~> 1.9'
+
 gem 'jquery-ui-rails'
+gem 'rails-assets-jquery-cycle2'
+
 gem 'nested_form'

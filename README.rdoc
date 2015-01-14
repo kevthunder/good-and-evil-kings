@@ -2,6 +2,9 @@
 
 TODO
 * interfaces
+  * unit costs and stats
+  * building costs
+  * building placement
   * mission
 * Allways the same ai action ?
 * more buildings

@@ -16,9 +16,40 @@
     <%= f.number_field :qte %>
   </div>
   
+  <div class="soldier_types_slider">
+    <a href="#" class="prev">Previous</a>
+    <div class="soldier_types">
+    <% @soldier_types.each do |soldier_type| %>
+      <div class="soldier_type" data-id="<%= soldier_type.id %>">
+        <div class="imgFrame">
+          <%= image_tag "default_soldier.png" %>
+        </div>
+        <h3><%= soldier_type.name %></h3>
+        
+        <ul class="stats">
+          <% 
+            stats = [:speed,:carry,:recrute_time]
+            stats = [:attack,:defence,:interception] + stats + [:upkeep] if soldier_type.military
+            stats.each do |stat|
+          %>
+          <li class="stat <%= stat %>">
+            <span class="label"><%= stat.to_s.humanize %></span>
+            <span class="value"><%= soldier_type.send(stat) %></span>
+          </li>
+          <% end %>
+        </ul>
+        <div class="cost">
+          <%= render soldier_type.costs  %>
+        </div>
+      </div>
+    <% end %>
+    </div>
+    <a href="#" class="next">Next</a>
+  </div>
+  
   <div class="field">
     <%= f.label :soldier_type_id %><br>
-    <%= f.collection_select(:soldier_type_id, SoldierType.all, :id, :name) %>
+    <%= f.collection_select(:soldier_type_id, @soldier_types, :id, :name) %>
   </div>
   
   <% if params.has_key? 'castle_id' %>
