@@ -1,0 +1,71 @@
+// Place all the styles related to the Buildings controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+@mixin building_display($frame)
+  #{$frame}
+    background: image-url("building_small.png") no-repeat bottom
+    width: 200px
+    height: 170px
+  &.farm #{$frame}
+    background: image-url("farm_small.png") no-repeat bottom
+    height: 130px
+  &.farm_2 #{$frame}
+    background: image-url("farm2_small.png") no-repeat bottom
+    height: 130px
+  &.house #{$frame}
+    background: image-url("house_small.png") no-repeat bottom
+    height: 130px
+  &.warehouse #{$frame}
+    background: image-url("warehouse_small.png") no-repeat bottom
+    height: 130px
+  &.wood_camp #{$frame}
+    background: image-url("woodcamp_small.png") no-repeat bottom
+    height: 130px
+  &.mine #{$frame}
+    background: image-url("mine_small.png") no-repeat bottom
+    height: 130px
+    
+.buildings
+  position: relative
+  .building
+    position: absolute
+    width: 200px
+    height: 100px
+    @include building_display('.display')
+    .display
+      position: absolute
+      bottom: 0px
+    &:hover
+      .actions
+        display: block
+    .actions
+      z-index: 100
+      left: 50px
+      position: absolute
+      display: none
+      margin: 0px
+      padding: 2px
+      background-color: #cccccc
+      li
+        margin: 0px
+        padding: 0px
+        list-style: none
+    .clickZone
+      z-index: 50
+      position: absolute
+      width: 100px
+      height: 50px
+      top: 25px
+      left: 50px
+
+.building_types_slider
+  .building_types
+    .building_type
+      position: relative
+      padding-left: 220px
+      min-height: 200px
+      @include building_display('.imgFrame')
+      .imgFrame
+        position: absolute
+        left: 0px

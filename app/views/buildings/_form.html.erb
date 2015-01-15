@@ -19,9 +19,27 @@
     <%= f.label :y %><br>
     <%= f.number_field :y %>
   </div>
+  
+  <div class="building_types_slider">
+    <a href="#" class="prev">Previous</a>
+    <div class="building_types">
+    <% @building_types.each do |building_type| %>
+      <div class="building_type <%= building_type.alias %>" data-id="<%= building_type.id %>">
+        <div class="imgFrame">
+        </div>
+        <h3><%= building_type.name %></h3>
+        <div class="cost">
+          <%= render building_type.costs  %>
+        </div>
+      </div>
+    <% end %>
+    </div>
+    <a href="#" class="next">Next</a>
+  </div>
+  
   <div class="field">
     <%= f.label :building_type_id %><br>
-    <%= f.collection_select(:building_type_id, BuildingType.basic.all, :id, :name) %>
+    <%= f.collection_select(:building_type_id, @building_types, :id, :name, {}) %>
   </div>
   <% if params.has_key? 'castle_id' %>
     <%= f.hidden_field :castle_id, :value => params['castle_id'] %>

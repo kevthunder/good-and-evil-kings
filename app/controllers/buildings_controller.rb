@@ -17,6 +17,7 @@ class BuildingsController < ApplicationController
   # GET /buildings/new
   def new
     @building = Building.new
+    @building_types = BuildingType.basic.all
   end
 
   # POST /buildings

@@ -56,5 +56,6 @@ gem 'devise'
 
 gem 'jquery-ui-rails'
 gem 'rails-assets-jquery-cycle2'
+gem 'rails-assets-inflection'
 
 gem 'nested_form'
