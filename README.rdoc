@@ -2,9 +2,12 @@
 
 TODO
 * interfaces
-  * unit costs and stats
-  * building costs
+  * show castle related missions
+  * make costs red when cant buy
+    * for garrisons
+    * for buildings
   * building placement
+  * castle map building order
   * mission
 * Allways the same ai action ?
 * more buildings

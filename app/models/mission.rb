@@ -88,7 +88,24 @@ class Mission < ActiveRecord::Base
     return nil if movement.nil?
     movement.cur_pos
   end
+  
+  def belongs_to?(user)
+    kingdom.user_id == user.id
+  end
+  
+  def to_partial_path
+    "missions/mission"
+  end
+  
 
+  scope :concerning, (lambda do |thing|
+    if thing.class.model_name == 'Castle'
+      where('target_id = :id or castle_id = :id',{ id: thing.id })
+    else
+      where(target_id: thing.id)
+    end
+  end)
+  
   scope :viewable_by, (lambda do |user|
     joins(:kingdom).where(kingdoms: { user_id: user.id })
   end)

@@ -1,0 +1,3 @@
+<div class="mission <%= mission.type %> <%= mission.mission_status_code %> <%= mission.belongs_to?(current_user) ? 'mine' : '' %>">
+  <%= link_to (mission.next_event || '---'), mission %>
+</div>
