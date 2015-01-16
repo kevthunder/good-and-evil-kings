@@ -21,7 +21,7 @@ class TaxMission < Mission
   end
   
   def after_initialize()
-    add_sequence(['collecting','waiting'])
+    add_sequence(['collecting','waiting','expired'])
   end
   
   def start
@@ -34,7 +34,7 @@ class TaxMission < Mission
   end
   
   def reward(remaining = 1)
-    (target.pop * length * reward_prc).to_i
+    (target.pop * length * reward_prc(remaining) / 720.0).to_i
   end
   
   def redeem
@@ -42,9 +42,13 @@ class TaxMission < Mission
     destroy
   end
   
+  def redeemable_status
+    ['waiting','expired']
+  end
+  
   def actions
     actions = super
-    if mission_status_code == "waiting"
+    if redeemable_status.include?(mission_status_code)
       actions.push('redeem')
     end
     actions

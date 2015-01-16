@@ -55,6 +55,7 @@ class Castle < ActiveRecord::Base
   include Modifiable
   prop_mod :max_stock, default: 1000
   prop_mod :recruitable_qty, default: 0
+  prop_mod :pop, default: 5
   prop_mod "income:1"
   prop_mod "income:2"
   prop_mod "income:3"

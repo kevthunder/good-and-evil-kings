@@ -49,7 +49,7 @@ class AssistMission < Mission
   end
   
   
-  def reward(remaining = 1)
+  def reward()
     ressources = [Ressource.food,Ressource.wood,Ressource.stone]
     Stock.new_collection(ressources.map{ |r|
       def_multi = 10

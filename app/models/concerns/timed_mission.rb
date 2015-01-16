@@ -34,11 +34,15 @@ module TimedMission
   end
   
   def remaining 
-    (next_event.nil? ? 0 : (next_event - Time.now).second / length) * 0.9 + 0.10
+    (next_event.nil? ? 0 : (next_event - Time.now).second / length) 
+  end
+  
+  def min_remaining
+    0.10
   end
   
   def reward_prc(remaining = 1)
-    mission_length.reward * remaining / 820.0
+    mission_length.reward * (remaining * (1.0-min_remaining) + min_remaining)
   end
   
   module ClassMethods

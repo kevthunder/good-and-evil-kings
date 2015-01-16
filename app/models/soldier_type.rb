@@ -9,7 +9,9 @@ class SoldierType < ActiveRecord::Base
   alias_attribute :buy_time, :recrute_time
   
   def upkeep
-    modificators.where(prop: "income:1").first.num.to_int()*-1
+    mod = modificators.where(prop: "income:1").first
+    return 0 if mod.nil?
+    mod.num.to_int()*-1
   end
   
   def qty_buyable_for(stocks)

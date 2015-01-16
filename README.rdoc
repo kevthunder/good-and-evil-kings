@@ -1,8 +1,11 @@
 == Good and evil kings
 
 TODO
+* more ai actions
+  * tax action
+  * assist action
+  * upgrade action
 * interfaces
-  * show castle related missions
   * make costs red when cant buy
     * for garrisons
     * for buildings
