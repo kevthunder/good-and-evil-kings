@@ -5,10 +5,11 @@ class Castle < ActiveRecord::Base
   has_one :spawn_point, dependent: :nullify
   has_one :tile, as: :tiled, dependent: :destroy, validate: :true
   has_many :incomes, ->{ extending Quantifiable::HasManyExtension }, as: :stockable, inverse_of: :stockable
-  has_many :stocks, -> { extending(Quantifiable::HasManyExtension).where(type: nil) }, as: :stockable, inverse_of: :stockable do
-  
+  has_many :stocks, -> { where(type: nil) }, as: :stockable, inverse_of: :stockable do
+    include Quantifiable::HasManyExtension
+    
     def add_qty(number, ressource)
-      ressource = Ressource.find(ressource)
+      ressource = find_quantified_from(ressource)
       if(ressource.global)
         proxy_association.owner.kingdom.stocks.add_qty(number, ressource)
       else

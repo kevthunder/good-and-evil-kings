@@ -27,7 +27,7 @@ module Quantifiable
     end
     
     def match_single(quantifiable)
-      match(new_collection([quantifiable])).first
+      match(model.new_collection([quantifiable])).first
     end
     
     def take_any(number)
@@ -306,19 +306,23 @@ module Quantifiable
       end
     end
     
-    def quantified_id_from(source)
+    def find_quantified_from(source)
       if source.is_a?(String) || source.is_a?(Symbol)
         if quantified.respond_to?(:find_by_alias)
-          f = quantified.find_by_alias(source)
-          return f.id unless f.nil?
+          return quantified.find_by_alias(source)
         end
         if quantified.respond_to?(:find_by_name)
-          f = quantified.find_by_name(source)
-          return f.id unless f.nil?
+          return quantified.find_by_name(source)
         end
       end
-      return source.id if source.respond_to?(:id)
+      return quantified.find(source.id) if source.is_a?(Integer)
+      return source if source.is_a? quantified
+    end
+    
+    def quantified_id_from(source)
       return source if source.is_a?(Integer)
+      entry = find_quantified_from(source)
+      return entry.id unless entry.nil?
     end
     
     attr_accessor :quantified

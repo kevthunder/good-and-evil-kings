@@ -24,7 +24,7 @@ class Mission < ActiveRecord::Base
     unless mission_status_code.nil?
       update_status 
     end
-    save
+    save! unless destroyed?
   end
 
   attr_accessor :start_status

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150113000705) do
+ActiveRecord::Schema.define(version: 20150120234253) do
 
   create_table "actions", force: true do |t|
     t.datetime "time"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 20150113000705) do
     t.integer  "weight"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "allways"
   end
 
   create_table "ais", force: true do |t|

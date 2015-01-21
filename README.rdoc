@@ -30,7 +30,7 @@ Scaffolds
 * rails g scaffold modification modificator:references modifiable:references{polymorphic} applier:references{polymorphic} --skip-resource_route --skip-assets --skip-scaffold_controller --skip-migration
 * rails g scaffold mission_lengths label:string seconds:integer reward:float target:references{polymorphic} --skip-migration
 * rails g scaffold ai castle:references next_action:datetime --skip-migration
-* rails g scaffold ai_action type:string weight:integer --skip-migration
+* rails g scaffold ai_action type:string weight:integer allways:boolean --skip-migration
 * rails g scaffold name_fragment name:string pos:string group:string --skip-migration
 * rails g scaffold diplomacy karma:integer from_kingdom:references to_kingdom:references last_interaction:datetime --skip-migration
 * rails g scaffold message title:string text:text destination:references{polymorphic} sender:references{polymorphic} data:text template:string

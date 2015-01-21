@@ -3,22 +3,36 @@ class Ai < ActiveRecord::Base
   after_initialize :default_values
   
   include Updated
-  updated_column :next_action, :do_any_action
+  updated_column :next_action, :do_actions
   
   def default_values
       self.next_action ||= DateTime.now
   end
   
-  def do_any_action()
-    self.do_action
+  def do_actions()
+    do_systematic_actions()
+    do_random_action()
+    self.next_action = DateTime.now + rand(12.hour..36.hour)
     save
   end
   
-  def do_action(action = nil)
-    action = AiAction.random_executable_for self if action.nil?
+  def do_systematic_actions()
+    AiAction.systematic.executable_for(self).each do |action|
+      do_action(action)
+    end
+  end
+  
+  def do_random_action()
+    do_action(AiAction.occasional.random_executable_for(self))
+  end
+  
+  def do_action(action)
     action = AiAction.find_by_type(action) unless action.respond_to?(:execute_for)
     action.execute_for self unless action.nil?
-    self.next_action = DateTime.now + rand(12.hour..36.hour)
+  end
+  
+  def tax_collected(mission)
+    mission.redeem
   end
   
   class << self

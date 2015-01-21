@@ -70,7 +70,7 @@ module Admin
 
       # Never trust parameters from the scary internet, only allow the white list through.
       def ai_action_params
-        params.require(:ai_action).permit(:type, :weight)
+        params.require(:ai_action).permit(:type, :weight, :allways)
       end
   end
 end

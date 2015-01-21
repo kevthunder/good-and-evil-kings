@@ -7,6 +7,7 @@ class TaxMission < Mission
   before_validation do
     if(new_record?)
       self.castle = target
+      self.kingdom_id = target.kingdom_id
     end
   end
   
@@ -31,6 +32,9 @@ class TaxMission < Mission
   
   def start_waiting
     self.next_event = Time.now + length
+    
+    ai = Ai.where(castle_id: castle_id).first
+    ai.tax_collected(self) if !ai.nil? && ai.respond_to?(:tax_collected)
   end
   
   def reward(remaining = 1)

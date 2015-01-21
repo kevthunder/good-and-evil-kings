@@ -1,1 +1,1 @@
-json.extract! @ai_action, :id, :type, :weight, :created_at, :updated_at
+json.extract! @ai_action, :id, :type, :weight, :allways, :created_at, :updated_at

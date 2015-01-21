@@ -10,13 +10,26 @@ class AiAction < ActiveRecord::Base
     false
   end
   
+  scope :systematic, (lambda do 
+    where(allways: true)
+  end)
+  
+  scope :occasional, (lambda do 
+    where(allways: false)
+  end)
+  
   class << self
     
     def random_executable_for(ai)
-      randoms.each do |a|
-        return a if a.executable_for(ai)
+      randoms.detect do |a|
+        a.executable_for(ai)
       end
-      nil
+    end
+    
+    def executable_for(ai)
+      all.select do |a|
+        a.executable_for(ai)
+      end
     end
   end
 end

@@ -5,6 +5,7 @@
     <tr>
       <th>Type</th>
       <th>Weight</th>
+      <th>Allways</th>
       <th></th>
       <th></th>
       <th></th>
@@ -16,6 +17,7 @@
       <tr>
         <td><%= ai_action.type %></td>
         <td><%= ai_action.weight %></td>
+        <td><%= ai_action.allways %></td>
         <td><%= link_to 'Show', [:admin, ai_action] %></td>
         <td><%= link_to 'Edit', edit_admin_ai_action_path(ai_action) %></td>
         <td><%= link_to 'Destroy', [:admin, ai_action], method: :delete, data: { confirm: 'Are you sure?' } %></td>
