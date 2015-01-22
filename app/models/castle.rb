@@ -37,6 +37,7 @@ class Castle < ActiveRecord::Base
     def viewable_by?(user)
       proxy_association.owner.owned_by?(user)
     end
+    
   end
   has_many :stocks_raw, ->{ extending Quantifiable::HasManyExtension }, class_name: :Stock, as: :stockable
   has_many(:garrisons, ->{ extending Garrison::HasManyExtension }, as: :garrisonable) do
@@ -44,7 +45,11 @@ class Castle < ActiveRecord::Base
       proxy_association.owner.owned_by?(user)
     end
   end
-  has_many :buildings
+  has_many :buildings do
+    def upgradable
+      super.merge(proxy_association.owner.buyable_buildings())
+    end
+  end
   has_many :stationned_defence_missions, ->{ where(mission_status_code: "guarding") }, class_name: :DefenceMission, as: :target
   has_many :missions
   

@@ -45,11 +45,15 @@ class Building < ActiveRecord::Base
   end
   
   def must_be_basic
-    errors.add(:building_type_id, "This is an upgrade, it cant be build directly") unless building_type.predecessor_id.nil?
+    if bougth
+      errors.add(:building_type_id, "This is an upgrade, it cant be build directly") unless building_type.predecessor_id.nil?
+    end
   end
   
   def must_upgrade
-    errors.add(:building_type_id, " can't be upgraded to") unless building_type.predecessor_id == building_type_id_was
+    if bougth
+      errors.add(:building_type_id, " can't be upgraded to") unless building_type.predecessor_id == building_type_id_was
+    end
   end
   
   def bounds
@@ -80,6 +84,13 @@ class Building < ActiveRecord::Base
     joins(:building_type).where("building_types.base_id = :base_id OR building_types.id = :base_id",{base_id:base_id})
   end)
   
+  scope :upgradable, (lambda do ||
+    joins(:upgrades)
+  end)
+  
+  class << self
+    
+  end
   private
   
   def elev_zone

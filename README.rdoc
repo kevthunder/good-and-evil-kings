@@ -2,9 +2,8 @@
 
 TODO
 * more ai actions
-  * tax action
-  * assist action
   * upgrade action
+  * assist action
 * interfaces
   * make costs red when cant buy
     * for garrisons

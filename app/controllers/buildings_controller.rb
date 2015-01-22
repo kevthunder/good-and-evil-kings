@@ -61,6 +61,7 @@ class BuildingsController < ApplicationController
 
   # POST /buildings/1/upgrade
   def upgrade_now
+    @building.bougth = true
     respond_to do |format|
       if @building.update(params.require(:building).permit(:building_type_id))
         format.html { redirect_to @building, notice: 'Building was successfully updated.' }

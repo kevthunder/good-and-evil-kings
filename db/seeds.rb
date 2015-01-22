@@ -1,21 +1,32 @@
 #################### Ressources ####################
 ressources = Hash[Ressource.create!([
-  {name: "Food", global: nil},
-  {name: "Wood", global: nil},
-  {name: "Stone", global: nil},
-  {name: "Coins", global: true},
+  {name: "Food",        global: nil},
+  {name: "Wood",        global: nil},
+  {name: "Stone",       global: nil},
+  {name: "Coins",       global: true},
   {name: "Noble coins", global: true}
 ]).map{ |r| [r.alias.to_sym, r] }]
 
 #################### Ai Actions ####################
 AiAction.create!([
-  {type: "BuildAction", weight: 100},
-  {type: "RecruteAction", weight: 100},
-  {type: "AttackAction", weight: 100}
+  {type: "BuildAction",   weight: 100, allways: false},
+  {type: "RecruteAction", weight: 100, allways: false},
+  {type: "AttackAction",  weight: 100, allways: false},
+  {type: "TaxAction",     weight: nil, allways: true},
+  {type: "UpgradeAction", weight: 100, allways: false}
 ])
 #################### Building Types ####################
 building_types = Hash[BuildingType.create!([
-  {name: "Casern", type: "CasernBuilding", build_time: nil, size_x: 2, size_y: 2},
+  {name: "Casern", type: "CasernBuilding", build_time: nil, size_x: 2, size_y: 2, max_instances: 1,
+    costs: [
+      {qte: 500, ressource: ressources[:wood]},
+      {qte: 500, ressource: ressources[:stone]},
+      {qte: 100, ressource: ressources[:coins]}
+    ].map{|d| Stock.new(d)},
+    modificators: [
+      {prop: "recruitable_qty", num: 10.0, multiply: false}
+    ].map{|d| Modificator.new(d)}
+  },
   {name: "Farm", type: "", build_time: nil, size_x: 2, size_y: 2, 
     costs: [
       {qte: 200, ressource: ressources[:wood]},
@@ -34,7 +45,7 @@ building_types = Hash[BuildingType.create!([
       {prop: "pop", num: 5.0, multiply: false}
     ].map{|d| Modificator.new(d)}
   },
-  {name: "Warehouse", type: "", build_time: nil, size_x: 2, size_y: 2,
+  {name: "Warehouse", type: "", build_time: nil, size_x: 2, size_y: 2, max_instances: 2,
     costs: [
       {qte: 150, ressource: ressources[:wood]},
       {qte: 150, ressource: ressources[:stone]}
@@ -65,7 +76,7 @@ building_types = Hash[BuildingType.create!([
 
 #################### Building Types (Level 2) ####################
 BuildingType.create!([
-  {name: "Farm 2", type: "", build_time: nil, size_x: 2, size_y: 2, predecessor: building_types[:farm],
+  {name: "Farm 2", type: "", build_time: nil, size_x: 2, size_y: 2, predecessor: building_types[:farm], base: building_types[:farm],
     costs: [
       {qte: 150, ressource: ressources[:wood]},
       {qte: 150, ressource: ressources[:stone]}
@@ -122,11 +133,11 @@ SoldierType.create!([
 
 #################### Mission Status ####################
 MissionStatus.create!([
-  {name: "Going", code: "going"},
+  {name: "Going",     code: "going"},
   {name: "Occupying", code: "occupying"},
   {name: "Returning", code: "returning"},
-  {name: "Working", code: "working"},
-  {name: "Ready", code: "ready"}
+  {name: "Working",   code: "working"},
+  {name: "Ready",     code: "ready"}
 ])
 
 #################### Mission Types ####################
